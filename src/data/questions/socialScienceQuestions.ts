@@ -10,7 +10,10 @@ export const socialScienceQuestions: QuizQuestion[] = [
       { option_id: 20103, option_text: "कोलकाता" },
       { option_id: 20104, option_text: "चेन्नई" }
     ],
-    correct_option_id: 20102
+    correct_option_id: 20102,
+    class_level: 9,
+    difficulty: "easy",
+    explanation: "नई दिल्ली भारत की राजधानी है"
   },
   {
     question_id: 202,

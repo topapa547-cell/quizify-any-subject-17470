@@ -8,16 +8,94 @@ export interface QuizQuestion {
   text: string;
   options: QuizOption[];
   correct_option_id: number;
+  class_level?: number;
+  difficulty?: string;
+  explanation?: string;
 }
 
 export interface QuizData {
   quiz_title: string;
   total_questions: number;
   questions: QuizQuestion[];
+  class_level?: number;
+  subject?: string;
+  difficulty?: string;
 }
 
-// Complete question bank with 25 meaningful questions
+export interface Subject {
+  id: string;
+  name: string;
+  icon: string;
+}
+
+export const subjects: Subject[] = [
+  { id: "all", name: "सभी विषय", icon: "📚" },
+  { id: "math", name: "गणित", icon: "🔢" },
+  { id: "science", name: "विज्ञान", icon: "🔬" },
+  { id: "social", name: "सामाजिक विज्ञान", icon: "🌍" },
+  { id: "english", name: "English", icon: "📖" },
+  { id: "hindi", name: "हिंदी", icon: "📝" }
+];
+
+export const classes = [9, 10, 11, 12];
+
+import { mathQuestions } from './questions/mathQuestions';
+import { scienceQuestions } from './questions/scienceQuestions';
+import { socialScienceQuestions } from './questions/socialScienceQuestions';
+import { englishQuestions } from './questions/englishQuestions';
+import { hindiQuestions } from './questions/hindiQuestions';
+
 export const questionBank: QuizQuestion[] = [
+  ...mathQuestions,
+  ...scienceQuestions,
+  ...socialScienceQuestions,
+  ...englishQuestions,
+  ...hindiQuestions
+];
+
+export const questionsBySubject: Record<string, QuizQuestion[]> = {
+  all: questionBank,
+  math: mathQuestions,
+  science: scienceQuestions,
+  social: socialScienceQuestions,
+  english: englishQuestions,
+  hindi: hindiQuestions
+};
+
+export const generateQuiz = (
+  numQuestions: number,
+  subjectId: string = "all",
+  classLevel?: number,
+  difficulty?: string
+): QuizData => {
+  let questions = questionsBySubject[subjectId] || questionBank;
+  
+  // Filter by class if specified
+  if (classLevel) {
+    questions = questions.filter(q => q.class_level === classLevel);
+  }
+  
+  // Filter by difficulty if specified
+  if (difficulty && difficulty !== "all") {
+    questions = questions.filter(q => q.difficulty === difficulty);
+  }
+  
+  // Shuffle and select
+  const shuffled = [...questions].sort(() => Math.random() - 0.5);
+  const selected = shuffled.slice(0, Math.min(numQuestions, shuffled.length));
+  
+  return {
+    quiz_title: `${subjects.find(s => s.id === subjectId)?.name || "Quiz"} - अभ्यास प्रश्न`,
+    total_questions: selected.length,
+    questions: selected,
+    class_level: classLevel,
+    subject: subjectId,
+    difficulty
+  };
+};
+
+// Old question bank - keeping for backwards compatibility
+const oldQuestionBank: QuizQuestion[] = [
   {
     question_id: 1,
     text: "द्विघात समीकरण ax² + bx + c = 0 के दो बराबर मूल होने की शर्त क्या है?",
@@ -295,14 +373,4 @@ export const questionBank: QuizQuestion[] = [
   }
 ];
 
-export const generateQuiz = (numQuestions: number): QuizData => {
-  // Shuffle and pick random questions
-  const shuffled = [...questionBank].sort(() => Math.random() - 0.5);
-  const selected = shuffled.slice(0, Math.min(numQuestions, questionBank.length));
-  
-  return {
-    quiz_title: "गणित अभ्यास प्रश्न",
-    total_questions: selected.length,
-    questions: selected
-  };
-};
+];

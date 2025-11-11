@@ -10,7 +10,10 @@ export const scienceQuestions: QuizQuestion[] = [
       { option_id: 10103, option_text: "नाइट्रोजन" },
       { option_id: 10104, option_text: "हाइड्रोजन" }
     ],
-    correct_option_id: 10102
+    correct_option_id: 10102,
+    class_level: 9,
+    difficulty: "easy",
+    explanation: "प्रकाश संश्लेषण में पौधे CO₂ लेते हैं और O₂ छोड़ते हैं"
   },
   {
     question_id: 102,
