@@ -9,9 +9,10 @@ import { questionBank } from "@/data/quizData";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [selectedCount, setSelectedCount] = useState<number>(5);
+  const [selectedCount, setSelectedCount] = useState<number>(10);
+  const [selectedSubject, setSelectedSubject] = useState<string>("");
 
-  const questionOptions = [5, 10, 15, 20, 25];
+  const questionOptions = [5, 10, 15, 20, 25, 30, 40, 50];
 
   const handleStartQuiz = () => {
     navigate("/quiz", { state: { questionCount: selectedCount } });
