@@ -18,7 +18,7 @@ const Home = () => {
   const [user, setUser] = useState<any>(null);
   const [selectedCount, setSelectedCount] = useState<number>(10);
   const [selectedSubject, setSelectedSubject] = useState<string>("all");
-  const [selectedClass, setSelectedClass] = useState<number | undefined>(undefined);
+  const [userClassLevel, setUserClassLevel] = useState<number | undefined>(undefined);
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>("all");
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -28,12 +28,38 @@ const Home = () => {
   const [isSignUp, setIsSignUp] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setUser(session?.user ?? null);
+      
+      // Load user's class level from profile
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('class_level')
+          .eq('id', session.user.id)
+          .single();
+        
+        if (profile?.class_level) {
+          setUserClassLevel(profile.class_level);
+        }
+      }
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
+      
+      // Load user's class level from profile
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('class_level')
+          .eq('id', session.user.id)
+          .single();
+        
+        if (profile?.class_level) {
+          setUserClassLevel(profile.class_level);
+        }
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -147,7 +173,7 @@ const Home = () => {
       state: { 
         questionCount: selectedCount,
         subject: selectedSubject,
-        classLevel: selectedClass,
+        classLevel: userClassLevel,
         difficulty: selectedDifficulty
       } 
     });
@@ -383,39 +409,6 @@ const Home = () => {
                     >
                       <span className="text-3xl mb-2">{subject.icon}</span>
                       <span className="text-sm font-medium text-foreground text-center">{subject.name}</span>
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </div>
-
-            {/* Class Selection */}
-            <div>
-              <Label className="text-lg font-semibold text-foreground mb-4 block">
-                कक्षा चुनें (Optional)
-              </Label>
-              <RadioGroup
-                value={selectedClass?.toString() || "all"}
-                onValueChange={(value) => setSelectedClass(value === "all" ? undefined : Number(value))}
-                className="grid grid-cols-3 md:grid-cols-5 gap-4"
-              >
-                <div className="relative">
-                  <RadioGroupItem value="all" id="class-all" className="peer sr-only" />
-                  <Label
-                    htmlFor="class-all"
-                    className="flex flex-col items-center justify-center p-4 border-2 border-border rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-primary/5 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10"
-                  >
-                    <span className="text-xl font-bold text-foreground">सभी</span>
-                  </Label>
-                </div>
-                {classes.map((cls) => (
-                  <div key={cls} className="relative">
-                    <RadioGroupItem value={cls.toString()} id={`class-${cls}`} className="peer sr-only" />
-                    <Label
-                      htmlFor={`class-${cls}`}
-                      className="flex flex-col items-center justify-center p-4 border-2 border-border rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-primary/5 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10"
-                    >
-                      <span className="text-xl font-bold text-foreground">{cls}वीं</span>
                     </Label>
                   </div>
                 ))}
