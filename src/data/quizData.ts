@@ -372,5 +372,3 @@ const oldQuestionBank: QuizQuestion[] = [
     correct_option_id: 2503
   }
 ];
-
-];
