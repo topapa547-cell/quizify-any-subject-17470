@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trophy, Medal, Award, Home } from "lucide-react";
+import { Label } from "@/components/ui/label";
 import BottomNav from "@/components/BottomNav";
 
 interface LeaderboardEntry {
@@ -17,16 +18,45 @@ const Leaderboard = () => {
   const navigate = useNavigate();
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedClass, setSelectedClass] = useState<number | null>(null);
+  const [userClass, setUserClass] = useState<number | null>(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        navigate("/");
+      } else {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("class_level")
+          .eq("id", user.id)
+          .single();
+        
+        if (profile?.class_level) {
+          setUserClass(profile.class_level);
+          setSelectedClass(profile.class_level);
+        }
+      }
+    };
+    checkAuth();
+  }, [navigate]);
 
   useEffect(() => {
     fetchLeaderboard();
-  }, []);
+  }, [selectedClass]);
 
   const fetchLeaderboard = async () => {
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from("quiz_history")
-        .select("username, score, total_questions");
+        .select("username, score, total_questions, class_level");
+
+      if (selectedClass) {
+        query = query.eq("class_level", selectedClass);
+      }
+
+      const { data, error } = await query;
 
       if (error) throw error;
 
@@ -93,6 +123,23 @@ const Leaderboard = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8 max-w-4xl">
+        {/* Class Filter */}
+        <div className="mb-6 max-w-xs mx-auto">
+          <Label htmlFor="class-filter" className="mb-2 block text-center">कक्षा चुनें</Label>
+          <select
+            id="class-filter"
+            value={selectedClass || ""}
+            onChange={(e) => setSelectedClass(e.target.value ? Number(e.target.value) : null)}
+            className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="">सभी कक्षाएं</option>
+            <option value={9}>कक्षा 9</option>
+            <option value={10}>कक्षा 10</option>
+            <option value={11}>कक्षा 11</option>
+            <option value={12}>कक्षा 12</option>
+          </select>
+        </div>
+
         {loading ? (
           <div className="text-center py-12">
             <p className="text-lg text-muted-foreground">लोड हो रहा है...</p>

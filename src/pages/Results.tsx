@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { QuizQuestion } from "@/data/quizData";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { checkAndAwardAchievements } from "@/utils/achievements";
 
 interface LocationState {
   score: number;
@@ -23,7 +24,8 @@ const Results = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [saved, setSaved] = useState(false);
-  const { score, total, answered, answers, questions, timeElapsed, subject, difficulty, classLevel } = (location.state as LocationState) || { 
+  const [newAchievements, setNewAchievements] = useState<any[]>([]);
+  const { score, total, answered, answers, questions, timeElapsed, subject, difficulty, classLevel } = (location.state as LocationState) || {
     score: 0, 
     total: 5, 
     answered: 0,
@@ -57,6 +59,28 @@ const Results = () => {
         });
         
         setSaved(true);
+
+        // Check and award achievements
+        if (user) {
+          const achievements = await checkAndAwardAchievements(user.id, {
+            score,
+            totalQuestions: total,
+            subject: subject || 'all',
+            timeTaken: timeElapsed,
+          });
+
+          setNewAchievements(achievements);
+
+          // Show achievement toast if any new achievements
+          if (achievements.length > 0) {
+            achievements.forEach(achievement => {
+              toast({
+                title: "🎉 नई उपलब्धि!",
+                description: `${achievement.icon} ${achievement.name}: ${achievement.description}`,
+              });
+            });
+          }
+        }
       } catch (error) {
         console.error('Error saving quiz:', error);
       }

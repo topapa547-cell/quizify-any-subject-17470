@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { User, Trophy, Target, TrendingUp, LogOut } from "lucide-react";
+import { User, Trophy, Target, TrendingUp, LogOut, Award } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
 import { toast } from "@/hooks/use-toast";
+import { getUserAchievements } from "@/utils/achievements";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Profile = () => {
     avgScore: 0,
     bestScore: 0,
   });
+  const [achievements, setAchievements] = useState<any[]>([]);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -52,6 +54,10 @@ const Profile = () => {
 
         setStats({ totalQuizzes, totalScore, avgScore, bestScore });
       }
+
+      // Fetch achievements
+      const userAchievements = await getUserAchievements(session.user.id);
+      setAchievements(userAchievements);
     };
 
     checkUser();
@@ -123,8 +129,45 @@ const Profile = () => {
               <p className="text-sm text-muted-foreground">Email</p>
               <p className="text-lg font-medium">{user?.email}</p>
             </div>
+            {profile?.class_level && (
+              <div>
+                <p className="text-sm text-muted-foreground">कक्षा</p>
+                <p className="text-lg font-medium">कक्षा {profile.class_level}</p>
+              </div>
+            )}
           </CardContent>
         </Card>
+
+        {/* Achievements Section */}
+        {achievements.length > 0 && (
+          <Card className="mt-6 p-6">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Award className="h-5 w-5 text-primary" />
+                उपलब्धियाँ
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {achievements.map((achievement) => (
+                  <div
+                    key={achievement.id}
+                    className="p-4 border border-border rounded-lg text-center space-y-2 hover:bg-accent/50 transition-colors"
+                  >
+                    <div className="text-4xl">{achievement.metadata?.icon || "🏆"}</div>
+                    <h3 className="font-semibold text-sm">{achievement.achievement_name}</h3>
+                    <p className="text-xs text-muted-foreground">
+                      {achievement.achievement_description}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {new Date(achievement.earned_at).toLocaleDateString("hi-IN")}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </main>
 
       <BottomNav />

@@ -24,6 +24,8 @@ const Home = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [classLevel, setClassLevel] = useState<number>(9);
+  const [isSignUp, setIsSignUp] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -79,31 +81,43 @@ const Home = () => {
     }
 
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: `${window.location.origin}/`,
         data: {
           username: username.trim(),
+          class_level: classLevel
         }
       }
     });
 
-    setLoading(false);
-
     if (error) {
+      setLoading(false);
       toast({
         title: "साइनअप में त्रुटि",
         description: error.message,
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "साइनअप सफल!",
-        description: "आप लॉगिन कर सकते हैं।",
-      });
+      return;
     }
+
+    // Update profile with class level
+    if (data.user) {
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({ class_level: classLevel })
+        .eq('id', data.user.id);
+      
+      if (profileError) console.error("Profile update error:", profileError);
+    }
+
+    setLoading(false);
+    toast({
+      title: "साइनअप सफल!",
+      description: "आप लॉगिन कर सकते हैं।",
+    });
   };
 
   const handleGoogleSignIn = async () => {
@@ -267,6 +281,20 @@ const Home = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                     />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="class">आपकी कक्षा चुनें</Label>
+                    <select
+                      id="class"
+                      value={classLevel}
+                      onChange={(e) => setClassLevel(Number(e.target.value))}
+                      className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    >
+                      <option value={9}>कक्षा 9</option>
+                      <option value={10}>कक्षा 10</option>
+                      <option value={11}>कक्षा 11</option>
+                      <option value={12}>कक्षा 12</option>
+                    </select>
                   </div>
                   <Button type="submit" className="w-full" disabled={loading}>
                     {loading ? "साइनअप हो रहा है..." : "साइनअप करें"}

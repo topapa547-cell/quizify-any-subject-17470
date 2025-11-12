@@ -14,7 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      achievements: {
+        Row: {
+          achievement_description: string | null
+          achievement_name: string
+          achievement_type: string
+          earned_at: string
+          id: string
+          metadata: Json | null
+          user_id: string
+        }
+        Insert: {
+          achievement_description?: string | null
+          achievement_name: string
+          achievement_type: string
+          earned_at?: string
+          id?: string
+          metadata?: Json | null
+          user_id: string
+        }
+        Update: {
+          achievement_description?: string | null
+          achievement_name?: string
+          achievement_type?: string
+          earned_at?: string
+          id?: string
+          metadata?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          class_level: number | null
+          created_at: string
+          id: string
+          updated_at: string
+          username: string
+        }
+        Insert: {
+          class_level?: number | null
+          created_at?: string
+          id: string
+          updated_at?: string
+          username: string
+        }
+        Update: {
+          class_level?: number | null
+          created_at?: string
+          id?: string
+          updated_at?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      quiz_history: {
+        Row: {
+          answered_questions: number
+          class_level: number
+          created_at: string
+          difficulty: string
+          id: string
+          score: number
+          subject: string
+          time_taken: number | null
+          total_questions: number
+          user_id: string | null
+          username: string | null
+        }
+        Insert: {
+          answered_questions: number
+          class_level: number
+          created_at?: string
+          difficulty: string
+          id?: string
+          score: number
+          subject: string
+          time_taken?: number | null
+          total_questions: number
+          user_id?: string | null
+          username?: string | null
+        }
+        Update: {
+          answered_questions?: number
+          class_level?: number
+          created_at?: string
+          difficulty?: string
+          id?: string
+          score?: number
+          subject?: string
+          time_taken?: number | null
+          total_questions?: number
+          user_id?: string | null
+          username?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
