@@ -2,12 +2,16 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { GraduationCap, BookOpen, Trophy, Sparkles, LogOut, LogIn } from "lucide-react";
+import { GraduationCap, BookOpen, Trophy, Sparkles, LogOut } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
 import { questionBank, subjects, classes } from "@/data/quizData";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import BottomNav from "@/components/BottomNav";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,6 +20,10 @@ const Home = () => {
   const [selectedSubject, setSelectedSubject] = useState<string>("all");
   const [selectedClass, setSelectedClass] = useState<number | undefined>(undefined);
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>("all");
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -34,6 +42,90 @@ const Home = () => {
     toast({ title: "Logged out successfully" });
   };
 
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    setLoading(false);
+
+    if (error) {
+      toast({
+        title: "लॉगिन में त्रुटि",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "लॉगिन सफल!",
+        description: "आपका स्वागत है।",
+      });
+    }
+  };
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!username.trim()) {
+      toast({
+        title: "Username आवश्यक है",
+        description: "कृपया एक username दर्ज करें।",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/`,
+        data: {
+          username: username.trim(),
+        }
+      }
+    });
+
+    setLoading(false);
+
+    if (error) {
+      toast({
+        title: "साइनअप में त्रुटि",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "साइनअप सफल!",
+        description: "आप लॉगिन कर सकते हैं।",
+      });
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/`,
+      }
+    });
+
+    setLoading(false);
+
+    if (error) {
+      toast({
+        title: "Google साइनइन में त्रुटि",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   const questionOptions = [5, 10, 15, 20, 25, 30, 40, 50];
 
   const handleStartQuiz = () => {
@@ -48,64 +140,190 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20 md:pb-0">
       {/* Hero Section */}
-      <header className="bg-gradient-to-r from-primary via-primary to-primary/90 text-primary-foreground py-12 shadow-lg">
+      <header className="bg-gradient-to-r from-primary via-primary to-primary/90 text-primary-foreground py-8 md:py-12 shadow-lg">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-6">
-            <Button onClick={() => navigate("/leaderboard")} variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10">
-              <Trophy className="w-5 h-5 mr-2" />
-              Leaderboard
-            </Button>
-            {user ? (
+          {user && (
+            <div className="flex justify-end mb-4">
               <Button onClick={handleLogout} variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10">
                 <LogOut className="w-5 h-5 mr-2" />
                 Logout
               </Button>
-            ) : (
-              <Button onClick={() => navigate("/auth")} variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10">
-                <LogIn className="w-5 h-5 mr-2" />
-                Login
-              </Button>
-            )}
-          </div>
+            </div>
+          )}
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <GraduationCap className="w-14 h-14" />
-              <h1 className="text-4xl md:text-5xl font-bold">गणित क्विज़ ऐप</h1>
+              <GraduationCap className="w-12 h-12 md:w-14 md:h-14" />
+              <h1 className="text-3xl md:text-5xl font-bold">Quiz App</h1>
             </div>
-            <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">
-              कक्षा 10वीं के गणित के प्रश्नों से अपनी तैयारी को मजबूत करें
+            <p className="text-base md:text-lg text-primary-foreground/90 max-w-2xl mx-auto">
+              अपने ज्ञान का परीक्षण करें - English, Hindi, गणित, विज्ञान और सामाजिक विज्ञान
             </p>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-12 max-w-4xl">
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <Card className="p-6 text-center border-border shadow-[var(--card-shadow)] hover:shadow-lg transition-all">
-            <BookOpen className="w-12 h-12 mx-auto mb-3 text-primary" />
-            <h3 className="text-2xl font-bold text-foreground mb-1">{questionBank.length}+</h3>
-            <p className="text-muted-foreground">प्रश्न उपलब्ध</p>
-          </Card>
-          
-          <Card className="p-6 text-center border-border shadow-[var(--card-shadow)] hover:shadow-lg transition-all">
-            <Sparkles className="w-12 h-12 mx-auto mb-3 text-secondary" />
-            <h3 className="text-2xl font-bold text-foreground mb-1">100%</h3>
-            <p className="text-muted-foreground">अर्थपूर्ण प्रश्न</p>
-          </Card>
-          
-          <Card className="p-6 text-center border-border shadow-[var(--card-shadow)] hover:shadow-lg transition-all">
-            <Trophy className="w-12 h-12 mx-auto mb-3 text-accent" />
-            <h3 className="text-2xl font-bold text-foreground mb-1">तत्काल</h3>
-            <p className="text-muted-foreground">परिणाम देखें</p>
-          </Card>
-        </div>
+      <main className="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
+        {/* Authentication Section */}
+        {!user && (
+          <Card className="p-6 md:p-8 shadow-lg border-border mb-8">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">क्विज़ शुरू करने के लिए लॉगिन करें</h2>
+              <p className="text-muted-foreground">अपने स्कोर को सेव करें और leaderboard में compete करें</p>
+            </div>
+            
+            <Tabs defaultValue="signin" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="signin">लॉगिन</TabsTrigger>
+                <TabsTrigger value="signup">साइनअप</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="signin">
+                <form onSubmit={handleSignIn} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="signin-email">ईमेल</Label>
+                    <Input
+                      id="signin-email"
+                      type="email"
+                      placeholder="your@email.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="signin-password">पासवर्ड</Label>
+                    <Input
+                      id="signin-password"
+                      type="password"
+                      placeholder="••••••••"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? "लॉगिन हो रहा है..." : "लॉगिन करें"}
+                  </Button>
+                  
+                  <div className="relative my-4">
+                    <Separator />
+                    <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 text-xs text-muted-foreground">
+                      या
+                    </span>
+                  </div>
 
-        {/* Quiz Setup Card */}
-        <Card className="p-8 shadow-[var(--card-shadow)] border-border">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    className="w-full" 
+                    onClick={handleGoogleSignIn}
+                    disabled={loading}
+                  >
+                    <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
+                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                    </svg>
+                    Google से साइनइन करें
+                  </Button>
+                </form>
+              </TabsContent>
+              
+              <TabsContent value="signup">
+                <form onSubmit={handleSignUp} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-username">Username</Label>
+                    <Input
+                      id="signup-username"
+                      type="text"
+                      placeholder="आपका username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-email">ईमेल</Label>
+                    <Input
+                      id="signup-email"
+                      type="email"
+                      placeholder="your@email.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-password">पासवर्ड</Label>
+                    <Input
+                      id="signup-password"
+                      type="password"
+                      placeholder="••••••••"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? "साइनअप हो रहा है..." : "साइनअप करें"}
+                  </Button>
+                  
+                  <div className="relative my-4">
+                    <Separator />
+                    <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 text-xs text-muted-foreground">
+                      या
+                    </span>
+                  </div>
+
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    className="w-full" 
+                    onClick={handleGoogleSignIn}
+                    disabled={loading}
+                  >
+                    <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
+                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                    </svg>
+                    Google से साइनअप करें
+                  </Button>
+                </form>
+              </TabsContent>
+            </Tabs>
+          </Card>
+        )}
+        {user && (
+          <>
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
+              <Card className="p-4 md:p-6 text-center border-border shadow-[var(--card-shadow)] hover:shadow-lg transition-all">
+                <BookOpen className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 text-primary" />
+                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-1">{questionBank.length}+</h3>
+                <p className="text-sm md:text-base text-muted-foreground">प्रश्न उपलब्ध</p>
+              </Card>
+              
+              <Card className="p-4 md:p-6 text-center border-border shadow-[var(--card-shadow)] hover:shadow-lg transition-all">
+                <Sparkles className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 text-secondary" />
+                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-1">5</h3>
+                <p className="text-sm md:text-base text-muted-foreground">विषय</p>
+              </Card>
+              
+              <Card className="p-4 md:p-6 text-center border-border shadow-[var(--card-shadow)] hover:shadow-lg transition-all">
+                <Trophy className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 text-accent" />
+                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-1">तत्काल</h3>
+                <p className="text-sm md:text-base text-muted-foreground">परिणाम देखें</p>
+              </Card>
+            </div>
+
+            {/* Quiz Setup Card */}
+            <Card className="p-6 md:p-8 shadow-[var(--card-shadow)] border-border">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-foreground mb-3">अपनी क्विज़ शुरू करें</h2>
             <p className="text-muted-foreground text-lg">
@@ -250,21 +468,24 @@ const Home = () => {
               क्विज़ शुरू करें
             </Button>
           </div>
-        </Card>
+            </Card>
+          </>
+        )}
 
         {/* Features */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex gap-4 items-start">
-            <div className="bg-primary/10 p-3 rounded-lg">
-              <BookOpen className="w-6 h-6 text-primary" />
+        {user && (
+          <div className="mt-8 md:mt-12 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div className="flex gap-4 items-start">
+              <div className="bg-primary/10 p-3 rounded-lg">
+                <BookOpen className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground mb-1">विविध विषय</h3>
+                <p className="text-sm text-muted-foreground">
+                  English, Hindi, गणित, विज्ञान और सामाजिक विज्ञान
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-1">विविध प्रश्न</h3>
-              <p className="text-sm text-muted-foreground">
-                बीजगणित, ज्यामिति, त्रिकोणमिति और अधिक से प्रश्न
-              </p>
-            </div>
-          </div>
 
           <div className="flex gap-4 items-start">
             <div className="bg-secondary/10 p-3 rounded-lg">
@@ -278,31 +499,34 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="flex gap-4 items-start">
-            <div className="bg-accent/10 p-3 rounded-lg">
-              <Sparkles className="w-6 h-6 text-accent" />
+            <div className="flex gap-4 items-start">
+              <div className="bg-accent/10 p-3 rounded-lg">
+                <Sparkles className="w-6 h-6 text-accent" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground mb-1">लचीला अभ्यास</h3>
+                <p className="text-sm text-muted-foreground">
+                  5 से 50 प्रश्नों तक चुनें और अपनी गति से अभ्यास करें
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-1">लचीला अभ्यास</h3>
-              <p className="text-sm text-muted-foreground">
-                5 से 25 प्रश्नों तक चुनें और अपनी गति से अभ्यास करें
-              </p>
-            </div>
-          </div>
 
-          <div className="flex gap-4 items-start">
-            <div className="bg-primary/10 p-3 rounded-lg">
-              <GraduationCap className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-1">CBSE पाठ्यक्रम</h3>
-              <p className="text-sm text-muted-foreground">
-                कक्षा 10 के CBSE पाठ्यक्रम के अनुसार प्रश्न
-              </p>
+            <div className="flex gap-4 items-start">
+              <div className="bg-primary/10 p-3 rounded-lg">
+                <GraduationCap className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground mb-1">CBSE पाठ्यक्रम</h3>
+                <p className="text-sm text-muted-foreground">
+                  कक्षा 9-10 के CBSE पाठ्यक्रम के अनुसार प्रश्न
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </main>
+      
+      <BottomNav />
     </div>
   );
 };

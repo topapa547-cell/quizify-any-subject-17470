@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trophy, Medal, Award, Home } from "lucide-react";
+import BottomNav from "@/components/BottomNav";
 
 interface LeaderboardEntry {
   username: string;
@@ -73,20 +74,20 @@ const Leaderboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20 md:pb-0">
       <header className="bg-gradient-to-r from-primary to-primary/90 text-primary-foreground py-8 shadow-lg">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-4">
             <Button
               onClick={() => navigate("/")}
               variant="ghost"
-              className="text-primary-foreground hover:bg-primary-foreground/10"
+              className="text-primary-foreground hover:bg-primary-foreground/10 hidden md:flex"
             >
               <Home className="w-5 h-5 mr-2" />
               होम
             </Button>
-            <h1 className="text-3xl font-bold">🏆 Leaderboard</h1>
-            <div className="w-24"></div>
+            <h1 className="text-2xl md:text-3xl font-bold mx-auto md:mx-0">🏆 Leaderboard</h1>
+            <div className="w-24 hidden md:block"></div>
           </div>
         </div>
       </header>
@@ -136,6 +137,8 @@ const Leaderboard = () => {
           </div>
         )}
       </main>
+      
+      <BottomNav />
     </div>
   );
 };
