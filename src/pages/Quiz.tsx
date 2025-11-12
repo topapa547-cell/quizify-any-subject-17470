@@ -14,8 +14,19 @@ const Quiz = () => {
   const [quizData, setQuizData] = useState(generateQuiz(5));
 
   useEffect(() => {
-    const questionCount = (location.state as { questionCount?: number })?.questionCount || 5;
-    setQuizData(generateQuiz(questionCount));
+    const state = location.state as { 
+      questionCount?: number;
+      subject?: string;
+      classLevel?: number;
+      difficulty?: string;
+    };
+    
+    const questionCount = state?.questionCount || 5;
+    const subject = state?.subject || "all";
+    const classLevel = state?.classLevel;
+    const difficulty = state?.difficulty || "all";
+    
+    setQuizData(generateQuiz(questionCount, subject, classLevel, difficulty));
   }, [location.state]);
 
   const handleAnswerChange = (questionId: number, optionId: number) => {
