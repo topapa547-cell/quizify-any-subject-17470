@@ -1,0 +1,143 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Trophy, Medal, Award, Home } from "lucide-react";
+
+interface LeaderboardEntry {
+  username: string;
+  total_score: number;
+  total_quizzes: number;
+  avg_score: number;
+}
+
+const Leaderboard = () => {
+  const navigate = useNavigate();
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchLeaderboard();
+  }, []);
+
+  const fetchLeaderboard = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("quiz_history")
+        .select("username, score, total_questions");
+
+      if (error) throw error;
+
+      // Group by username and calculate stats
+      const userStats = data.reduce((acc: any, entry: any) => {
+        const username = entry.username || "Anonymous";
+        if (!acc[username]) {
+          acc[username] = {
+            username,
+            total_score: 0,
+            total_quizzes: 0,
+            total_questions: 0
+          };
+        }
+        acc[username].total_score += entry.score;
+        acc[username].total_quizzes += 1;
+        acc[username].total_questions += entry.total_questions;
+        return acc;
+      }, {});
+
+      // Convert to array and calculate average
+      const leaderboardData = Object.values(userStats).map((user: any) => ({
+        username: user.username,
+        total_score: user.total_score,
+        total_quizzes: user.total_quizzes,
+        avg_score: Math.round((user.total_score / user.total_questions) * 100)
+      }));
+
+      // Sort by total score
+      leaderboardData.sort((a: any, b: any) => b.total_score - a.total_score);
+
+      setLeaderboard(leaderboardData);
+    } catch (error) {
+      console.error("Error fetching leaderboard:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getRankIcon = (index: number) => {
+    if (index === 0) return <Trophy className="w-6 h-6 text-yellow-500" />;
+    if (index === 1) return <Medal className="w-6 h-6 text-gray-400" />;
+    if (index === 2) return <Award className="w-6 h-6 text-amber-600" />;
+    return <span className="w-6 h-6 flex items-center justify-center font-bold text-muted-foreground">#{index + 1}</span>;
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <header className="bg-gradient-to-r from-primary to-primary/90 text-primary-foreground py-8 shadow-lg">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between mb-4">
+            <Button
+              onClick={() => navigate("/")}
+              variant="ghost"
+              className="text-primary-foreground hover:bg-primary-foreground/10"
+            >
+              <Home className="w-5 h-5 mr-2" />
+              होम
+            </Button>
+            <h1 className="text-3xl font-bold">🏆 Leaderboard</h1>
+            <div className="w-24"></div>
+          </div>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-lg text-muted-foreground">लोड हो रहा है...</p>
+          </div>
+        ) : leaderboard.length === 0 ? (
+          <Card>
+            <CardContent className="py-12 text-center">
+              <Trophy className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+              <p className="text-lg text-muted-foreground">अभी तक कोई स्कोर नहीं है!</p>
+              <p className="text-sm text-muted-foreground mt-2">पहले क्विज़ खेलें।</p>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="space-y-4">
+            {leaderboard.map((entry, index) => (
+              <Card key={entry.username} className={`${index < 3 ? 'border-primary/50' : ''}`}>
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      {getRankIcon(index)}
+                      <div>
+                        <CardTitle className="text-lg">{entry.username}</CardTitle>
+                        <p className="text-sm text-muted-foreground">
+                          {entry.total_quizzes} क्विज़ खेला
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-primary">{entry.total_score}</div>
+                      <p className="text-xs text-muted-foreground">कुल अंक</p>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">औसत स्कोर</span>
+                    <span className="text-lg font-semibold">{entry.avg_score}%</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </main>
+    </div>
+  );
+};
+
+export default Leaderboard;

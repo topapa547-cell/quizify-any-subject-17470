@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { generateQuiz } from "@/data/quizData";
 import { QuestionCard } from "@/components/QuestionCard";
 import { Button } from "@/components/ui/button";
-import { GraduationCap, Home } from "lucide-react";
+import { GraduationCap, Home, Clock } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
 
@@ -12,6 +12,8 @@ const Quiz = () => {
   const location = useLocation();
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [quizData, setQuizData] = useState(generateQuiz(5));
+  const [timeElapsed, setTimeElapsed] = useState(0);
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
     const state = location.state as { 
@@ -29,11 +31,26 @@ const Quiz = () => {
     setQuizData(generateQuiz(questionCount, subject, classLevel, difficulty));
   }, [location.state]);
 
+  // Timer effect
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeElapsed(Math.floor((Date.now() - startTime) / 1000));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [startTime]);
+
   const handleAnswerChange = (questionId: number, optionId: number) => {
     setAnswers((prev) => ({
       ...prev,
       [questionId]: optionId,
     }));
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   const handleSubmit = () => {
@@ -65,7 +82,11 @@ const Quiz = () => {
         total: quizData.total_questions,
         answered: answeredCount,
         answers,
-        questions: quizData.questions
+        questions: quizData.questions,
+        timeElapsed,
+        subject: quizData.subject,
+        difficulty: quizData.difficulty,
+        classLevel: quizData.class_level
       } 
     });
   };
@@ -91,7 +112,10 @@ const Quiz = () => {
               <GraduationCap className="w-10 h-10" />
               <h1 className="text-2xl md:text-3xl font-bold">{quizData.quiz_title}</h1>
             </div>
-            <div className="w-24"></div>
+            <div className="flex items-center gap-2 bg-primary-foreground/10 px-4 py-2 rounded-lg">
+              <Clock className="w-5 h-5" />
+              <span className="font-semibold text-lg">{formatTime(timeElapsed)}</span>
+            </div>
           </div>
           <div className="space-y-2">
             <div className="flex justify-between text-sm text-primary-foreground/90">

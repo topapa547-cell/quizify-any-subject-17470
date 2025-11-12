@@ -62,6 +62,16 @@ export const questionsBySubject: Record<string, QuizQuestion[]> = {
   hindi: hindiQuestions
 };
 
+// Fisher-Yates shuffle algorithm for true randomization
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 export const generateQuiz = (
   numQuestions: number,
   subjectId: string = "all",
@@ -80,8 +90,8 @@ export const generateQuiz = (
     questions = questions.filter(q => !q.difficulty || q.difficulty === difficulty);
   }
   
-  // Shuffle and select
-  const shuffled = [...questions].sort(() => Math.random() - 0.5);
+  // Use Fisher-Yates shuffle for true randomization
+  const shuffled = shuffleArray(questions);
   const selected = shuffled.slice(0, Math.min(numQuestions, shuffled.length));
   
   return {

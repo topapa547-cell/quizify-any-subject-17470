@@ -1,18 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { GraduationCap, BookOpen, Trophy, Sparkles } from "lucide-react";
+import { GraduationCap, BookOpen, Trophy, Sparkles, LogOut, LogIn } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { questionBank, subjects, classes } from "@/data/quizData";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const Home = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
   const [selectedCount, setSelectedCount] = useState<number>(10);
   const [selectedSubject, setSelectedSubject] = useState<string>("all");
   const [selectedClass, setSelectedClass] = useState<number | undefined>(undefined);
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>("all");
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast({ title: "Logged out successfully" });
+  };
 
   const questionOptions = [5, 10, 15, 20, 25, 30, 40, 50];
 
@@ -31,14 +51,33 @@ const Home = () => {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <header className="bg-gradient-to-r from-primary via-primary to-primary/90 text-primary-foreground py-12 shadow-lg">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <GraduationCap className="w-14 h-14" />
-            <h1 className="text-4xl md:text-5xl font-bold">गणित क्विज़ ऐप</h1>
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center mb-6">
+            <Button onClick={() => navigate("/leaderboard")} variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10">
+              <Trophy className="w-5 h-5 mr-2" />
+              Leaderboard
+            </Button>
+            {user ? (
+              <Button onClick={handleLogout} variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10">
+                <LogOut className="w-5 h-5 mr-2" />
+                Logout
+              </Button>
+            ) : (
+              <Button onClick={() => navigate("/auth")} variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10">
+                <LogIn className="w-5 h-5 mr-2" />
+                Login
+              </Button>
+            )}
           </div>
-          <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">
-            कक्षा 10वीं के गणित के प्रश्नों से अपनी तैयारी को मजबूत करें
-          </p>
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <GraduationCap className="w-14 h-14" />
+              <h1 className="text-4xl md:text-5xl font-bold">गणित क्विज़ ऐप</h1>
+            </div>
+            <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">
+              कक्षा 10वीं के गणित के प्रश्नों से अपनी तैयारी को मजबूत करें
+            </p>
+          </div>
         </div>
       </header>
 

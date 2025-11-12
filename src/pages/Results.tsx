@@ -2,8 +2,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Trophy, RotateCcw, Home, CheckCircle, XCircle, AlertCircle } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { QuizQuestion } from "@/data/quizData";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 interface LocationState {
   score: number;
@@ -11,12 +13,17 @@ interface LocationState {
   answered: number;
   answers: Record<number, number>;
   questions: QuizQuestion[];
+  timeElapsed?: number;
+  subject?: string;
+  difficulty?: string;
+  classLevel?: number;
 }
 
 const Results = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { score, total, answered, answers, questions } = (location.state as LocationState) || { 
+  const [saved, setSaved] = useState(false);
+  const { score, total, answered, answers, questions, timeElapsed, subject, difficulty, classLevel } = (location.state as LocationState) || { 
     score: 0, 
     total: 5, 
     answered: 0,
@@ -25,11 +32,38 @@ const Results = () => {
   };
 
   useEffect(() => {
-    // Redirect to home if accessed directly without state
     if (!location.state) {
       navigate("/");
+      return;
     }
-  }, [location.state, navigate]);
+
+    const saveQuizHistory = async () => {
+      if (saved) return;
+      
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        const username = user?.email?.split('@')[0] || 'Guest';
+
+        await supabase.from('quiz_history').insert({
+          username,
+          user_id: user?.id,
+          score,
+          total_questions: total,
+          answered_questions: answered,
+          time_taken: timeElapsed || 0,
+          subject: subject || 'all',
+          difficulty: difficulty || 'all',
+          class_level: classLevel || 10
+        });
+        
+        setSaved(true);
+      } catch (error) {
+        console.error('Error saving quiz:', error);
+      }
+    };
+
+    saveQuizHistory();
+  }, [location.state, navigate, saved, score, total, answered, timeElapsed, subject, difficulty, classLevel]);
 
   const percentage = Math.round((score / total) * 100);
   const unanswered = total - answered;
@@ -100,6 +134,14 @@ const Results = () => {
 
           {/* Action Buttons */}
           <div className="space-y-3 pt-4">
+            <Button
+              onClick={() => navigate("/leaderboard")}
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+              size="lg"
+            >
+              <Trophy className="w-5 h-5 mr-2" />
+              Leaderboard देखें
+            </Button>
             <Button
               onClick={() => navigate("/")}
               className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
