@@ -24,7 +24,8 @@ export const scienceQuestions: QuizQuestion[] = [
       { option_id: 10203, option_text: "210" },
       { option_id: 10204, option_text: "212" }
     ],
-    correct_option_id: 10201
+    correct_option_id: 10201,
+    class_level: 9
   },
   {
     question_id: 103,
@@ -35,7 +36,8 @@ export const scienceQuestions: QuizQuestion[] = [
       { option_id: 10303, option_text: "9" },
       { option_id: 10304, option_text: "11" }
     ],
-    correct_option_id: 10302
+    correct_option_id: 10302,
+    class_level: 10
   },
   {
     question_id: 104,
@@ -46,7 +48,8 @@ export const scienceQuestions: QuizQuestion[] = [
       { option_id: 10403, option_text: "ओम" },
       { option_id: 10404, option_text: "वाट" }
     ],
-    correct_option_id: 10402
+    correct_option_id: 10402,
+    class_level: 10
   },
   {
     question_id: 105,
@@ -57,7 +60,8 @@ export const scienceQuestions: QuizQuestion[] = [
       { option_id: 10503, option_text: "शुक्र" },
       { option_id: 10504, option_text: "बुध" }
     ],
-    correct_option_id: 10502
+    correct_option_id: 10502,
+    class_level: 9
   },
   {
     question_id: 106,
@@ -68,7 +72,8 @@ export const scienceQuestions: QuizQuestion[] = [
       { option_id: 10603, option_text: "Deoxyribonitric Acid" },
       { option_id: 10604, option_text: "Dioxy Nucleic Acid" }
     ],
-    correct_option_id: 10601
+    correct_option_id: 10601,
+    class_level: 10
   },
   {
     question_id: 107,

@@ -70,14 +70,14 @@ export const generateQuiz = (
 ): QuizData => {
   let questions = questionsBySubject[subjectId] || questionBank;
   
-  // Filter by class if specified
+  // Filter by class if specified (include questions without class_level)
   if (classLevel) {
-    questions = questions.filter(q => q.class_level === classLevel);
+    questions = questions.filter(q => !q.class_level || q.class_level === classLevel);
   }
   
-  // Filter by difficulty if specified
+  // Filter by difficulty if specified (include questions without difficulty)
   if (difficulty && difficulty !== "all") {
-    questions = questions.filter(q => q.difficulty === difficulty);
+    questions = questions.filter(q => !q.difficulty || q.difficulty === difficulty);
   }
   
   // Shuffle and select
