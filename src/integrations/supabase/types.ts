@@ -79,7 +79,7 @@ export type Database = {
           subject: string
           time_taken: number | null
           total_questions: number
-          user_id: string | null
+          user_id: string
           username: string | null
         }
         Insert: {
@@ -92,7 +92,7 @@ export type Database = {
           subject: string
           time_taken?: number | null
           total_questions: number
-          user_id?: string | null
+          user_id: string
           username?: string | null
         }
         Update: {
@@ -105,7 +105,7 @@ export type Database = {
           subject?: string
           time_taken?: number | null
           total_questions?: number
-          user_id?: string | null
+          user_id?: string
           username?: string | null
         }
         Relationships: []
@@ -115,7 +115,27 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_class_leaderboard: {
+        Args: { class_num: number }
+        Returns: {
+          avg_score: number
+          quiz_count: number
+          total_score: number
+          username: string
+        }[]
+      }
+      submit_quiz_result: {
+        Args: {
+          p_answered_questions: number
+          p_class_level: number
+          p_difficulty: string
+          p_score: number
+          p_subject: string
+          p_time_taken: number
+          p_total_questions: number
+        }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never

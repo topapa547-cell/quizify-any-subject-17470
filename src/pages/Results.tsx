@@ -44,45 +44,66 @@ const Results = () => {
       
       try {
         const { data: { user } } = await supabase.auth.getUser();
-        const username = user?.email?.split('@')[0] || 'Guest';
+        
+        if (!user?.id) {
+          console.error('User must be authenticated to save quiz');
+          toast({
+            title: "त्रुटि",
+            description: "परिणाम सहेजने के लिए लॉगिन आवश्यक है",
+            variant: "destructive",
+          });
+          return;
+        }
 
-        await supabase.from('quiz_history').insert({
-          username,
-          user_id: user?.id,
-          score,
-          total_questions: total,
-          answered_questions: answered,
-          time_taken: timeElapsed || 0,
-          subject: subject || 'all',
-          difficulty: difficulty || 'all',
-          class_level: classLevel || 10
+        // Use the secure database function with validation
+        const { data, error } = await supabase.rpc('submit_quiz_result', {
+          p_score: score,
+          p_total_questions: total,
+          p_answered_questions: answered,
+          p_time_taken: timeElapsed || 0,
+          p_subject: subject || 'all',
+          p_difficulty: difficulty || 'all',
+          p_class_level: classLevel || 10
         });
+
+        if (error) {
+          console.error('Error saving quiz:', error);
+          toast({
+            title: "त्रुटि",
+            description: "परिणाम सहेजने में समस्या आई",
+            variant: "destructive",
+          });
+          return;
+        }
         
         setSaved(true);
 
         // Check and award achievements
-        if (user) {
-          const achievements = await checkAndAwardAchievements(user.id, {
-            score,
-            totalQuestions: total,
-            subject: subject || 'all',
-            timeTaken: timeElapsed,
-          });
+        const achievements = await checkAndAwardAchievements(user.id, {
+          score,
+          totalQuestions: total,
+          subject: subject || 'all',
+          timeTaken: timeElapsed,
+        });
 
-          setNewAchievements(achievements);
+        setNewAchievements(achievements);
 
-          // Show achievement toast if any new achievements
-          if (achievements.length > 0) {
-            achievements.forEach(achievement => {
-              toast({
-                title: "🎉 नई उपलब्धि!",
-                description: `${achievement.icon} ${achievement.name}: ${achievement.description}`,
-              });
+        // Show achievement toast if any new achievements
+        if (achievements.length > 0) {
+          achievements.forEach(achievement => {
+            toast({
+              title: "🎉 नई उपलब्धि!",
+              description: `${achievement.icon} ${achievement.name}: ${achievement.description}`,
             });
-          }
+          });
         }
       } catch (error) {
         console.error('Error saving quiz:', error);
+        toast({
+          title: "त्रुटि",
+          description: "परिणाम सहेजने में समस्या आई",
+          variant: "destructive",
+        });
       }
     };
 

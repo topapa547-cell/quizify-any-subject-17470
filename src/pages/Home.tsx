@@ -97,10 +97,40 @@ const Home = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!username.trim()) {
+    
+    const trimmedUsername = username.trim();
+    
+    // Validate username
+    if (!trimmedUsername) {
       toast({
         title: "Username आवश्यक है",
-        description: "कृपया एक username दर्ज करें।",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (trimmedUsername.length < 3 || trimmedUsername.length > 20) {
+      toast({
+        title: "अवैध username",
+        description: "Username 3-20 अक्षरों का होना चाहिए",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Only allow alphanumeric and underscore
+    if (!/^[a-zA-Z0-9_]+$/.test(trimmedUsername)) {
+      toast({
+        title: "अवैध username",
+        description: "केवल अक्षर, संख्या और अंडरस्कोर की अनुमति है",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!email || !password) {
+      toast({
+        title: "सभी फ़ील्ड भरें",
         variant: "destructive",
       });
       return;
@@ -113,7 +143,7 @@ const Home = () => {
       options: {
         emailRedirectTo: `${window.location.origin}/`,
         data: {
-          username: username.trim(),
+          username: trimmedUsername,
           class_level: classLevel
         }
       }

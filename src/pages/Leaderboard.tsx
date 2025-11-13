@@ -10,7 +10,7 @@ import BottomNav from "@/components/BottomNav";
 interface LeaderboardEntry {
   username: string;
   total_score: number;
-  total_quizzes: number;
+  quiz_count: number;
   avg_score: number;
 }
 
@@ -48,49 +48,23 @@ const Leaderboard = () => {
 
   const fetchLeaderboard = async () => {
     try {
-      let query = supabase
-        .from("quiz_history")
-        .select("username, score, total_questions, class_level");
-
-      if (selectedClass) {
-        query = query.eq("class_level", selectedClass);
+      if (!selectedClass) {
+        setLeaderboard([]);
+        setLoading(false);
+        return;
       }
 
-      const { data, error } = await query;
+      // Use the secure database function
+      const { data, error } = await supabase.rpc('get_class_leaderboard', {
+        class_num: selectedClass
+      });
 
       if (error) throw error;
 
-      // Group by username and calculate stats
-      const userStats = data.reduce((acc: any, entry: any) => {
-        const username = entry.username || "Anonymous";
-        if (!acc[username]) {
-          acc[username] = {
-            username,
-            total_score: 0,
-            total_quizzes: 0,
-            total_questions: 0
-          };
-        }
-        acc[username].total_score += entry.score;
-        acc[username].total_quizzes += 1;
-        acc[username].total_questions += entry.total_questions;
-        return acc;
-      }, {});
-
-      // Convert to array and calculate average
-      const leaderboardData = Object.values(userStats).map((user: any) => ({
-        username: user.username,
-        total_score: user.total_score,
-        total_quizzes: user.total_quizzes,
-        avg_score: Math.round((user.total_score / user.total_questions) * 100)
-      }));
-
-      // Sort by total score
-      leaderboardData.sort((a: any, b: any) => b.total_score - a.total_score);
-
-      setLeaderboard(leaderboardData);
+      setLeaderboard(data || []);
     } catch (error) {
       console.error("Error fetching leaderboard:", error);
+      setLeaderboard([]);
     } finally {
       setLoading(false);
     }
@@ -163,7 +137,7 @@ const Leaderboard = () => {
                       <div>
                         <CardTitle className="text-lg">{entry.username}</CardTitle>
                         <p className="text-sm text-muted-foreground">
-                          {entry.total_quizzes} क्विज़ खेला
+                          {entry.quiz_count} क्विज़ खेला
                         </p>
                       </div>
                     </div>
