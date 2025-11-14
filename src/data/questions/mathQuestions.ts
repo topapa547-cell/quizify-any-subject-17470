@@ -361,5 +361,65 @@ export const mathQuestions: QuizQuestion[] = [
     class_level: 12,
     difficulty: "hard",
     explanation: "यह प्रथम कोटि का रैखिक अवकल समीकरण है जिसका हल y = Ceˣ है"
+  },
+  
+  // CSV Questions - Class 9
+  {
+    question_id: 9001,
+    text: "2 और 3 का योग क्या है?",
+    options: [
+      { option_id: 90011, option_text: "5" },
+      { option_id: 90012, option_text: "6" },
+      { option_id: 90013, option_text: "1" },
+      { option_id: 90014, option_text: "4" }
+    ],
+    correct_option_id: 90011,
+    class_level: 9,
+    difficulty: "easy",
+    explanation: "सही उत्तर 5 है क्योंकि 2 + 3 = 5 होता है।"
+  },
+  {
+    question_id: 9002,
+    text: "त्रिभुज के तीनों कोणों का योग कितना होता है?",
+    options: [
+      { option_id: 90021, option_text: "90°" },
+      { option_id: 90022, option_text: "180°" },
+      { option_id: 90023, option_text: "360°" },
+      { option_id: 90024, option_text: "270°" }
+    ],
+    correct_option_id: 90022,
+    class_level: 9,
+    difficulty: "easy",
+    explanation: "सही उत्तर 180° है क्योंकि यह त्रिभुज का मूल गुण है।"
+  },
+  {
+    question_id: 9003,
+    text: "पायथागोरस प्रमेय किस प्रकार के त्रिभुज में लागू होता है?",
+    options: [
+      { option_id: 90031, option_text: "समकोण त्रिभुज" },
+      { option_id: 90032, option_text: "समद्विबाहु त्रिभुज" },
+      { option_id: 90033, option_text: "समद्विभुज" },
+      { option_id: 90034, option_text: "किसी भी त्रिभुज में" }
+    ],
+    correct_option_id: 90031,
+    class_level: 9,
+    difficulty: "medium",
+    explanation: "सही उत्तर समकोण त्रिभुज है क्योंकि पायथागोरस प्रमेय केवल समकोण त्रिभुज पर लागू होता है।"
+  },
+  
+  // CSV Questions - Class 10
+  {
+    question_id: 10001,
+    text: "पायथागोरस प्रमेय किस प्रकार के त्रिभुज में लागू होता है?",
+    options: [
+      { option_id: 100011, option_text: "समकोण त्रिभुज" },
+      { option_id: 100012, option_text: "समद्विबाहु त्रिभुज" },
+      { option_id: 100013, option_text: "समद्विभुज" },
+      { option_id: 100014, option_text: "किसी भी त्रिभुज में" }
+    ],
+    correct_option_id: 100011,
+    class_level: 10,
+    difficulty: "medium",
+    explanation: "सही उत्तर समकोण त्रिभुज है क्योंकि a² + b² = c² केवल समकोण त्रिभुज में लागू होता है।"
   }
 ];

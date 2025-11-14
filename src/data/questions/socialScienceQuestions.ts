@@ -223,5 +223,93 @@ export const socialScienceQuestions: QuizQuestion[] = [
       { option_id: 22004, option_text: "470" }
     ],
     correct_option_id: 22003
+  },
+  
+  // CSV Questions - Class 9
+  {
+    question_id: 9301,
+    text: "लोक सभा का कार्यकाल अधिकतम कितना होता है?",
+    options: [
+      { option_id: 93011, option_text: "5 वर्ष" },
+      { option_id: 93012, option_text: "6 वर्ष" },
+      { option_id: 93013, option_text: "4 वर्ष" },
+      { option_id: 93014, option_text: "3 वर्ष" }
+    ],
+    correct_option_id: 93011,
+    class_level: 9,
+    difficulty: "easy",
+    explanation: "सही उत्तर 5 वर्ष है क्योंकि भारतीय संविधान के अनुसार लोक सभा का कार्यकाल 5 वर्ष होता है।"
+  },
+  {
+    question_id: 9302,
+    text: "संसद के दोनों सदनों का सर्वोच्च कार्य क्या है?",
+    options: [
+      { option_id: 93021, option_text: "कानून बनाना" },
+      { option_id: 93022, option_text: "न्याय करना" },
+      { option_id: 93023, option_text: "कर वसूलना" },
+      { option_id: 93024, option_text: "नियुक्ति करना" }
+    ],
+    correct_option_id: 93021,
+    class_level: 9,
+    difficulty: "medium",
+    explanation: "सही उत्तर 'कानून बनाना' है क्योंकि यह संसद का प्रमुख कार्य है।"
+  },
+  {
+    question_id: 9303,
+    text: "भारतीय राष्ट्रीय आंदोलन का प्रमुख साल किस दशक में शुरू हुआ?",
+    options: [
+      { option_id: 93031, option_text: "1850s" },
+      { option_id: 93032, option_text: "1880s" },
+      { option_id: 93033, option_text: "1920s" },
+      { option_id: 93034, option_text: "1940s" }
+    ],
+    correct_option_id: 93032,
+    class_level: 9,
+    difficulty: "medium",
+    explanation: "सही उत्तर 1880s है जब भारतीय राष्ट्रीय कांग्रेस की स्थापना 1885 में हुई।"
+  },
+  
+  // CSV Questions - Class 10
+  {
+    question_id: 10301,
+    text: "लोक सभा का कार्यकाल अधिकतम कितना होता है?",
+    options: [
+      { option_id: 103011, option_text: "5 वर्ष" },
+      { option_id: 103012, option_text: "6 वर्ष" },
+      { option_id: 103013, option_text: "4 वर्ष" },
+      { option_id: 103014, option_text: "3 वर्ष" }
+    ],
+    correct_option_id: 103011,
+    class_level: 10,
+    difficulty: "easy",
+    explanation: "सही उत्तर 5 वर्ष है जो संविधान द्वारा निर्धारित है।"
+  },
+  {
+    question_id: 10302,
+    text: "संसद के दोनों सदनों का सर्वोच्च कार्य क्या है?",
+    options: [
+      { option_id: 103021, option_text: "कानून बनाना" },
+      { option_id: 103022, option_text: "न्याय करना" },
+      { option_id: 103023, option_text: "कर वसूलना" },
+      { option_id: 103024, option_text: "नियुक्ति करना" }
+    ],
+    correct_option_id: 103021,
+    class_level: 10,
+    difficulty: "medium",
+    explanation: "सही उत्तर 'कानून बनाना' है जो संसद का मुख्य कार्य है।"
+  },
+  {
+    question_id: 10303,
+    text: "भारतीय राष्ट्रीय आंदोलन का प्रमुख साल किस दशक में शुरू हुआ?",
+    options: [
+      { option_id: 103031, option_text: "1850s" },
+      { option_id: 103032, option_text: "1880s" },
+      { option_id: 103033, option_text: "1920s" },
+      { option_id: 103034, option_text: "1940s" }
+    ],
+    correct_option_id: 103032,
+    class_level: 10,
+    difficulty: "medium",
+    explanation: "सही उत्तर 1880s है क्योंकि इस दौर में संगठित राष्ट्रीय आंदोलन की शुरुआत हुई।"
   }
 ];
