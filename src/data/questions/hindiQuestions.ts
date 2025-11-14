@@ -264,5 +264,63 @@ export const hindiQuestions: QuizQuestion[] = [
     class_level: 10,
     difficulty: "easy",
     explanation: "'गोदान' मुंशी प्रेमचंद का प्रसिद्ध उपन्यास है"
+  },
+  
+  // CSV Questions - Class 9
+  {
+    question_id: 9201,
+    text: "किसे अलंकार कहा जाता है?",
+    options: [
+      { option_id: 92011, option_text: "शैली का सौंदर्य" },
+      { option_id: 92012, option_text: "किसी का नाम" },
+      { option_id: 92013, option_text: "स्थल का नाम" },
+      { option_id: 92014, option_text: "वस्तु" }
+    ],
+    correct_option_id: 92011,
+    class_level: 9,
+    difficulty: "easy",
+    explanation: "सही उत्तर 'शैली का सौंदर्य' है क्योंकि अलंकार काव्य में सुंदरता और आकर्षण बढ़ाने वाले शब्द होते हैं।"
+  },
+  {
+    question_id: 9202,
+    text: "संधि क्या है?",
+    options: [
+      { option_id: 92021, option_text: "दो वर्णों का मेल" },
+      { option_id: 92022, option_text: "एक शब्द" },
+      { option_id: 92023, option_text: "वाक्य" },
+      { option_id: 92024, option_text: "पद्य" }
+    ],
+    correct_option_id: 92021,
+    class_level: 9,
+    difficulty: "easy",
+    explanation: "सही उत्तर 'दो वर्णों का मेल' है क्योंकि संधि में दो वर्णों के मिलने से नया रूप बनता है।"
+  },
+  {
+    question_id: 9203,
+    text: "कहानी की शैलियाँ कौन–सी हैं?",
+    options: [
+      { option_id: 92031, option_text: "विविध" },
+      { option_id: 92032, option_text: "एक" },
+      { option_id: 92033, option_text: "दो" },
+      { option_id: 92034, option_text: "निरपेक्ष" }
+    ],
+    correct_option_id: 92031,
+    class_level: 9,
+    difficulty: "easy",
+    explanation: "सही उत्तर 'विविध' है क्योंकि कहानी विभिन्न शैलियों में लिखी जा सकती है।"
+  },
+  {
+    question_id: 9204,
+    text: "विमर्श शब्द का पर्यायवाची क्या है?",
+    options: [
+      { option_id: 92041, option_text: "आलोचना" },
+      { option_id: 92042, option_text: "सुन्दरता" },
+      { option_id: 92043, option_text: "गीत" },
+      { option_id: 92044, option_text: "नाटक" }
+    ],
+    correct_option_id: 92041,
+    class_level: 9,
+    difficulty: "medium",
+    explanation: "सही उत्तर 'आलोचना' है क्योंकि विमर्श का अर्थ किसी विषय पर विचार-विमर्श या आलोचना करना होता है।"
   }
 ];

@@ -1305,5 +1305,177 @@ export const scienceQuestions: QuizQuestion[] = [
     correct_option_id: 30253,
     class_level: 10,
     difficulty: "hard"
+  },
+  
+  // CSV Questions - Class 9
+  {
+    question_id: 9101,
+    text: "पृथ्वी पर सबसे अधिक प्रचालित गैस कौन सी है?",
+    options: [
+      { option_id: 91011, option_text: "नाइट्रोजन" },
+      { option_id: 91012, option_text: "ऑक्सीजन" },
+      { option_id: 91013, option_text: "कार्बन डायऑक्साइड" },
+      { option_id: 91014, option_text: "हीलियम" }
+    ],
+    correct_option_id: 91011,
+    class_level: 9,
+    difficulty: "easy",
+    explanation: "सही उत्तर नाइट्रोजन है क्योंकि वायुमंडल में लगभग 78% नाइट्रोजन है।"
+  },
+  {
+    question_id: 9102,
+    text: "जल का रासायनिक सूत्र क्या है?",
+    options: [
+      { option_id: 91021, option_text: "H2O" },
+      { option_id: 91022, option_text: "CO2" },
+      { option_id: 91023, option_text: "O2" },
+      { option_id: 91024, option_text: "N2" }
+    ],
+    correct_option_id: 91021,
+    class_level: 9,
+    difficulty: "easy",
+    explanation: "सही उत्तर H2O है क्योंकि जल में 2 हाइड्रोजन और 1 ऑक्सीजन परमाणु होते हैं।"
+  },
+  {
+    question_id: 9103,
+    text: "गति की इकाई SI में क्या है?",
+    options: [
+      { option_id: 91031, option_text: "m/s" },
+      { option_id: 91032, option_text: "m/s^2" },
+      { option_id: 91033, option_text: "kg" },
+      { option_id: 91034, option_text: "N" }
+    ],
+    correct_option_id: 91031,
+    class_level: 9,
+    difficulty: "easy",
+    explanation: "सही उत्तर m/s है क्योंकि गति = दूरी/समय होती है।"
+  },
+  {
+    question_id: 9104,
+    text: "ऊर्जा के संरक्षण का नियम किसे दर्शाता है?",
+    options: [
+      { option_id: 91041, option_text: "ऊर्जा नष्ट नहीं होती" },
+      { option_id: 91042, option_text: "ऊर्जा पैदा होती है" },
+      { option_id: 91043, option_text: "ऊर्जा घटती है" },
+      { option_id: 91044, option_text: "ऊर्जा बदलती नहीं" }
+    ],
+    correct_option_id: 91041,
+    class_level: 9,
+    difficulty: "medium",
+    explanation: "सही उत्तर है कि ऊर्जा नष्ट नहीं होती क्योंकि ऊर्जा संरक्षण के नियम के अनुसार ऊर्जा केवल एक रूप से दूसरे रूप में बदलती है।"
+  },
+  {
+    question_id: 9105,
+    text: "मनुष्यों में रक्त का लाल रंग किस कारण से होता है?",
+    options: [
+      { option_id: 91051, option_text: "हिमोग्लोबिन" },
+      { option_id: 91052, option_text: "पिगमेंट" },
+      { option_id: 91053, option_text: "अमीनो एसिड" },
+      { option_id: 91054, option_text: "आयरन नहीं" }
+    ],
+    correct_option_id: 91051,
+    class_level: 9,
+    difficulty: "medium",
+    explanation: "सही उत्तर हिमोग्लोबिन है क्योंकि यह एक लौह युक्त प्रोटीन है जो रक्त को लाल रंग देता है।"
+  },
+  {
+    question_id: 9106,
+    text: "फोटोसिन्थेसिस कहाँ होता है?",
+    options: [
+      { option_id: 91061, option_text: "पत्तियों में" },
+      { option_id: 91062, option_text: "जड़ों में" },
+      { option_id: 91063, option_text: "बीज में" },
+      { option_id: 91064, option_text: "फल में" }
+    ],
+    correct_option_id: 91061,
+    class_level: 9,
+    difficulty: "medium",
+    explanation: "सही उत्तर पत्तियों में है क्योंकि पत्तियों में क्लोरोफिल होता है जो प्रकाश संश्लेषण के लिए आवश्यक है।"
+  },
+  
+  // CSV Questions - Class 10
+  {
+    question_id: 10101,
+    text: "पृथ्वी पर सबसे अधिक प्रचालित गैस कौन सी है?",
+    options: [
+      { option_id: 101011, option_text: "नाइट्रोजन" },
+      { option_id: 101012, option_text: "ऑक्सीजन" },
+      { option_id: 101013, option_text: "कार्बन डायऑक्साइड" },
+      { option_id: 101014, option_text: "हीलियम" }
+    ],
+    correct_option_id: 101011,
+    class_level: 10,
+    difficulty: "easy",
+    explanation: "सही उत्तर नाइट्रोजन है क्योंकि यह वायुमंडल का 78% भाग है।"
+  },
+  {
+    question_id: 10102,
+    text: "जल का रासायनिक सूत्र क्या है?",
+    options: [
+      { option_id: 101021, option_text: "H2O" },
+      { option_id: 101022, option_text: "CO2" },
+      { option_id: 101023, option_text: "O2" },
+      { option_id: 101024, option_text: "N2" }
+    ],
+    correct_option_id: 101021,
+    class_level: 10,
+    difficulty: "easy",
+    explanation: "सही उत्तर H2O है जो जल का रासायनिक सूत्र है।"
+  },
+  {
+    question_id: 10103,
+    text: "गति की इकाई SI में क्या है?",
+    options: [
+      { option_id: 101031, option_text: "m/s" },
+      { option_id: 101032, option_text: "m/s^2" },
+      { option_id: 101033, option_text: "kg" },
+      { option_id: 101034, option_text: "N" }
+    ],
+    correct_option_id: 101031,
+    class_level: 10,
+    difficulty: "easy",
+    explanation: "सही उत्तर m/s है जो वेग की SI इकाई है।"
+  },
+  {
+    question_id: 10104,
+    text: "ऊर्जा के संरक्षण का नियम किसे दर्शाता है?",
+    options: [
+      { option_id: 101041, option_text: "ऊर्जा नष्ट नहीं होती" },
+      { option_id: 101042, option_text: "ऊर्जा पैदा होती है" },
+      { option_id: 101043, option_text: "ऊर्जा घटती है" },
+      { option_id: 101044, option_text: "ऊर्जा बदलती नहीं" }
+    ],
+    correct_option_id: 101041,
+    class_level: 10,
+    difficulty: "medium",
+    explanation: "सही उत्तर है कि ऊर्जा नष्ट नहीं होती, केवल एक रूप से दूसरे रूप में परिवर्तित होती है।"
+  },
+  {
+    question_id: 10105,
+    text: "मनुष्यों में रक्त का लाल रंग किस कारण से होता है?",
+    options: [
+      { option_id: 101051, option_text: "हिमोग्लोबिन" },
+      { option_id: 101052, option_text: "पिगमेंट" },
+      { option_id: 101053, option_text: "अमीनो एसिड" },
+      { option_id: 101054, option_text: "आयरन नहीं" }
+    ],
+    correct_option_id: 101051,
+    class_level: 10,
+    difficulty: "medium",
+    explanation: "सही उत्तर हिमोग्लोबिन है जो लाल रक्त कोशिकाओं में पाया जाता है।"
+  },
+  {
+    question_id: 10106,
+    text: "फोटोसिन्थेसिस कहाँ होता है?",
+    options: [
+      { option_id: 101061, option_text: "पत्तियों में" },
+      { option_id: 101062, option_text: "जड़ों में" },
+      { option_id: 101063, option_text: "बीज में" },
+      { option_id: 101064, option_text: "फल में" }
+    ],
+    correct_option_id: 101061,
+    class_level: 10,
+    difficulty: "medium",
+    explanation: "सही उत्तर पत्तियों में है जहां क्लोरोप्लास्ट में प्रकाश संश्लेषण होता है।"
   }
 ];
