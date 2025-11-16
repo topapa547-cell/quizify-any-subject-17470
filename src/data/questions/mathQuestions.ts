@@ -421,7 +421,7 @@ export const mathQuestions: QuizQuestion[] = [
     class_level: 10,
     difficulty: "medium",
     explanation: "सही उत्तर समकोण त्रिभुज है क्योंकि a² + b² = c² केवल समकोण त्रिभुज में लागू होता है।"
-  }
+  },
   // ============= NEW Class 9 Mathematics Questions (70 questions) =============
   
   // Number Systems (10 questions)
@@ -2424,24 +2424,5 @@ export const mathQuestions: QuizQuestion[] = [
     class_level: 10,
     difficulty: "easy",
     explanation: "गोले का पृष्ठीय क्षेत्रफल = 4πr², जहाँ r त्रिज्या है।"
-  },
-  },
-
-  // ============= NEW Class 9 Mathematics Questions (70 questions) =============
-  
-  // Number Systems (10 questions)
-  {
-    question_id: 9001,
-    text: "निम्नलिखित में से कौन सी संख्या अपरिमेय है?",
-    options: [
-      { option_id: 90011, option_text: "√16" },
-      { option_id: 90012, option_text: "√2" },
-      { option_id: 90013, option_text: "22/7" },
-      { option_id: 90014, option_text: "0.333..." }
-    ],
-    correct_option_id: 90012,
-    class_level: 9,
-    difficulty: "easy",
-    explanation: "√2 एक अपरिमेय संख्या है क्योंकि इसे p/q के रूप में नहीं लिखा जा सकता।"
   }
 ];
