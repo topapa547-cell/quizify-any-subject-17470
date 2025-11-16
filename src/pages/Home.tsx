@@ -199,6 +199,15 @@ const Home = () => {
   const questionOptions = [5, 10, 15, 20, 25, 30, 40, 50];
 
   const handleStartQuiz = () => {
+    if (!user) {
+      toast({
+        title: "लॉगिन आवश्यक",
+        description: "कृपया पहले लॉगिन करें",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     navigate("/quiz", { 
       state: { 
         questionCount: selectedCount,

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { GraduationCap, Home, Clock } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
+import { supabase } from "@/integrations/supabase/client";
 
 const Quiz = () => {
   const navigate = useNavigate();
@@ -14,6 +15,22 @@ const Quiz = () => {
   const [quizData, setQuizData] = useState(generateQuiz(5));
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [startTime] = useState(Date.now());
+
+  // Authentication guard
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast({
+          title: "लॉगिन आवश्यक",
+          description: "क्विज़ खेलने के लिए कृपया लॉगिन करें",
+          variant: "destructive",
+        });
+        navigate("/");
+      }
+    };
+    checkAuth();
+  }, [navigate]);
 
   useEffect(() => {
     const state = location.state as { 
