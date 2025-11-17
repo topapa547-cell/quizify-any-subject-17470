@@ -1477,5 +1477,74 @@ export const scienceQuestions: QuizQuestion[] = [
     class_level: 10,
     difficulty: "medium",
     explanation: "सही उत्तर पत्तियों में है जहां क्लोरोप्लास्ट में प्रकाश संश्लेषण होता है।"
+  },
+
+  // ========== CLASS 9 - EASY LEVEL (45 Questions) ==========
+  {
+    question_id: 4001,
+    text: "पदार्थ की तीन अवस्थाएं कौन सी हैं?",
+    options: [
+      { option_id: 40011, option_text: "ठोस, द्रव, गैस" },
+      { option_id: 40012, option_text: "ठोस, द्रव, प्लाज्मा" },
+      { option_id: 40013, option_text: "द्रव, गैस, वाष्प" },
+      { option_id: 40014, option_text: "ठोस, वायु, जल" }
+    ],
+    correct_option_id: 40011,
+    class_level: 9,
+    difficulty: "easy"
+  },
+  {
+    question_id: 4002,
+    text: "कोशिका की खोज किसने की थी?",
+    options: [
+      { option_id: 40021, option_text: "रॉबर्ट हुक" },
+      { option_id: 40022, option_text: "रॉबर्ट ब्राउन" },
+      { option_id: 40023, option_text: "श्लाइडेन" },
+      { option_id: 40024, option_text: "श्वान" }
+    ],
+    correct_option_id: 40021,
+    class_level: 9,
+    difficulty: "easy"
+  },
+  {
+    question_id: 4003,
+    text: "त्वरण का SI मात्रक क्या है?",
+    options: [
+      { option_id: 40031, option_text: "m/s" },
+      { option_id: 40032, option_text: "m/s²" },
+      { option_id: 40033, option_text: "m²/s" },
+      { option_id: 40034, option_text: "m/s³" }
+    ],
+    correct_option_id: 40032,
+    class_level: 9,
+    difficulty: "easy"
+  },
+  {
+    question_id: 4004,
+    text: "कोशिका का 'पावर हाउस' किसे कहते हैं?",
+    options: [
+      { option_id: 40041, option_text: "राइबोसोम" },
+      { option_id: 40042, option_text: "माइटोकॉन्ड्रिया" },
+      { option_id: 40043, option_text: "केन्द्रक" },
+      { option_id: 40044, option_text: "गॉल्जी बॉडी" }
+    ],
+    correct_option_id: 40042,
+    class_level: 9,
+    difficulty: "easy"
+  },
+  {
+    question_id: 4005,
+    text: "प्रकाश संश्लेषण में पौधे क्या मुक्त करते हैं?",
+    options: [
+      { option_id: 40051, option_text: "कार्बन डाइऑक्साइड" },
+      { option_id: 40052, option_text: "ऑक्सीजन" },
+      { option_id: 40053, option_text: "नाइट्रोजन" },
+      { option_id: 40054, option_text: "हाइड्रोजन" }
+    ],
+    correct_option_id: 40052,
+    class_level: 9,
+    difficulty: "easy"
   }
 ];
+
+export default scienceQuestions;
