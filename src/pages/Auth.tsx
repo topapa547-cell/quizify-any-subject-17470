@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GraduationCap } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [classLevel, setClassLevel] = useState<number>(9);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -39,7 +41,9 @@ const Auth = () => {
     }
 
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
+    
+    // Sign up user
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -50,21 +54,34 @@ const Auth = () => {
       }
     });
 
-    setLoading(false);
-
     if (error) {
+      setLoading(false);
       toast({
         title: "साइनअप में त्रुटि",
         description: error.message,
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "साइनअप सफल!",
-        description: "आप लॉगिन कर सकते हैं।",
-      });
-      navigate("/");
+      return;
     }
+
+    // Update profile with class level
+    if (data.user) {
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({ class_level: classLevel })
+        .eq('id', data.user.id);
+
+      if (profileError) {
+        console.error('Profile update error:', profileError);
+      }
+    }
+
+    setLoading(false);
+    toast({
+      title: "साइनअप सफल!",
+      description: `कक्षा ${classLevel} में आपका स्वागत है।`,
+    });
+    navigate("/");
   };
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -229,6 +246,19 @@ const Auth = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
+                </div>
+                <div className="space-y-2">
+                  <Label>अपनी कक्षा चुनें</Label>
+                  <RadioGroup value={classLevel.toString()} onValueChange={(value) => setClassLevel(Number(value))}>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="9" id="class-9" />
+                      <Label htmlFor="class-9" className="cursor-pointer">कक्षा 9</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="10" id="class-10" />
+                      <Label htmlFor="class-10" className="cursor-pointer">कक्षा 10</Label>
+                    </div>
+                  </RadioGroup>
                 </div>
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "साइनअप हो रहा है..." : "साइनअप करें"}
