@@ -48,21 +48,39 @@ export type Database = {
         Row: {
           class_level: number | null
           created_at: string
+          current_streak: number | null
           id: string
+          last_quiz_date: string | null
+          league: string | null
+          league_points: number | null
+          longest_streak: number | null
+          streak_freeze_available: boolean | null
           updated_at: string
           username: string
         }
         Insert: {
           class_level?: number | null
           created_at?: string
+          current_streak?: number | null
           id: string
+          last_quiz_date?: string | null
+          league?: string | null
+          league_points?: number | null
+          longest_streak?: number | null
+          streak_freeze_available?: boolean | null
           updated_at?: string
           username: string
         }
         Update: {
           class_level?: number | null
           created_at?: string
+          current_streak?: number | null
           id?: string
+          last_quiz_date?: string | null
+          league?: string | null
+          league_points?: number | null
+          longest_streak?: number | null
+          streak_freeze_available?: boolean | null
           updated_at?: string
           username?: string
         }
@@ -74,8 +92,11 @@ export type Database = {
           class_level: number
           created_at: string
           difficulty: string
+          difficulty_multiplier: number | null
           id: string
+          points_earned: number | null
           score: number
+          speed_bonus: number | null
           subject: string
           time_taken: number | null
           total_questions: number
@@ -87,8 +108,11 @@ export type Database = {
           class_level: number
           created_at?: string
           difficulty: string
+          difficulty_multiplier?: number | null
           id?: string
+          points_earned?: number | null
           score: number
+          speed_bonus?: number | null
           subject: string
           time_taken?: number | null
           total_questions: number
@@ -100,8 +124,11 @@ export type Database = {
           class_level?: number
           created_at?: string
           difficulty?: string
+          difficulty_multiplier?: number | null
           id?: string
+          points_earned?: number | null
           score?: number
+          speed_bonus?: number | null
           subject?: string
           time_taken?: number | null
           total_questions?: number
@@ -115,12 +142,77 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      calculate_quiz_points: {
+        Args: {
+          p_current_streak: number
+          p_difficulty: string
+          p_score: number
+          p_time_taken: number
+          p_total_questions: number
+        }
+        Returns: {
+          difficulty_multiplier: number
+          points_earned: number
+          speed_bonus: number
+        }[]
+      }
       get_class_leaderboard: {
         Args: { class_num: number }
         Returns: {
           avg_score: number
+          current_streak: number
+          league: string
           quiz_count: number
           total_score: number
+          user_id: string
+          username: string
+        }[]
+      }
+      get_monthly_leaderboard: {
+        Args: { class_num: number }
+        Returns: {
+          avg_score: number
+          current_streak: number
+          league: string
+          quiz_count: number
+          total_score: number
+          user_id: string
+          username: string
+        }[]
+      }
+      get_subject_leaderboard: {
+        Args: { class_num: number; subject_name: string }
+        Returns: {
+          avg_score: number
+          current_streak: number
+          league: string
+          quiz_count: number
+          total_score: number
+          user_id: string
+          username: string
+        }[]
+      }
+      get_user_rank: {
+        Args: { class_num: number; p_user_id: string }
+        Returns: {
+          avg_score: number
+          current_streak: number
+          league: string
+          quiz_count: number
+          rank: number
+          total_score: number
+          username: string
+        }[]
+      }
+      get_weekly_leaderboard: {
+        Args: { class_num: number }
+        Returns: {
+          avg_score: number
+          current_streak: number
+          league: string
+          quiz_count: number
+          total_score: number
+          user_id: string
           username: string
         }[]
       }
@@ -135,6 +227,15 @@ export type Database = {
           p_total_questions: number
         }
         Returns: string
+      }
+      update_user_league: { Args: { p_user_id: string }; Returns: string }
+      update_user_streak: {
+        Args: { p_user_id: string }
+        Returns: {
+          current_streak: number
+          longest_streak: number
+          streak_maintained: boolean
+        }[]
       }
     }
     Enums: {

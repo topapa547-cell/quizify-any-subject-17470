@@ -7,6 +7,8 @@ import { User, Trophy, Target, TrendingUp, LogOut, Award } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
 import { toast } from "@/hooks/use-toast";
 import { getUserAchievements } from "@/utils/achievements";
+import LeagueCard from "@/components/LeagueCard";
+import StreakCounter from "@/components/StreakCounter";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -90,6 +92,19 @@ const Profile = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8 max-w-4xl">
+        {/* League and Streak Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
+          <LeagueCard 
+            league={profile?.league || 'bronze'} 
+            leaguePoints={profile?.league_points || 0} 
+          />
+          <StreakCounter 
+            currentStreak={profile?.current_streak || 0}
+            longestStreak={profile?.longest_streak || 0}
+          />
+        </div>
+
+        {/* Stats Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <Card className="p-6 text-center border-border shadow-lg">
             <Target className="w-12 h-12 mx-auto mb-3 text-primary" />

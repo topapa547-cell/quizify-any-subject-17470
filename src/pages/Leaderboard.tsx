@@ -2,24 +2,42 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Trophy, Medal, Award, Home } from "lucide-react";
+import { Home } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import BottomNav from "@/components/BottomNav";
+import LeaderboardTabs from "@/components/LeaderboardTabs";
+import UserRankCard from "@/components/UserRankCard";
 
 interface LeaderboardEntry {
   username: string;
   total_score: number;
   quiz_count: number;
   avg_score: number;
+  league: string;
+  current_streak: number;
+  user_id: string;
+}
+
+interface UserRank {
+  rank: number;
+  username: string;
+  total_score: number;
+  quiz_count: number;
+  avg_score: number;
+  league: string;
+  current_streak: number;
 }
 
 const Leaderboard = () => {
   const navigate = useNavigate();
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [allTimeLeaderboard, setAllTimeLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [weeklyLeaderboard, setWeeklyLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [monthlyLeaderboard, setMonthlyLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [userRank, setUserRank] = useState<UserRank | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedClass, setSelectedClass] = useState<number | null>(null);
   const [userClass, setUserClass] = useState<number | null>(null);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -27,6 +45,7 @@ const Leaderboard = () => {
       if (!user) {
         navigate("/");
       } else {
+        setCurrentUserId(user.id);
         const { data: profile } = await supabase
           .from("profiles")
           .select("class_level")
@@ -48,33 +67,43 @@ const Leaderboard = () => {
 
   const fetchLeaderboard = async () => {
     try {
-      if (!selectedClass) {
-        setLeaderboard([]);
+      if (!selectedClass || !currentUserId) {
+        setAllTimeLeaderboard([]);
+        setWeeklyLeaderboard([]);
+        setMonthlyLeaderboard([]);
+        setUserRank(null);
         setLoading(false);
         return;
       }
 
-      // Use the secure database function
-      const { data, error } = await supabase.rpc('get_class_leaderboard', {
-        class_num: selectedClass
-      });
+      // Fetch all leaderboard types in parallel
+      const [allTimeRes, weeklyRes, monthlyRes, userRankRes] = await Promise.all([
+        supabase.rpc('get_class_leaderboard', { class_num: selectedClass }),
+        supabase.rpc('get_weekly_leaderboard', { class_num: selectedClass }),
+        supabase.rpc('get_monthly_leaderboard', { class_num: selectedClass }),
+        supabase.rpc('get_user_rank', { p_user_id: currentUserId, class_num: selectedClass })
+      ]);
 
-      if (error) throw error;
+      if (allTimeRes.error) throw allTimeRes.error;
+      if (weeklyRes.error) throw weeklyRes.error;
+      if (monthlyRes.error) throw monthlyRes.error;
 
-      setLeaderboard(data || []);
+      setAllTimeLeaderboard(allTimeRes.data || []);
+      setWeeklyLeaderboard(weeklyRes.data || []);
+      setMonthlyLeaderboard(monthlyRes.data || []);
+      
+      if (userRankRes.data && userRankRes.data.length > 0) {
+        setUserRank(userRankRes.data[0]);
+      }
     } catch (error) {
       console.error("Error fetching leaderboard:", error);
-      setLeaderboard([]);
+      setAllTimeLeaderboard([]);
+      setWeeklyLeaderboard([]);
+      setMonthlyLeaderboard([]);
+      setUserRank(null);
     } finally {
       setLoading(false);
     }
-  };
-
-  const getRankIcon = (index: number) => {
-    if (index === 0) return <Trophy className="w-6 h-6 text-yellow-500" />;
-    if (index === 1) return <Medal className="w-6 h-6 text-gray-400" />;
-    if (index === 2) return <Award className="w-6 h-6 text-amber-600" />;
-    return <span className="w-6 h-6 flex items-center justify-center font-bold text-muted-foreground">#{index + 1}</span>;
   };
 
   return (
@@ -118,43 +147,26 @@ const Leaderboard = () => {
           <div className="text-center py-12">
             <p className="text-lg text-muted-foreground">लोड हो रहा है...</p>
           </div>
-        ) : leaderboard.length === 0 ? (
-          <Card>
-            <CardContent className="py-12 text-center">
-              <Trophy className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-              <p className="text-lg text-muted-foreground">अभी तक कोई स्कोर नहीं है!</p>
-              <p className="text-sm text-muted-foreground mt-2">पहले क्विज़ खेलें।</p>
-            </CardContent>
-          </Card>
         ) : (
-          <div className="space-y-4">
-            {leaderboard.map((entry, index) => (
-              <Card key={entry.username} className={`${index < 3 ? 'border-primary/50' : ''}`}>
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      {getRankIcon(index)}
-                      <div>
-                        <CardTitle className="text-lg">{entry.username}</CardTitle>
-                        <p className="text-sm text-muted-foreground">
-                          {entry.quiz_count} क्विज़ खेला
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-primary">{entry.total_score}</div>
-                      <p className="text-xs text-muted-foreground">कुल अंक</p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">औसत स्कोर</span>
-                    <span className="text-lg font-semibold">{entry.avg_score}%</span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="space-y-6">
+            {/* User's Current Rank */}
+            {userRank && (
+              <UserRankCard
+                rank={Number(userRank.rank)}
+                username={userRank.username}
+                totalScore={Number(userRank.total_score)}
+                league={userRank.league}
+                currentStreak={userRank.current_streak}
+              />
+            )}
+
+            {/* Leaderboard Tabs */}
+            <LeaderboardTabs
+              allTimeData={allTimeLeaderboard}
+              weeklyData={weeklyLeaderboard}
+              monthlyData={monthlyLeaderboard}
+              currentUserId={currentUserId}
+            />
           </div>
         )}
       </main>
