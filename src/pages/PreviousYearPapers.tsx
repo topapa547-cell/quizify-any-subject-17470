@@ -222,6 +222,11 @@ const PreviousYearPapers = () => {
                       </CardTitle>
                       <CardDescription className="mt-2">
                         {paper.subject} - {t("कक्षा", "Class")} {paper.class_level}
+                        {paper.source && (
+                          <span className="block mt-1 text-xs">
+                            {t("स्रोत:", "Source:")} {paper.source}
+                          </span>
+                        )}
                       </CardDescription>
                     </div>
                     <FileText className="h-8 w-8 text-primary" />
@@ -239,21 +244,34 @@ const PreviousYearPapers = () => {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <div className="flex gap-2">
-                      <Button variant="default" className="flex-1" onClick={() => handleViewPDF(paper.pdf_url)}>
-                        <ExternalLink className="h-4 w-4 mr-2" />
-                        {t("देखें", "View")}
-                      </Button>
-                      <Button variant="outline" className="flex-1" onClick={() => handleDownloadPDF(paper)}>
-                        <Download className="h-4 w-4 mr-2" />
-                        {t("डाउनलोड", "Download")}
-                      </Button>
-                    </div>
-                    {paper.marking_scheme_url && (
-                      <Button variant="secondary" className="w-full" onClick={() => handleViewPDF(paper.marking_scheme_url)}>
-                        <FileText className="h-4 w-4 mr-2" />
-                        {t("मार्किंग स्कीम", "Marking Scheme")}
-                      </Button>
+                    {!paper.pdf_url ? (
+                      <div className="p-4 bg-muted rounded-lg text-center">
+                        <p className="text-sm text-muted-foreground">
+                          {t(
+                            "यह पेपर जल्द ही उपलब्ध होगा। कृपया बाद में जांचें।",
+                            "This paper will be available soon. Please check back later."
+                          )}
+                        </p>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex gap-2">
+                          <Button variant="default" className="flex-1" onClick={() => handleViewPDF(paper.pdf_url)}>
+                            <ExternalLink className="h-4 w-4 mr-2" />
+                            {t("देखें", "View")}
+                          </Button>
+                          <Button variant="outline" className="flex-1" onClick={() => handleDownloadPDF(paper)}>
+                            <Download className="h-4 w-4 mr-2" />
+                            {t("डाउनलोड", "Download")}
+                          </Button>
+                        </div>
+                        {paper.marking_scheme_url && (
+                          <Button variant="secondary" className="w-full" onClick={() => handleViewPDF(paper.marking_scheme_url)}>
+                            <FileText className="h-4 w-4 mr-2" />
+                            {t("मार्किंग स्कीम", "Marking Scheme")}
+                          </Button>
+                        )}
+                      </>
                     )}
                   </div>
                 </CardContent>
