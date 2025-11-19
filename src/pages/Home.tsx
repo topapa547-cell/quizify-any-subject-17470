@@ -10,6 +10,14 @@ import { getLeagueIcon, getLeagueName } from "@/utils/pointsCalculator";
 import BottomNav from "@/components/BottomNav";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import UserAvatar from "@/components/UserAvatar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -17,6 +25,9 @@ const Home = () => {
   const [profile, setProfile] = useState<any>(null);
   const [todayStats, setTodayStats] = useState({ quizzes: 0, accuracy: 0, points: 0 });
   const [loading, setLoading] = useState(true);
+  const [showQuizSetup, setShowQuizSetup] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState<string>('');
+  const [selectedQuestionCount, setSelectedQuestionCount] = useState<number>(10);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -70,20 +81,14 @@ const Home = () => {
   }, []);
 
   const handleSubjectClick = (subjectId: string) => {
-    navigate("/quiz", { 
-      state: { 
-        questionCount: 10,
-        subject: subjectId,
-        classLevel: profile?.class_level,
-        difficulty: 'all'
-      } 
-    });
+    setSelectedSubject(subjectId);
+    setShowQuizSetup(true);
   };
 
   const subjectGradients: Record<string, string> = {
     math: 'from-[hsl(217,91%,60%)] to-[hsl(217,91%,50%)]',
     science: 'from-[hsl(142,76%,36%)] to-[hsl(142,76%,28%)]',
-    social_science: 'from-[hsl(25,95%,53%)] to-[hsl(25,95%,43%)]',
+    social: 'from-[hsl(25,95%,53%)] to-[hsl(25,95%,43%)]',
     hindi: 'from-[hsl(271,81%,56%)] to-[hsl(271,81%,46%)]',
     english: 'from-[hsl(330,81%,60%)] to-[hsl(330,81%,50%)]',
   };
@@ -91,7 +96,7 @@ const Home = () => {
   const subjectEmojis: Record<string, string> = {
     math: '📐',
     science: '🔬',
-    social_science: '🌍',
+    social: '🌍',
     hindi: '✍️',
     english: '📚',
   };
@@ -277,6 +282,50 @@ const Home = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Quiz Setup Dialog */}
+      <Dialog open={showQuizSetup} onOpenChange={setShowQuizSetup}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">🎯 Quiz Setup</DialogTitle>
+            <DialogDescription className="text-base">
+              {subjects.find(s => s.id === selectedSubject)?.name} के लिए प्रश्नों की संख्या चुनें
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid grid-cols-2 gap-3 my-4">
+            {[10, 20, 30, 50].map((count) => (
+              <Button
+                key={count}
+                variant={selectedQuestionCount === count ? "default" : "outline"}
+                onClick={() => setSelectedQuestionCount(count)}
+                className="h-16 text-lg font-semibold"
+              >
+                {count} प्रश्न
+              </Button>
+            ))}
+          </div>
+
+          <DialogFooter>
+            <Button 
+              onClick={() => {
+                navigate("/quiz", { 
+                  state: { 
+                    questionCount: selectedQuestionCount,
+                    subject: selectedSubject,
+                    classLevel: profile?.class_level,
+                    difficulty: 'all'
+                  } 
+                });
+                setShowQuizSetup(false);
+              }}
+              className="w-full h-12 text-base font-semibold"
+            >
+              🚀 Quiz शुरू करें
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <BottomNav />
     </div>
