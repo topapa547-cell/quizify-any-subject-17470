@@ -41,17 +41,22 @@ const Profile = () => {
       setUser(session.user);
 
       // Fetch profile
-      const { data: profileData } = await supabase
+      const { data: profileData, error: profileError } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", session.user.id)
-        .single();
+        .maybeSingle();
       
       if (profileData) {
         setProfile(profileData);
         setEditUsername(profileData.username || "");
         setEditClassLevel(profileData.class_level || 10);
         setEditLanguage(profileData.preferred_language || "hindi");
+      } else if (!profileError || profileError.code === 'PGRST116') {
+        // Profile doesn't exist, set defaults
+        setEditUsername(session.user.email?.split('@')[0] || "");
+        setEditClassLevel(10);
+        setEditLanguage("hindi");
       }
 
       // Fetch stats
@@ -108,6 +113,7 @@ const Profile = () => {
 
     try {
       const updateData = {
+        id: user.id,
         username: editUsername.trim(),
         class_level: editClassLevel,
         preferred_language: editLanguage,
@@ -121,8 +127,7 @@ const Profile = () => {
 
       const { data, error } = await supabase
         .from("profiles")
-        .update(updateData)
-        .eq("id", user.id)
+        .upsert(updateData, { onConflict: 'id' })
         .select()
         .single();
 
