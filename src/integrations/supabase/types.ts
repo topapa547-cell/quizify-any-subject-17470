@@ -44,6 +44,87 @@ export type Database = {
         }
         Relationships: []
       }
+      downloaded_questions: {
+        Row: {
+          downloaded_at: string | null
+          id: string
+          question_data: Json | null
+          question_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          downloaded_at?: string | null
+          id?: string
+          question_data?: Json | null
+          question_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          downloaded_at?: string | null
+          id?: string
+          question_data?: Json | null
+          question_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "downloaded_questions_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "long_questions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "downloaded_questions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      long_questions: {
+        Row: {
+          answer_text: string
+          answer_text_english: string | null
+          chapter: string | null
+          class_level: number
+          created_at: string | null
+          difficulty: string | null
+          id: string
+          marks: number | null
+          question_text: string
+          question_text_english: string | null
+          subject: string
+        }
+        Insert: {
+          answer_text: string
+          answer_text_english?: string | null
+          chapter?: string | null
+          class_level: number
+          created_at?: string | null
+          difficulty?: string | null
+          id?: string
+          marks?: number | null
+          question_text: string
+          question_text_english?: string | null
+          subject: string
+        }
+        Update: {
+          answer_text?: string
+          answer_text_english?: string | null
+          chapter?: string | null
+          class_level?: number
+          created_at?: string | null
+          difficulty?: string | null
+          id?: string
+          marks?: number | null
+          question_text?: string
+          question_text_english?: string | null
+          subject?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_style: string | null
@@ -55,6 +136,7 @@ export type Database = {
           league: string | null
           league_points: number | null
           longest_streak: number | null
+          preferred_language: string | null
           streak_freeze_available: boolean | null
           updated_at: string
           username: string
@@ -69,6 +151,7 @@ export type Database = {
           league?: string | null
           league_points?: number | null
           longest_streak?: number | null
+          preferred_language?: string | null
           streak_freeze_available?: boolean | null
           updated_at?: string
           username: string
@@ -83,6 +166,7 @@ export type Database = {
           league?: string | null
           league_points?: number | null
           longest_streak?: number | null
+          preferred_language?: string | null
           streak_freeze_available?: boolean | null
           updated_at?: string
           username?: string
