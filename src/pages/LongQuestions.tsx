@@ -8,6 +8,7 @@ import { generateLongQuestionPDF, downloadPDF, LongQuestion } from "@/utils/pdfG
 import { saveDownload } from "@/utils/offlineStorage";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import type { Json } from "@/integrations/supabase/types";
 import { mathLongQuestions } from "@/data/longQuestions/mathLongQuestions";
 import { scienceLongQuestions } from "@/data/longQuestions/scienceLongQuestions";
 import { socialScienceLongQuestions } from "@/data/longQuestions/socialScienceLongQuestions";
@@ -68,11 +69,11 @@ const LongQuestions = () => {
       await saveDownload(question.id, question, pdfBlob);
       
       if (userId) {
-        await supabase.from('downloaded_questions').insert({
+        await supabase.from('downloaded_questions').insert([{
           user_id: userId,
           question_id: question.id,
-          question_data: question,
-        });
+          question_data: question as unknown as Json,
+        }]);
       }
 
       downloadPDF(pdf, `${question.subject}-${question.id}`);
