@@ -169,6 +169,7 @@ const PreviousYearPapers = () => {
                 <Select value={classLevel} onValueChange={setClassLevel}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="9">{t("कक्षा 9", "Class 9")}</SelectItem>
                     <SelectItem value="10">{t("कक्षा 10", "Class 10")}</SelectItem>
                   </SelectContent>
                 </Select>
