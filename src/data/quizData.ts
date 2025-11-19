@@ -34,7 +34,8 @@ export const subjects: Subject[] = [
   { id: "science", name: "विज्ञान", icon: "🔬" },
   { id: "social", name: "सामाजिक विज्ञान", icon: "🌍" },
   { id: "english", name: "English", icon: "📖" },
-  { id: "hindi", name: "हिंदी", icon: "📝" }
+  { id: "hindi", name: "हिंदी", icon: "📝" },
+  { id: "it_ites", name: "IT/ITes", icon: "💻" }
 ];
 
 export const classes = [9, 10, 11, 12];
@@ -44,13 +45,15 @@ import { scienceQuestions } from './questions/scienceQuestions';
 import { socialScienceQuestions } from './questions/socialScienceQuestions';
 import { englishQuestions } from './questions/englishQuestions';
 import { hindiQuestions } from './questions/hindiQuestions';
+import { itItesQuestions } from './questions/itItesQuestions';
 
 export const questionBank: QuizQuestion[] = [
   ...mathQuestions,
   ...scienceQuestions,
   ...socialScienceQuestions,
   ...englishQuestions,
-  ...hindiQuestions
+  ...hindiQuestions,
+  ...itItesQuestions
 ];
 
 export const questionsBySubject: Record<string, QuizQuestion[]> = {
@@ -59,7 +62,8 @@ export const questionsBySubject: Record<string, QuizQuestion[]> = {
   science: scienceQuestions,
   social: socialScienceQuestions,
   english: englishQuestions,
-  hindi: hindiQuestions
+  hindi: hindiQuestions,
+  it_ites: itItesQuestions
 };
 
 // Fisher-Yates shuffle algorithm for true randomization

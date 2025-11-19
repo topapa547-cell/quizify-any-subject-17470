@@ -91,6 +91,7 @@ const Home = () => {
     social: 'from-[hsl(25,95%,53%)] to-[hsl(25,95%,43%)]',
     hindi: 'from-[hsl(271,81%,56%)] to-[hsl(271,81%,46%)]',
     english: 'from-[hsl(330,81%,60%)] to-[hsl(330,81%,50%)]',
+    it_ites: 'from-[hsl(195,91%,60%)] to-[hsl(195,91%,50%)]',
   };
 
   const subjectEmojis: Record<string, string> = {
@@ -99,6 +100,7 @@ const Home = () => {
     social: '🌍',
     hindi: '✍️',
     english: '📚',
+    it_ites: '💻',
   };
 
   if (loading) {
