@@ -44,6 +44,83 @@ export type Database = {
         }
         Relationships: []
       }
+      coupon_codes: {
+        Row: {
+          code: string
+          created_at: string | null
+          current_uses: number | null
+          description: string | null
+          discount_percent: number | null
+          duration_months: number
+          id: string
+          max_uses: number | null
+          plan_type: string
+          status: string | null
+          valid_from: string | null
+          valid_until: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string | null
+          current_uses?: number | null
+          description?: string | null
+          discount_percent?: number | null
+          duration_months?: number
+          id?: string
+          max_uses?: number | null
+          plan_type?: string
+          status?: string | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string | null
+          current_uses?: number | null
+          description?: string | null
+          discount_percent?: number | null
+          duration_months?: number
+          id?: string
+          max_uses?: number | null
+          plan_type?: string
+          status?: string | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Relationships: []
+      }
+      coupon_usage: {
+        Row: {
+          coupon_code: string
+          id: string
+          subscription_id: string | null
+          used_at: string | null
+          user_id: string
+        }
+        Insert: {
+          coupon_code: string
+          id?: string
+          subscription_id?: string | null
+          used_at?: string | null
+          user_id: string
+        }
+        Update: {
+          coupon_code?: string
+          id?: string
+          subscription_id?: string | null
+          used_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coupon_usage_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       daily_challenges: {
         Row: {
           answered_questions: number
@@ -386,6 +463,57 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          amount_paid: number
+          coupon_code: string | null
+          created_at: string | null
+          discount_applied: number | null
+          end_date: string | null
+          features: Json | null
+          id: string
+          original_amount: number
+          plan_name: string
+          plan_type: string
+          start_date: string | null
+          status: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          amount_paid?: number
+          coupon_code?: string | null
+          created_at?: string | null
+          discount_applied?: number | null
+          end_date?: string | null
+          features?: Json | null
+          id?: string
+          original_amount?: number
+          plan_name: string
+          plan_type: string
+          start_date?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          amount_paid?: number
+          coupon_code?: string | null
+          created_at?: string | null
+          discount_applied?: number | null
+          end_date?: string | null
+          features?: Json | null
+          id?: string
+          original_amount?: number
+          plan_name?: string
+          plan_type?: string
+          start_date?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -484,6 +612,14 @@ export type Database = {
           current_streak: number
           longest_streak: number
           streak_maintained: boolean
+        }[]
+      }
+      validate_and_apply_coupon: {
+        Args: { p_code: string; p_user_id: string }
+        Returns: {
+          message: string
+          subscription_id: string
+          success: boolean
         }[]
       }
     }
