@@ -7,6 +7,7 @@ import { QuizQuestion } from "@/data/quizData";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { checkAndAwardAchievements } from "@/utils/achievements";
+import HamburgerMenu from "@/components/HamburgerMenu";
 
 interface LocationState {
   score: number;
@@ -129,6 +130,21 @@ const Results = () => {
   return (
     <div className="min-h-screen bg-background p-4 py-8">
       <div className="max-w-4xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <Trophy className="w-8 h-8 text-primary" />
+            <h2 className="text-2xl font-bold">परिणाम</h2>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button onClick={() => navigate("/")} variant="outline" size="sm">
+              <Home className="w-4 h-4 mr-2" />
+              होम
+            </Button>
+            <HamburgerMenu />
+          </div>
+        </div>
+        
         {/* Main Results Card */}
         <Card className="p-8 shadow-[var(--card-shadow)] border-border">
         <div className="text-center space-y-6">

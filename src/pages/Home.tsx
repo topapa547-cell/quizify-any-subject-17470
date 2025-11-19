@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { GraduationCap, BookOpen, Trophy, Sparkles, LogOut } from "lucide-react";
+import { GraduationCap, BookOpen, Trophy, Sparkles } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
@@ -10,6 +10,7 @@ import { subjects } from "@/data/quizData";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import BottomNav from "@/components/BottomNav";
+import HamburgerMenu from "@/components/HamburgerMenu";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -55,12 +56,6 @@ const Home = () => {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    toast({ title: "Logged out successfully" });
-    navigate("/auth");
-  };
-
   const questionOptions = [5, 10, 15, 20, 25, 30, 40, 50];
 
   const handleStartQuiz = () => {
@@ -84,10 +79,7 @@ const Home = () => {
               क्विज़ ऐप
             </h1>
           </div>
-          <Button onClick={handleLogout} variant="outline" size="sm" className="gap-2">
-            <LogOut className="w-4 h-4" />
-            <span className="hidden sm:inline">लॉगआउट</span>
-          </Button>
+          <HamburgerMenu />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">

@@ -3,8 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Trophy, Target, TrendingUp, LogOut, Award } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Trophy, Target, TrendingUp, Award, Edit, X, Save } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import BottomNav from "@/components/BottomNav";
+import HamburgerMenu from "@/components/HamburgerMenu";
 import { toast } from "@/hooks/use-toast";
 import { getUserAchievements } from "@/utils/achievements";
 import LeagueCard from "@/components/LeagueCard";
@@ -22,6 +26,10 @@ const Profile = () => {
     bestScore: 0,
   });
   const [achievements, setAchievements] = useState<any[]>([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editUsername, setEditUsername] = useState("");
+  const [editClassLevel, setEditClassLevel] = useState<number>(10);
+  const [editLanguage, setEditLanguage] = useState("hindi");
 
   useEffect(() => {
     const checkUser = async () => {
@@ -41,6 +49,9 @@ const Profile = () => {
       
       if (profileData) {
         setProfile(profileData);
+        setEditUsername(profileData.username || "");
+        setEditClassLevel(profileData.class_level || 10);
+        setEditLanguage(profileData.preferred_language || "hindi");
       }
 
       // Fetch stats
@@ -66,10 +77,51 @@ const Profile = () => {
     checkUser();
   }, [navigate]);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    toast({ title: "Logged out successfully" });
-    navigate("/");
+  const handleUpdateProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!editUsername.trim() || editUsername.length < 3) {
+      toast({
+        title: "त्रुटि",
+        description: "Username कम से कम 3 अक्षर का होना चाहिए",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!user?.id) return;
+    
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        username: editUsername.trim(),
+        class_level: editClassLevel,
+        preferred_language: editLanguage,
+      })
+      .eq('id', user.id);
+    
+    if (error) {
+      toast({
+        title: "अपडेट में त्रुटि",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "सफल!",
+        description: "प्रोफाइल अपडेट हो गया है",
+      });
+      setIsEditing(false);
+      // Refresh profile
+      const { data: profileData } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+      if (profileData) {
+        setProfile(profileData);
+      }
+    }
   };
 
   return (
@@ -77,10 +129,7 @@ const Profile = () => {
       <header className="bg-gradient-to-r from-primary via-primary to-primary/90 text-primary-foreground py-8 shadow-lg">
         <div className="container mx-auto px-4">
           <div className="flex justify-end mb-4">
-            <Button onClick={handleLogout} variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10">
-              <LogOut className="w-5 h-5 mr-2" />
-              Logout
-            </Button>
+            <HamburgerMenu />
           </div>
           <div className="text-center">
             <UserAvatar 
@@ -138,24 +187,95 @@ const Profile = () => {
           </Card>
         </div>
 
-        <Card className="mt-6 p-6">
+        {/* Account Information */}
+        <Card className="shadow-[var(--card-shadow)] border-border">
           <CardHeader>
-            <CardTitle>अकाउंट जानकारी</CardTitle>
+            <CardTitle className="text-foreground flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Trophy className="w-5 h-5 text-primary" />
+                खाता जानकारी
+              </div>
+              {!isEditing && (
+                <Button onClick={() => setIsEditing(true)} size="sm" variant="outline">
+                  <Edit className="w-4 h-4 mr-2" />
+                  संपादित करें
+                </Button>
+              )}
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div>
-              <p className="text-sm text-muted-foreground">Username</p>
-              <p className="text-lg font-medium">{profile?.username || "N/A"}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Email</p>
-              <p className="text-lg font-medium">{user?.email}</p>
-            </div>
-            {profile?.class_level && (
-              <div>
-                <p className="text-sm text-muted-foreground">कक्षा</p>
-                <p className="text-lg font-medium">कक्षा {profile.class_level}</p>
-              </div>
+            {!isEditing ? (
+              <>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Username:</span>
+                  <span className="font-semibold text-foreground">{profile?.username || "N/A"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Email:</span>
+                  <span className="font-semibold text-foreground">{user?.email || "N/A"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">कक्षा:</span>
+                  <span className="font-semibold text-foreground">कक्षा {profile?.class_level || "N/A"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">भाषा:</span>
+                  <span className="font-semibold text-foreground">{profile?.preferred_language === "hindi" ? "हिंदी" : "English"}</span>
+                </div>
+              </>
+            ) : (
+              <form onSubmit={handleUpdateProfile} className="space-y-4">
+                <div>
+                  <Label htmlFor="username">Username</Label>
+                  <Input
+                    id="username"
+                    value={editUsername}
+                    onChange={(e) => setEditUsername(e.target.value)}
+                    required
+                    minLength={3}
+                    className="mt-1"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="class">कक्षा</Label>
+                  <Select value={editClassLevel.toString()} onValueChange={(val) => setEditClassLevel(Number(val))}>
+                    <SelectTrigger className="mt-1">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="9">कक्षा 9</SelectItem>
+                      <SelectItem value="10">कक्षा 10</SelectItem>
+                      <SelectItem value="11">कक्षा 11</SelectItem>
+                      <SelectItem value="12">कक्षा 12</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div>
+                  <Label htmlFor="language">भाषा</Label>
+                  <Select value={editLanguage} onValueChange={setEditLanguage}>
+                    <SelectTrigger className="mt-1">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="hindi">हिंदी</SelectItem>
+                      <SelectItem value="english">English</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="flex gap-2">
+                  <Button type="submit" size="sm">
+                    <Save className="w-4 h-4 mr-2" />
+                    सहेजें
+                  </Button>
+                  <Button type="button" variant="outline" size="sm" onClick={() => setIsEditing(false)}>
+                    <X className="w-4 h-4 mr-2" />
+                    रद्द करें
+                  </Button>
+                </div>
+              </form>
             )}
           </CardContent>
         </Card>

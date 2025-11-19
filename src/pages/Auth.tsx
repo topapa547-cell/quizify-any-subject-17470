@@ -24,7 +24,18 @@ const Auth = () => {
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate("/");
+        // Check if profile setup is complete
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('username, class_level')
+          .eq('id', session.user.id)
+          .single();
+        
+        if (!profile?.username || !profile?.class_level) {
+          navigate("/setup-profile");
+        } else {
+          navigate("/");
+        }
       }
     };
     checkUser();
