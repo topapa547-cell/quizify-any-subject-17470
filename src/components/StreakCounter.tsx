@@ -35,7 +35,7 @@ const StreakCounter = ({ currentStreak, longestStreak }: StreakCounterProps) => 
         {currentStreak > 7 && (
           <div className="mt-3 pt-3 border-t border-orange-500/20">
             <p className="text-xs text-center text-orange-600 font-semibold">
-              🎉 +20% Bonus Points सक्रिय है!
+              🎉 +20% Bonus सक्रिय है! (सभी Quiz Points पर)
             </p>
           </div>
         )}
