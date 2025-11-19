@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import BottomNav from "@/components/BottomNav";
+import HelpChatAssistant from "@/components/HelpChatAssistant";
 
 const Help = () => {
   const { t } = useLanguage();
@@ -74,6 +75,8 @@ const Help = () => {
             </Accordion>
           </CardContent>
         </Card>
+
+        <HelpChatAssistant />
       </div>
       <BottomNav />
     </div>
