@@ -10,6 +10,7 @@ import { GraduationCap } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { getRandomAvatarStyle } from "@/utils/avatarGenerator";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -64,11 +65,17 @@ const Auth = () => {
       return;
     }
 
-    // Update profile with class level
+    // Get random avatar style for new user
+    const avatarStyle = getRandomAvatarStyle();
+
+    // Update profile with class level and avatar style
     if (data.user) {
       const { error: profileError } = await supabase
         .from('profiles')
-        .update({ class_level: classLevel })
+        .update({ 
+          class_level: classLevel,
+          avatar_style: avatarStyle
+        })
         .eq('id', data.user.id);
 
       if (profileError) {

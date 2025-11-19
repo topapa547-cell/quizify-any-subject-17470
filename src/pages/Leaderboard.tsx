@@ -16,6 +16,7 @@ interface LeaderboardEntry {
   league: string;
   current_streak: number;
   user_id: string;
+  avatar_style?: string;
 }
 
 interface UserRank {
@@ -26,6 +27,8 @@ interface UserRank {
   avg_score: number;
   league: string;
   current_streak: number;
+  avatar_style?: string;
+  user_id?: string;
 }
 
 const Leaderboard = () => {
@@ -48,7 +51,7 @@ const Leaderboard = () => {
         setCurrentUserId(user.id);
         const { data: profile } = await supabase
           .from("profiles")
-          .select("class_level")
+          .select("class_level, avatar_style")
           .eq("id", user.id)
           .single();
         
@@ -76,24 +79,48 @@ const Leaderboard = () => {
         return;
       }
 
-      // Fetch all leaderboard types in parallel
-      const [allTimeRes, weeklyRes, monthlyRes, userRankRes] = await Promise.all([
+      // Fetch all leaderboard types and user profile in parallel
+      const [allTimeRes, weeklyRes, monthlyRes, userRankRes, profileRes] = await Promise.all([
         supabase.rpc('get_class_leaderboard', { class_num: selectedClass }),
         supabase.rpc('get_weekly_leaderboard', { class_num: selectedClass }),
         supabase.rpc('get_monthly_leaderboard', { class_num: selectedClass }),
-        supabase.rpc('get_user_rank', { p_user_id: currentUserId, class_num: selectedClass })
+        supabase.rpc('get_user_rank', { p_user_id: currentUserId, class_num: selectedClass }),
+        supabase.from('profiles').select('avatar_style').eq('id', currentUserId).single()
       ]);
 
       if (allTimeRes.error) throw allTimeRes.error;
       if (weeklyRes.error) throw weeklyRes.error;
       if (monthlyRes.error) throw monthlyRes.error;
 
-      setAllTimeLeaderboard(allTimeRes.data || []);
-      setWeeklyLeaderboard(weeklyRes.data || []);
-      setMonthlyLeaderboard(monthlyRes.data || []);
+      // Fetch avatar styles for all users in leaderboards
+      const allUserIds = new Set<string>();
+      [...(allTimeRes.data || []), ...(weeklyRes.data || []), ...(monthlyRes.data || [])].forEach((entry: any) => {
+        if (entry.user_id) allUserIds.add(entry.user_id);
+      });
+
+      const { data: avatarData } = await supabase
+        .from('profiles')
+        .select('id, avatar_style')
+        .in('id', Array.from(allUserIds));
+
+      const avatarMap = new Map(avatarData?.map(p => [p.id, p.avatar_style]) || []);
+
+      // Add avatar styles to leaderboard data
+      const addAvatars = (data: any[]) => data.map(entry => ({
+        ...entry,
+        avatar_style: avatarMap.get(entry.user_id)
+      }));
+
+      setAllTimeLeaderboard(addAvatars(allTimeRes.data || []));
+      setWeeklyLeaderboard(addAvatars(weeklyRes.data || []));
+      setMonthlyLeaderboard(addAvatars(monthlyRes.data || []));
       
       if (userRankRes.data && userRankRes.data.length > 0) {
-        setUserRank(userRankRes.data[0]);
+        setUserRank({
+          ...userRankRes.data[0],
+          avatar_style: profileRes.data?.avatar_style,
+          user_id: currentUserId
+        });
       }
     } catch (error) {
       console.error("Error fetching leaderboard:", error);
@@ -157,6 +184,8 @@ const Leaderboard = () => {
                 totalScore={Number(userRank.total_score)}
                 league={userRank.league}
                 currentStreak={userRank.current_streak}
+                userId={userRank.user_id || ''}
+                avatarStyle={userRank.avatar_style}
               />
             )}
 

@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Trophy } from "lucide-react";
 import { getLeagueIcon } from "@/utils/pointsCalculator";
+import UserAvatar from "@/components/UserAvatar";
 
 interface UserRankCardProps {
   rank: number;
@@ -8,16 +9,26 @@ interface UserRankCardProps {
   totalScore: number;
   league: string;
   currentStreak: number;
+  userId: string;
+  avatarStyle?: string;
 }
 
-const UserRankCard = ({ rank, username, totalScore, league, currentStreak }: UserRankCardProps) => {
+const UserRankCard = ({ rank, username, totalScore, league, currentStreak, userId, avatarStyle }: UserRankCardProps) => {
   return (
     <Card className="bg-gradient-to-r from-primary/20 to-primary/10 border-primary/50 sticky top-0 z-10">
       <CardContent className="py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-primary text-primary-foreground rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg">
-              #{rank}
+            <div className="relative">
+              <UserAvatar 
+                userId={userId}
+                avatarStyle={avatarStyle}
+                size="md"
+                fallbackText={username.charAt(0)}
+              />
+              <div className="absolute -top-1 -right-1 bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                #{rank}
+              </div>
             </div>
             <div>
               <div className="flex items-center gap-2">

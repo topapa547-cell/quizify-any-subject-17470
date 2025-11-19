@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trophy, Medal, Award } from "lucide-react";
 import { getLeagueIcon } from "@/utils/pointsCalculator";
+import UserAvatar from "@/components/UserAvatar";
 
 interface LeaderboardEntry {
   username: string;
@@ -11,6 +12,7 @@ interface LeaderboardEntry {
   league: string;
   current_streak: number;
   user_id: string;
+  avatar_style?: string;
 }
 
 interface LeaderboardTabsProps {
@@ -53,7 +55,26 @@ const LeaderboardTabs = ({ allTimeData, weeklyData, monthlyData, currentUserId }
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    {getRankIcon(index)}
+                    <div className="relative">
+                      <UserAvatar 
+                        userId={entry.user_id}
+                        avatarStyle={entry.avatar_style}
+                        size={index < 3 ? "lg" : "md"}
+                        fallbackText={entry.username.charAt(0)}
+                      />
+                      {index < 3 && (
+                        <div className="absolute -top-1 -right-1">
+                          {index === 0 && <Trophy className="w-5 h-5 text-yellow-500" />}
+                          {index === 1 && <Medal className="w-5 h-5 text-gray-400" />}
+                          {index === 2 && <Award className="w-5 h-5 text-amber-600" />}
+                        </div>
+                      )}
+                      {index >= 3 && (
+                        <div className="absolute -bottom-1 -right-1 bg-muted text-muted-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                          {index + 1}
+                        </div>
+                      )}
+                    </div>
                     <div>
                       <CardTitle className="text-lg flex items-center gap-2">
                         {entry.username}
