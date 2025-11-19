@@ -46,6 +46,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_style: string | null
           class_level: number | null
           created_at: string
           current_streak: number | null
@@ -59,6 +60,7 @@ export type Database = {
           username: string
         }
         Insert: {
+          avatar_style?: string | null
           class_level?: number | null
           created_at?: string
           current_streak?: number | null
@@ -72,6 +74,7 @@ export type Database = {
           username: string
         }
         Update: {
+          avatar_style?: string | null
           class_level?: number | null
           created_at?: string
           current_streak?: number | null

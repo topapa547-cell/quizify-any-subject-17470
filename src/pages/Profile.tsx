@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { User, Trophy, Target, TrendingUp, LogOut, Award } from "lucide-react";
+import { Trophy, Target, TrendingUp, LogOut, Award } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
 import { toast } from "@/hooks/use-toast";
 import { getUserAchievements } from "@/utils/achievements";
 import LeagueCard from "@/components/LeagueCard";
 import StreakCounter from "@/components/StreakCounter";
+import UserAvatar from "@/components/UserAvatar";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -82,7 +83,13 @@ const Profile = () => {
             </Button>
           </div>
           <div className="text-center">
-            <User className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4" />
+            <UserAvatar 
+              userId={user?.id || ''}
+              avatarStyle={profile?.avatar_style}
+              size="xl"
+              fallbackText={profile?.username?.charAt(0) || "U"}
+              className="mx-auto mb-4 border-4 border-primary-foreground/20"
+            />
             <h1 className="text-3xl md:text-4xl font-bold mb-2">प्रोफाइल</h1>
             <p className="text-sm md:text-base text-primary-foreground/90">
               {profile?.username || user?.email}
