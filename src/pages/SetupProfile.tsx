@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { GraduationCap } from "lucide-react";
+import { SubscriptionDialog } from "@/components/SubscriptionDialog";
 
 const SetupProfile = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const SetupProfile = () => {
   const [classLevel, setClassLevel] = useState<number>(10);
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [showSubscriptionDialog, setShowSubscriptionDialog] = useState(false);
 
   useEffect(() => {
     const checkProfile = async () => {
@@ -76,7 +78,20 @@ const SetupProfile = () => {
         title: "स्वागत है!",
         description: "आपकी प्रोफाइल सेटअप पूरी हो गई है",
       });
-      navigate("/");
+      
+      // Check subscription status
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('status')
+        .eq('user_id', userId)
+        .eq('status', 'active')
+        .single();
+
+      if (!subscription) {
+        setShowSubscriptionDialog(true);
+      } else {
+        navigate('/');
+      }
     }
   };
 
@@ -133,6 +148,13 @@ const SetupProfile = () => {
           </form>
         </CardContent>
       </Card>
+      <SubscriptionDialog 
+        open={showSubscriptionDialog} 
+        onClose={() => {
+          setShowSubscriptionDialog(false);
+          navigate('/');
+        }} 
+      />
     </div>
   );
 };

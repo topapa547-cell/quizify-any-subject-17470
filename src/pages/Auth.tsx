@@ -11,6 +11,7 @@ import { toast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { getRandomAvatarStyle } from "@/utils/avatarGenerator";
+import { SubscriptionDialog } from "@/components/SubscriptionDialog";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [classLevel, setClassLevel] = useState<number>(9);
+  const [showSubscriptionDialog, setShowSubscriptionDialog] = useState(false);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -99,7 +101,22 @@ const Auth = () => {
       title: "साइनअप सफल!",
       description: `कक्षा ${classLevel} में आपका स्वागत है।`,
     });
-    navigate("/");
+    
+    // Check subscription status before navigating
+    if (data.user) {
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('status')
+        .eq('user_id', data.user.id)
+        .eq('status', 'active')
+        .single();
+
+      if (!subscription) {
+        setShowSubscriptionDialog(true);
+      } else {
+        navigate('/');
+      }
+    }
   };
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -124,7 +141,23 @@ const Auth = () => {
         title: "लॉगिन सफल!",
         description: "आपका स्वागत है।",
       });
-      navigate("/");
+      
+      // Check subscription status
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: subscription } = await supabase
+          .from('subscriptions')
+          .select('status')
+          .eq('user_id', user.id)
+          .eq('status', 'active')
+          .single();
+
+        if (!subscription) {
+          setShowSubscriptionDialog(true);
+        } else {
+          navigate('/');
+        }
+      }
     }
   };
 
@@ -321,6 +354,13 @@ const Auth = () => {
           </Tabs>
         </CardContent>
       </Card>
+      <SubscriptionDialog 
+        open={showSubscriptionDialog} 
+        onClose={() => {
+          setShowSubscriptionDialog(false);
+          navigate('/');
+        }} 
+      />
     </div>
   );
 };
