@@ -92,10 +92,14 @@ export type Database = {
           created_at: string | null
           difficulty: string | null
           id: string
+          lesson_number: number | null
           marks: number | null
+          ncert_page_number: number | null
           question_text: string
           question_text_english: string | null
+          question_type: string | null
           subject: string
+          unit_name: string | null
         }
         Insert: {
           answer_text: string
@@ -105,10 +109,14 @@ export type Database = {
           created_at?: string | null
           difficulty?: string | null
           id?: string
+          lesson_number?: number | null
           marks?: number | null
+          ncert_page_number?: number | null
           question_text: string
           question_text_english?: string | null
+          question_type?: string | null
           subject: string
+          unit_name?: string | null
         }
         Update: {
           answer_text?: string
@@ -118,9 +126,70 @@ export type Database = {
           created_at?: string | null
           difficulty?: string | null
           id?: string
+          lesson_number?: number | null
           marks?: number | null
+          ncert_page_number?: number | null
           question_text?: string
           question_text_english?: string | null
+          question_type?: string | null
+          subject?: string
+          unit_name?: string | null
+        }
+        Relationships: []
+      }
+      ncert_solutions: {
+        Row: {
+          chapter_name: string
+          chapter_name_english: string | null
+          chapter_number: number
+          class_level: number
+          created_at: string | null
+          difficulty: string | null
+          exercise_number: string
+          id: string
+          marks: number | null
+          ncert_page_number: number | null
+          question_number: string
+          question_text: string
+          question_text_english: string | null
+          solution_text: string
+          solution_text_english: string | null
+          subject: string
+        }
+        Insert: {
+          chapter_name: string
+          chapter_name_english?: string | null
+          chapter_number: number
+          class_level: number
+          created_at?: string | null
+          difficulty?: string | null
+          exercise_number: string
+          id?: string
+          marks?: number | null
+          ncert_page_number?: number | null
+          question_number: string
+          question_text: string
+          question_text_english?: string | null
+          solution_text: string
+          solution_text_english?: string | null
+          subject: string
+        }
+        Update: {
+          chapter_name?: string
+          chapter_name_english?: string | null
+          chapter_number?: number
+          class_level?: number
+          created_at?: string | null
+          difficulty?: string | null
+          exercise_number?: string
+          id?: string
+          marks?: number | null
+          ncert_page_number?: number | null
+          question_number?: string
+          question_text?: string
+          question_text_english?: string | null
+          solution_text?: string
+          solution_text_english?: string | null
           subject?: string
         }
         Relationships: []

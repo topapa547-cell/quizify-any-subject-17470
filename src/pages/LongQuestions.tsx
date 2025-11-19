@@ -25,6 +25,7 @@ const LongQuestions = () => {
   const [selectedSubject, setSelectedSubject] = useState<string>("all");
   const [selectedClass, setSelectedClass] = useState<string>("all");
   const [selectedMarks, setSelectedMarks] = useState<string>("all");
+  const [selectedChapter, setSelectedChapter] = useState<string>("all");
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -58,8 +59,12 @@ const LongQuestions = () => {
       filtered = filtered.filter((q) => q.marks === parseInt(selectedMarks));
     }
 
+    if (selectedChapter !== "all") {
+      filtered = filtered.filter((q) => q.chapter === selectedChapter);
+    }
+
     setFilteredQuestions(filtered);
-  }, [selectedSubject, selectedClass, selectedMarks, questions]);
+  }, [selectedSubject, selectedClass, selectedMarks, selectedChapter, questions]);
 
   const handleDownload = async (question: LongQuestion) => {
     try {
@@ -104,8 +109,8 @@ const LongQuestions = () => {
             <CardTitle>{t("फ़िल्टर", "Filters")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Select value={selectedSubject} onValueChange={setSelectedSubject}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Select value={selectedSubject} onValueChange={(val) => { setSelectedSubject(val); setSelectedChapter("all"); }}>
                 <SelectTrigger>
                   <SelectValue placeholder={t("विषय चुनें", "Select Subject")} />
                 </SelectTrigger>
@@ -127,6 +132,27 @@ const LongQuestions = () => {
                   <SelectItem value="all">{t("सभी कक्षाएं", "All Classes")}</SelectItem>
                   <SelectItem value="9">{t("कक्षा 9", "Class 9")}</SelectItem>
                   <SelectItem value="10">{t("कक्षा 10", "Class 10")}</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select value={selectedChapter} onValueChange={setSelectedChapter}>
+                <SelectTrigger>
+                  <SelectValue placeholder={t("अध्याय चुनें", "Select Chapter")} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">{t("सभी अध्याय", "All Chapters")}</SelectItem>
+                  {Array.from(new Set(
+                    questions
+                      .filter(q => 
+                        (selectedSubject === "all" || q.subject === selectedSubject) &&
+                        (selectedClass === "all" || q.class_level === parseInt(selectedClass))
+                      )
+                      .map(q => q.chapter)
+                  )).sort().map(chapter => (
+                    <SelectItem key={chapter} value={chapter}>
+                      {chapter}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 

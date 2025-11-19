@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, BookOpen, Download, HelpCircle, LogOut } from "lucide-react";
+import { Menu, BookOpen, Download, HelpCircle, LogOut, BookOpenCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -41,15 +41,24 @@ const HamburgerMenu = () => {
           <BookOpen className="mr-2 h-4 w-4" />
           <span>{t("लंबे उत्तर वाले प्रश्न", "Long Answer Questions")}</span>
         </DropdownMenuItem>
+        
+        <DropdownMenuItem onClick={() => { navigate("/ncert-solutions"); setOpen(false); }}>
+          <BookOpenCheck className="mr-2 h-4 w-4" />
+          <span>{t("NCERT समाधान", "NCERT Solutions")}</span>
+        </DropdownMenuItem>
+        
         <DropdownMenuItem onClick={() => { navigate("/downloads"); setOpen(false); }}>
           <Download className="mr-2 h-4 w-4" />
           <span>{t("डाउनलोड किए गए प्रश्न", "Downloaded Questions")}</span>
         </DropdownMenuItem>
+        
         <DropdownMenuItem onClick={() => { navigate("/help"); setOpen(false); }}>
           <HelpCircle className="mr-2 h-4 w-4" />
           <span>{t("सहायता", "Help")}</span>
         </DropdownMenuItem>
+        
         <DropdownMenuSeparator />
+        
         <DropdownMenuItem onClick={handleLogout} className="text-destructive">
           <LogOut className="mr-2 h-4 w-4" />
           <span>{t("लॉगआउट", "Logout")}</span>
