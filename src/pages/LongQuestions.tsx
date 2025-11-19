@@ -14,6 +14,7 @@ import { scienceLongQuestions } from "@/data/longQuestions/scienceLongQuestions"
 import { socialScienceLongQuestions } from "@/data/longQuestions/socialScienceLongQuestions";
 import { englishLongQuestions } from "@/data/longQuestions/englishLongQuestions";
 import { hindiLongQuestions } from "@/data/longQuestions/hindiLongQuestions";
+import { itItesLongQuestions } from "@/data/longQuestions/itItesLongQuestions";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import BottomNav from "@/components/BottomNav";
 
@@ -39,6 +40,7 @@ const LongQuestions = () => {
       ...socialScienceLongQuestions,
       ...englishLongQuestions,
       ...hindiLongQuestions,
+      ...itItesLongQuestions,
     ];
     setQuestions(allQuestions);
     setFilteredQuestions(allQuestions);
