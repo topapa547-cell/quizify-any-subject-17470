@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, Eye, Calendar, Clock, BookOpen } from "lucide-react";
+import { FileText, Download, ExternalLink, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { generatePreviousYearPaperPDF } from "@/utils/previousYearPaperPDF";
 import { saveDownload } from "@/utils/offlineStorage";
 
 interface PreviousYearPaper {
@@ -21,10 +20,14 @@ interface PreviousYearPaper {
   total_marks: number;
   duration_minutes: number;
   created_at: string;
+  pdf_url?: string;
+  marking_scheme_url?: string;
+  source?: string;
+  is_sample_paper?: boolean;
 }
 
 const PreviousYearPapers = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const { toast } = useToast();
   const [papers, setPapers] = useState<PreviousYearPaper[]>([]);
   const [filteredPapers, setFilteredPapers] = useState<PreviousYearPaper[]>([]);
@@ -32,26 +35,6 @@ const PreviousYearPapers = () => {
   const [classLevel, setClassLevel] = useState<string>("10");
   const [subject, setSubject] = useState<string>("all");
   const [year, setYear] = useState<string>("all");
-
-  const subjects = [
-    { value: "all", label: t("सभी विषय", "All Subjects") },
-    { value: "गणित", label: t("गणित", "Mathematics") },
-    { value: "विज्ञान", label: t("विज्ञान", "Science") },
-    { value: "सामाजिक विज्ञान", label: t("सामाजिक विज्ञान", "Social Science") },
-    { value: "अंग्रेजी", label: t("अंग्रेजी", "English") },
-    { value: "हिंदी", label: t("हिंदी", "Hindi") },
-    { value: "IT/ITes", label: "IT/ITes" },
-  ];
-
-  const years = [
-    { value: "all", label: t("सभी वर्ष", "All Years") },
-    { value: "2024", label: "2024" },
-    { value: "2023", label: "2023" },
-    { value: "2022", label: "2022" },
-    { value: "2021", label: "2021" },
-    { value: "2020", label: "2020" },
-    { value: "2019", label: "2019" },
-  ];
 
   useEffect(() => {
     fetchPapers();

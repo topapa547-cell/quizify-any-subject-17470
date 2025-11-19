@@ -201,8 +201,12 @@ export type Database = {
           created_at: string | null
           duration_minutes: number
           id: string
-          paper_data: Json
+          is_sample_paper: boolean | null
+          marking_scheme_url: string | null
+          paper_data: Json | null
           paper_type: string
+          pdf_url: string | null
+          source: string | null
           subject: string
           term: string | null
           total_marks: number
@@ -214,8 +218,12 @@ export type Database = {
           created_at?: string | null
           duration_minutes?: number
           id?: string
-          paper_data: Json
+          is_sample_paper?: boolean | null
+          marking_scheme_url?: string | null
+          paper_data?: Json | null
           paper_type?: string
+          pdf_url?: string | null
+          source?: string | null
           subject: string
           term?: string | null
           total_marks?: number
@@ -227,8 +235,12 @@ export type Database = {
           created_at?: string | null
           duration_minutes?: number
           id?: string
-          paper_data?: Json
+          is_sample_paper?: boolean | null
+          marking_scheme_url?: string | null
+          paper_data?: Json | null
           paper_type?: string
+          pdf_url?: string | null
+          source?: string | null
           subject?: string
           term?: string | null
           total_marks?: number
