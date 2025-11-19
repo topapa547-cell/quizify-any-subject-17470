@@ -67,234 +67,200 @@ const PreviousYearPapers = () => {
 
   const filterPapers = () => {
     let filtered = [...papers];
-
-    // Filter by class
     filtered = filtered.filter((p) => p.class_level === parseInt(classLevel));
-
-    // Filter by subject
     if (subject !== "all") {
       filtered = filtered.filter((p) => p.subject === subject);
     }
-
-    // Filter by year
     if (year !== "all") {
       filtered = filtered.filter((p) => p.year === parseInt(year));
     }
-
     setFilteredPapers(filtered);
   };
 
-  const handleViewPDF = (paper: PreviousYearPaper) => {
-    try {
-      const doc = generatePreviousYearPaperPDF(paper, language as 'hindi' | 'english', false);
-      doc.output("dataurlnewwindow");
-      
-      toast({
-        title: t("सफलता", "Success"),
-        description: t("पेपर खोला गया", "Paper opened in new window"),
-      });
-    } catch (error) {
-      console.error("Error generating PDF:", error);
+  const handleViewPDF = (pdfUrl?: string) => {
+    if (!pdfUrl) {
       toast({
         title: t("त्रुटि", "Error"),
-        description: t("PDF बनाने में विफल", "Failed to generate PDF"),
+        description: t("PDF उपलब्ध नहीं है", "PDF not available"),
         variant: "destructive",
       });
+      return;
     }
+    window.open(pdfUrl, '_blank');
   };
 
   const handleDownloadPDF = async (paper: PreviousYearPaper) => {
     try {
-      const doc = generatePreviousYearPaperPDF(paper, language as 'hindi' | 'english', true);
-      const pdfBlob = doc.output("blob");
-      
-      // Save to IndexedDB
-      await saveDownload(
-        `paper-${paper.id}`,
-        {
-          type: "previous_year_paper",
-          title: `${paper.subject} ${paper.year} - ${t("कक्षा", "Class")} ${paper.class_level}`,
-          ...paper,
-        },
-        pdfBlob
-      );
+      if (!paper.pdf_url) {
+        toast({
+          title: t("त्रुटि", "Error"),
+          description: t("PDF उपलब्ध नहीं है", "PDF not available"),
+          variant: "destructive",
+        });
+        return;
+      }
 
-      // Also download immediately
-      doc.save(`${paper.subject}_${paper.year}_Class${paper.class_level}.pdf`);
+      const response = await fetch(paper.pdf_url);
+      const pdfBlob = await response.blob();
+      
+      await saveDownload(paper.id, {
+        subject: paper.subject,
+        class_level: paper.class_level,
+        year: paper.year,
+        type: 'previous_year_paper',
+        pdf_url: paper.pdf_url
+      }, pdfBlob);
+
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(pdfBlob);
+      link.download = `${paper.board}_${paper.subject}_${paper.year}_Class${paper.class_level}.pdf`;
+      link.click();
 
       toast({
-        title: t("डाउनलोड सफल", "Download Successful"),
-        description: t("पेपर डाउनलोड और सहेजा गया", "Paper downloaded and saved"),
+        title: t("सफलता", "Success"),
+        description: t("पेपर डाउनलोड हो गया!", "Paper downloaded!"),
       });
     } catch (error) {
-      console.error("Error downloading PDF:", error);
+      console.error('Error downloading PDF:', error);
       toast({
         title: t("त्रुटि", "Error"),
-        description: t("डाउनलोड करने में विफल", "Failed to download"),
+        description: t("PDF डाउनलोड करने में समस्या", "Error downloading PDF"),
         variant: "destructive",
       });
     }
   };
 
+  const availableSubjects = useMemo(() => {
+    return [...new Set(papers.filter(p => p.class_level === parseInt(classLevel)).map(p => p.subject))];
+  }, [papers, classLevel]);
+
+  const availableYears = useMemo(() => {
+    return [...new Set(papers
+      .filter(p => p.class_level === parseInt(classLevel) && (subject === "all" || p.subject === subject))
+      .map(p => p.year))].sort((a, b) => b - a);
+  }, [papers, classLevel, subject]);
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">{t("लोड हो रहा है...", "Loading...")}</p>
-        </div>
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20 pb-20">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground p-6 shadow-lg">
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <FileText className="h-8 w-8" />
-          {t("पिछले वर्ष के प्रश्न पत्र", "Previous Year Papers")}
-        </h1>
-        <p className="text-primary-foreground/90 mt-2">
-          {t("CBSE बोर्ड परीक्षा के पिछले 6 वर्षों के प्रश्न पत्र", "Last 6 years CBSE Board exam papers")}
-        </p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <div className="max-w-6xl mx-auto p-6 space-y-6">
+        <div className="text-center space-y-2">
+          <h1 className="text-3xl font-bold">{t("पिछले वर्ष के प्रश्न पत्र", "Previous Year Papers")}</h1>
+          <p className="text-muted-foreground">
+            {t("CBSE के आधिकारिक सैंपल प्रश्न पत्र देखें", "View official CBSE sample papers")}
+          </p>
+        </div>
 
-      <div className="container mx-auto px-4 py-6 max-w-4xl">
-        {/* Filters */}
-        <Card className="mb-6">
+        <Card>
           <CardHeader>
             <CardTitle>{t("फ़िल्टर", "Filters")}</CardTitle>
-            <CardDescription>
-              {t("अपनी आवश्यकता के अनुसार पेपर चुनें", "Select papers as per your requirement")}
-            </CardDescription>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="text-sm font-medium mb-2 block">
-                {t("कक्षा", "Class")}
-              </label>
-              <Select value={classLevel} onValueChange={setClassLevel}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="9">{t("कक्षा 9", "Class 9")}</SelectItem>
-                  <SelectItem value="10">{t("कक्षा 10", "Class 10")}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium mb-2 block">
-                {t("विषय", "Subject")}
-              </label>
-              <Select value={subject} onValueChange={setSubject}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {subjects.map((s) => (
-                    <SelectItem key={s.value} value={s.value}>
-                      {s.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium mb-2 block">
-                {t("वर्ष", "Year")}
-              </label>
-              <Select value={year} onValueChange={setYear}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {years.map((y) => (
-                    <SelectItem key={y.value} value={y.value}>
-                      {y.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">{t("कक्षा", "Class")}</label>
+                <Select value={classLevel} onValueChange={setClassLevel}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="9">{t("कक्षा 9", "Class 9")}</SelectItem>
+                    <SelectItem value="10">{t("कक्षा 10", "Class 10")}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">{t("विषय", "Subject")}</label>
+                <Select value={subject} onValueChange={setSubject}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">{t("सभी विषय", "All Subjects")}</SelectItem>
+                    {availableSubjects.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">{t("वर्ष", "Year")}</label>
+                <Select value={year} onValueChange={setYear}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">{t("सभी वर्ष", "All Years")}</SelectItem>
+                    {availableYears.map(y => <SelectItem key={y} value={y.toString()}>{y}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Papers List */}
-        {filteredPapers.length === 0 ? (
-          <Card>
-            <CardContent className="text-center py-12">
-              <FileText className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-              <p className="text-lg text-muted-foreground">
-                {t("कोई पेपर नहीं मिला", "No papers found")}
-              </p>
-              <p className="text-sm text-muted-foreground mt-2">
-                {t("फ़िल्टर बदलकर देखें", "Try changing filters")}
-              </p>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="space-y-4">
-            {filteredPapers.map((paper) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {filteredPapers.length === 0 ? (
+            <Card className="col-span-full">
+              <CardContent className="flex flex-col items-center justify-center py-12">
+                <FileText className="h-12 w-12 text-muted-foreground mb-4" />
+                <p className="text-lg text-muted-foreground">{t("कोई पत्र नहीं मिला", "No papers found")}</p>
+              </CardContent>
+            </Card>
+          ) : (
+            filteredPapers.map((paper) => (
               <Card key={paper.id} className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <BookOpen className="h-5 w-5 text-primary" />
-                        <h3 className="text-xl font-bold">
-                          {paper.board} {t("बोर्ड परीक्षा", "Board Exam")} {paper.year}
-                        </h3>
-                      </div>
-                      <p className="text-lg font-semibold text-muted-foreground mb-3">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CardTitle className="text-xl">
+                        {paper.board} {paper.year}
+                        {paper.is_sample_paper && (
+                          <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-1 rounded">
+                            {t("सैंपल", "Sample")}
+                          </span>
+                        )}
+                      </CardTitle>
+                      <CardDescription className="mt-2">
                         {paper.subject} - {t("कक्षा", "Class")} {paper.class_level}
-                      </p>
-                      
-                      <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <Calendar className="h-4 w-4" />
-                          <span>{paper.year}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Clock className="h-4 w-4" />
-                          <span>{paper.duration_minutes} {t("मिनट", "minutes")}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <FileText className="h-4 w-4" />
-                          <span>{paper.total_marks} {t("अंक", "marks")}</span>
-                        </div>
-                      </div>
+                      </CardDescription>
                     </div>
-
-                    <div className="flex flex-col gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleViewPDF(paper)}
-                        className="whitespace-nowrap"
-                      >
-                        <Eye className="h-4 w-4 mr-2" />
+                    <FileText className="h-8 w-8 text-primary" />
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div>
+                      <span className="text-muted-foreground">{t("समय:", "Duration:")}</span>
+                      <span className="ml-2 font-medium">{paper.duration_minutes} {t("मिनट", "min")}</span>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">{t("अंक:", "Marks:")}</span>
+                      <span className="ml-2 font-medium">{paper.total_marks}</span>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex gap-2">
+                      <Button variant="default" className="flex-1" onClick={() => handleViewPDF(paper.pdf_url)}>
+                        <ExternalLink className="h-4 w-4 mr-2" />
                         {t("देखें", "View")}
                       </Button>
-                      <Button
-                        variant="default"
-                        size="sm"
-                        onClick={() => handleDownloadPDF(paper)}
-                        className="whitespace-nowrap"
-                      >
+                      <Button variant="outline" className="flex-1" onClick={() => handleDownloadPDF(paper)}>
                         <Download className="h-4 w-4 mr-2" />
                         {t("डाउनलोड", "Download")}
                       </Button>
                     </div>
+                    {paper.marking_scheme_url && (
+                      <Button variant="secondary" className="w-full" onClick={() => handleViewPDF(paper.marking_scheme_url)}>
+                        <FileText className="h-4 w-4 mr-2" />
+                        {t("मार्किंग स्कीम", "Marking Scheme")}
+                      </Button>
+                    )}
                   </div>
                 </CardContent>
               </Card>
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
