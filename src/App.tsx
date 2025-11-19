@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import LongQuestions from "./pages/LongQuestions";
 import NCERTSolutions from "./pages/NCERTSolutions";
+import PreviousYearPapers from "./pages/PreviousYearPapers";
 import Downloads from "./pages/Downloads";
 import Help from "./pages/Help";
 import SetupProfile from "./pages/SetupProfile";
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/long-questions" element={<ProtectedRoute><LongQuestions /></ProtectedRoute>} />
           <Route path="/ncert-solutions" element={<ProtectedRoute><NCERTSolutions /></ProtectedRoute>} />
+          <Route path="/previous-year-papers" element={<ProtectedRoute><PreviousYearPapers /></ProtectedRoute>} />
           <Route path="/downloads" element={<ProtectedRoute><Downloads /></ProtectedRoute>} />
           <Route path="/help" element={<ProtectedRoute><Help /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
