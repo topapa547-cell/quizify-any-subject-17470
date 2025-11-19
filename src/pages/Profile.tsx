@@ -79,7 +79,14 @@ const Profile = () => {
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    console.log("Update Profile Started", {
+      editUsername,
+      editClassLevel,
+      editLanguage,
+      userId: user?.id
+    });
+
     if (!editUsername.trim() || editUsername.length < 3) {
       toast({
         title: "त्रुटि",
@@ -88,39 +95,86 @@ const Profile = () => {
       });
       return;
     }
-    
-    if (!user?.id) return;
-    
-    const { error } = await supabase
-      .from('profiles')
-      .update({
+
+    if (!user?.id) {
+      console.error("User ID not found");
+      toast({
+        title: "त्रुटि",
+        description: "User ID नहीं मिली",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const updateData = {
         username: editUsername.trim(),
         class_level: editClassLevel,
         preferred_language: editLanguage,
-      })
-      .eq('id', user.id);
-    
-    if (error) {
-      toast({
-        title: "अपडेट में त्रुटि",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
+        updated_at: new Date().toISOString(),
+      };
+
+      console.log("Updating with data:", updateData);
+
+      // Optimistic UI update
+      setProfile(prev => prev ? { ...prev, ...updateData } : null);
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .update(updateData)
+        .eq("id", user.id)
+        .select()
+        .single();
+
+      console.log("Update result:", { data, error });
+
+      if (error) {
+        console.error("Update error:", error);
+        toast({
+          title: "अपडेट में त्रुटि",
+          description: error.message,
+          variant: "destructive",
+        });
+        // Revert optimistic update
+        const { data: revertedProfile } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+        if (revertedProfile) setProfile(revertedProfile);
+        return;
+      }
+
       toast({
         title: "सफल!",
         description: "प्रोफाइल अपडेट हो गया है",
       });
-      setIsEditing(false);
-      // Refresh profile
-      const { data: profileData } = await supabase
+
+      // Force refresh from database
+      const { data: refreshedProfile } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", user.id)
         .single();
-      if (profileData) {
-        setProfile(profileData);
+
+      console.log("Refreshed profile:", refreshedProfile);
+
+      if (refreshedProfile) {
+        setProfile(refreshedProfile);
+        setEditUsername(refreshedProfile.username);
+        setEditClassLevel(refreshedProfile.class_level);
+        setEditLanguage(refreshedProfile.preferred_language);
       }
+
+      setIsEditing(false);
+
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      toast({
+        title: "अप्रत्याशित त्रुटि",
+        description: "कृपया पुनः प्रयास करें",
+        variant: "destructive",
+      });
     }
   };
 
