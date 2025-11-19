@@ -225,9 +225,8 @@ const Home = () => {
                     <h3 className="text-lg font-bold text-white mb-2">
                       {subject.name}
                     </h3>
-                    <div className="flex items-center gap-2 text-white/90 text-sm">
-                      <span>Practice</span>
-                      <ChevronRight className="w-4 h-4" />
+                    <div className="flex items-center justify-end text-white/90">
+                      <ChevronRight className="w-5 h-5" />
                     </div>
                   </div>
                 </CardContent>
