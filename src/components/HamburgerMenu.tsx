@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, BookOpen, Download, HelpCircle, LogOut, BookOpenCheck } from "lucide-react";
+import { Menu, BookOpen, Download, HelpCircle, LogOut, BookOpenCheck, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -45,6 +45,11 @@ const HamburgerMenu = () => {
         <DropdownMenuItem onClick={() => { navigate("/ncert-solutions"); setOpen(false); }}>
           <BookOpenCheck className="mr-2 h-4 w-4" />
           <span>{t("NCERT समाधान", "NCERT Solutions")}</span>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem onClick={() => { navigate("/previous-year-papers"); setOpen(false); }}>
+          <FileText className="mr-2 h-4 w-4" />
+          <span>{t("पिछले वर्ष के प्रश्न पत्र", "Previous Year Papers")}</span>
         </DropdownMenuItem>
         
         <DropdownMenuItem onClick={() => { navigate("/downloads"); setOpen(false); }}>

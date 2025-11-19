@@ -194,6 +194,48 @@ export type Database = {
         }
         Relationships: []
       }
+      previous_year_papers: {
+        Row: {
+          board: string | null
+          class_level: number
+          created_at: string | null
+          duration_minutes: number
+          id: string
+          paper_data: Json
+          paper_type: string
+          subject: string
+          term: string | null
+          total_marks: number
+          year: number
+        }
+        Insert: {
+          board?: string | null
+          class_level: number
+          created_at?: string | null
+          duration_minutes?: number
+          id?: string
+          paper_data: Json
+          paper_type?: string
+          subject: string
+          term?: string | null
+          total_marks?: number
+          year: number
+        }
+        Update: {
+          board?: string | null
+          class_level?: number
+          created_at?: string | null
+          duration_minutes?: number
+          id?: string
+          paper_data?: Json
+          paper_type?: string
+          subject?: string
+          term?: string | null
+          total_marks?: number
+          year?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_style: string | null
