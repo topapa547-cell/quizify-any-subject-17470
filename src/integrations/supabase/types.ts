@@ -44,6 +44,45 @@ export type Database = {
         }
         Relationships: []
       }
+      daily_challenges: {
+        Row: {
+          answered_questions: number
+          challenge_date: string
+          completed_at: string
+          created_at: string
+          id: string
+          points_earned: number
+          score: number
+          time_taken: number | null
+          total_questions: number
+          user_id: string
+        }
+        Insert: {
+          answered_questions: number
+          challenge_date?: string
+          completed_at?: string
+          created_at?: string
+          id?: string
+          points_earned: number
+          score: number
+          time_taken?: number | null
+          total_questions?: number
+          user_id: string
+        }
+        Update: {
+          answered_questions?: number
+          challenge_date?: string
+          completed_at?: string
+          created_at?: string
+          id?: string
+          points_earned?: number
+          score?: number
+          time_taken?: number | null
+          total_questions?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       downloaded_questions: {
         Row: {
           downloaded_at: string | null

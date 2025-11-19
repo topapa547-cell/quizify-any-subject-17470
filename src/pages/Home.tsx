@@ -10,6 +10,7 @@ import { getLeagueIcon, getLeagueName } from "@/utils/pointsCalculator";
 import BottomNav from "@/components/BottomNav";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import UserAvatar from "@/components/UserAvatar";
+import { DailyChallengeDialog } from "@/components/DailyChallengeDialog";
 import {
   Dialog,
   DialogContent,
@@ -28,6 +29,7 @@ const Home = () => {
   const [showQuizSetup, setShowQuizSetup] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState<string>('');
   const [selectedQuestionCount, setSelectedQuestionCount] = useState<number>(10);
+  const [dailyChallengeOpen, setDailyChallengeOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -67,6 +69,9 @@ const Home = () => {
             points: totalPoints,
           });
         }
+
+        // Check if daily challenge is completed
+        checkDailyChallenge(session.user.id);
       }
       setLoading(false);
     };
@@ -79,6 +84,29 @@ const Home = () => {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const checkDailyChallenge = async (userId: string) => {
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const { data, error } = await supabase
+        .from("daily_challenges")
+        .select("id")
+        .eq("user_id", userId)
+        .eq("challenge_date", today)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      // If no challenge completed today, show dialog after 1 second
+      if (!data) {
+        setTimeout(() => {
+          setDailyChallengeOpen(true);
+        }, 1000);
+      }
+    } catch (error) {
+      console.error("Error checking daily challenge:", error);
+    }
+  };
 
   const handleSubjectClick = (subjectId: string) => {
     setSelectedSubject(subjectId);
@@ -328,6 +356,12 @@ const Home = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Daily Challenge Dialog */}
+      <DailyChallengeDialog 
+        open={dailyChallengeOpen} 
+        onOpenChange={setDailyChallengeOpen}
+      />
 
       <BottomNav />
     </div>
