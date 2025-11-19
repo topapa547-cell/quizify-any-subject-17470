@@ -26,6 +26,10 @@ const LongQuestions = () => {
   const [selectedClass, setSelectedClass] = useState<string>("all");
   const [selectedMarks, setSelectedMarks] = useState<string>("all");
   const [selectedChapter, setSelectedChapter] = useState<string>("all");
+  const [selectedYear, setSelectedYear] = useState<string>("all");
+  const [selectedExamType, setSelectedExamType] = useState<string>("all");
+  const [selectedWeightage, setSelectedWeightage] = useState<string>("all");
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string>("all");
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -63,8 +67,24 @@ const LongQuestions = () => {
       filtered = filtered.filter((q) => q.chapter === selectedChapter);
     }
 
+    if (selectedYear !== "all") {
+      filtered = filtered.filter((q: any) => q.board_year === parseInt(selectedYear));
+    }
+
+    if (selectedExamType !== "all") {
+      filtered = filtered.filter((q: any) => q.exam_type === selectedExamType);
+    }
+
+    if (selectedWeightage !== "all") {
+      filtered = filtered.filter((q: any) => q.weightage === selectedWeightage);
+    }
+
+    if (selectedDifficulty !== "all") {
+      filtered = filtered.filter((q) => q.difficulty === selectedDifficulty);
+    }
+
     setFilteredQuestions(filtered);
-  }, [selectedSubject, selectedClass, selectedMarks, selectedChapter, questions]);
+  }, [selectedSubject, selectedClass, selectedMarks, selectedChapter, selectedYear, selectedExamType, selectedWeightage, selectedDifficulty, questions]);
 
   const handleDownload = async (question: LongQuestion) => {
     try {
