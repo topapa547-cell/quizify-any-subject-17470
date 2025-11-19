@@ -1,11 +1,11 @@
 export interface QuizPointsResult {
   pointsEarned: number;
   speedBonus: number;
-  difficultyMultiplier: number;
+  accuracyBonus: number;
   breakdown: {
     basePoints: number;
     speedBonus: number;
-    difficultyMultiplier: number;
+    accuracyBonus: number;
     streakBonus: number;
     totalPoints: number;
   };
@@ -18,52 +18,49 @@ export const calculateQuizPoints = (
   timeTaken: number,
   currentStreak: number
 ): QuizPointsResult => {
-  // Base points: 10 per correct answer
-  const basePoints = score * 10;
+  // Base points: 1 per correct answer
+  const basePoints = score * 1;
   
   // Calculate average time per question
   const avgTimePerQuestion = timeTaken / (totalQuestions || 1);
   
-  // Speed bonus per correct answer
-  let speedBonus = 0;
+  // Speed bonus per correct answer based on average time
+  let speedBonusPerQuestion = 0;
   if (avgTimePerQuestion < 10) {
-    speedBonus = score * 5;
+    speedBonusPerQuestion = 0.5;
   } else if (avgTimePerQuestion < 20) {
-    speedBonus = score * 3;
+    speedBonusPerQuestion = 0.3;
   } else if (avgTimePerQuestion < 30) {
-    speedBonus = score * 1;
+    speedBonusPerQuestion = 0.1;
   }
+  const speedBonus = score * speedBonusPerQuestion;
   
-  // Difficulty multiplier
-  let difficultyMultiplier = 1.0;
-  switch (difficulty) {
-    case 'easy':
-      difficultyMultiplier = 1.0;
-      break;
-    case 'medium':
-      difficultyMultiplier = 1.5;
-      break;
-    case 'hard':
-      difficultyMultiplier = 2.0;
-      break;
-    default:
-      difficultyMultiplier = 1.0;
+  // Calculate accuracy percentage
+  const accuracyPercent = (score / totalQuestions) * 100;
+  
+  // Accuracy bonus based on percentage
+  let accuracyMultiplier = 0;
+  if (accuracyPercent >= 90) {
+    accuracyMultiplier = 0.20;  // 20% bonus
+  } else if (accuracyPercent >= 80) {
+    accuracyMultiplier = 0.10;  // 10% bonus
   }
+  const accuracyBonus = basePoints * accuracyMultiplier;
   
   // Streak bonus (20% extra if streak > 7)
   const streakBonus = currentStreak > 7 ? 1.2 : 1.0;
   
   // Calculate total points
-  const totalPoints = Math.round((basePoints + speedBonus) * difficultyMultiplier * streakBonus);
+  const totalPoints = Math.round((basePoints + speedBonus + accuracyBonus) * streakBonus);
   
   return {
     pointsEarned: totalPoints,
-    speedBonus,
-    difficultyMultiplier,
+    speedBonus: parseFloat(speedBonus.toFixed(1)),
+    accuracyBonus: parseFloat(accuracyBonus.toFixed(1)),
     breakdown: {
       basePoints,
-      speedBonus,
-      difficultyMultiplier,
+      speedBonus: parseFloat(speedBonus.toFixed(1)),
+      accuracyBonus: parseFloat(accuracyBonus.toFixed(1)),
       streakBonus,
       totalPoints,
     },

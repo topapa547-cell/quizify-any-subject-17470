@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { Trophy, RotateCcw, Home, CheckCircle, XCircle, AlertCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { QuizQuestion } from "@/data/quizData";
@@ -8,6 +9,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { checkAndAwardAchievements } from "@/utils/achievements";
 import HamburgerMenu from "@/components/HamburgerMenu";
+import { calculateQuizPoints } from "@/utils/pointsCalculator";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface LocationState {
   score: number;
@@ -24,8 +27,10 @@ interface LocationState {
 const Results = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [saved, setSaved] = useState(false);
   const [newAchievements, setNewAchievements] = useState<any[]>([]);
+  const [currentStreak, setCurrentStreak] = useState(0);
   const { score, total, answered, answers, questions, timeElapsed, subject, difficulty, classLevel } = (location.state as LocationState) || {
     score: 0, 
     total: 5, 
@@ -33,6 +38,15 @@ const Results = () => {
     answers: {},
     questions: []
   };
+
+  // Calculate points breakdown
+  const pointsResult = calculateQuizPoints(
+    score,
+    total,
+    difficulty || 'all',
+    timeElapsed || 0,
+    currentStreak
+  );
 
   useEffect(() => {
     if (!location.state) {
@@ -54,6 +68,17 @@ const Results = () => {
             variant: "destructive",
           });
           return;
+        }
+
+        // Get user's current streak
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('current_streak')
+          .eq('id', user.id)
+          .single();
+        
+        if (profile) {
+          setCurrentStreak(profile.current_streak || 0);
         }
 
         // Use the secure database function with validation
@@ -179,19 +204,57 @@ const Results = () => {
             <div className="text-center p-4 bg-secondary/10 rounded-lg border border-secondary/20">
               <CheckCircle className="w-8 h-8 mx-auto mb-2 text-secondary" />
               <p className="text-2xl font-bold text-foreground">{score}</p>
-              <p className="text-sm text-muted-foreground">सही</p>
+              <p className="text-sm text-muted-foreground">{t("सही", "Correct")}</p>
             </div>
             <div className="text-center p-4 bg-destructive/10 rounded-lg border border-destructive/20">
               <XCircle className="w-8 h-8 mx-auto mb-2 text-destructive" />
               <p className="text-2xl font-bold text-foreground">{answered - score}</p>
-              <p className="text-sm text-muted-foreground">गलत</p>
+              <p className="text-sm text-muted-foreground">{t("गलत", "Wrong")}</p>
             </div>
             <div className="text-center p-4 bg-accent/10 rounded-lg border border-accent/20">
               <AlertCircle className="w-8 h-8 mx-auto mb-2 text-accent" />
               <p className="text-2xl font-bold text-foreground">{unanswered}</p>
-              <p className="text-sm text-muted-foreground">छोड़े गए</p>
+              <p className="text-sm text-muted-foreground">{t("छोड़े गए", "Skipped")}</p>
             </div>
           </div>
+
+          {/* Points Breakdown */}
+          <Card className="mt-4 bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-950/20 dark:to-blue-950/20">
+            <CardContent className="pt-6">
+              <h3 className="font-bold text-lg mb-4 text-center">
+                📊 {t("Points Breakdown", "Points Breakdown")}
+              </h3>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">{t("Base Points", "Base Points")} (1 × {score})</span>
+                  <span className="font-bold">{pointsResult.breakdown.basePoints}</span>
+                </div>
+                <div className="flex justify-between items-center text-blue-600 dark:text-blue-400">
+                  <span className="text-sm">⚡ {t("Speed Bonus", "Speed Bonus")}</span>
+                  <span className="font-bold">+{pointsResult.speedBonus}</span>
+                </div>
+                <div className="flex justify-between items-center text-green-600 dark:text-green-400">
+                  <span className="text-sm">
+                    🎯 {t("Accuracy Bonus", "Accuracy Bonus")} ({Math.round((score/total)*100)}%)
+                  </span>
+                  <span className="font-bold">+{pointsResult.accuracyBonus}</span>
+                </div>
+                {pointsResult.breakdown.streakBonus > 1.0 && (
+                  <div className="flex justify-between items-center text-orange-600 dark:text-orange-400">
+                    <span className="text-sm">
+                      🔥 {t("Streak Bonus", "Streak Bonus")} (×{pointsResult.breakdown.streakBonus})
+                    </span>
+                    <span className="font-bold">+20%</span>
+                  </div>
+                )}
+                <Separator className="my-2" />
+                <div className="flex justify-between items-center text-lg font-bold text-primary">
+                  <span>{t("Total Points Earned", "Total Points Earned")}</span>
+                  <span className="text-2xl">{pointsResult.pointsEarned}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Action Buttons */}
           <div className="space-y-3 pt-4">
