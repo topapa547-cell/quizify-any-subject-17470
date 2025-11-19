@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import BottomNav from "@/components/BottomNav";
 import LeaderboardTabs from "@/components/LeaderboardTabs";
 import UserRankCard from "@/components/UserRankCard";
+import HamburgerMenu from "@/components/HamburgerMenu";
 
 interface LeaderboardEntry {
   username: string;
@@ -147,7 +148,7 @@ const Leaderboard = () => {
               होम
             </Button>
             <h1 className="text-2xl md:text-3xl font-bold mx-auto md:mx-0">🏆 Leaderboard</h1>
-            <div className="w-24 hidden md:block"></div>
+            <HamburgerMenu />
           </div>
         </div>
       </header>

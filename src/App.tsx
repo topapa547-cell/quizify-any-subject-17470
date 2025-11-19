@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import LongQuestions from "./pages/LongQuestions";
 import Downloads from "./pages/Downloads";
 import Help from "./pages/Help";
+import SetupProfile from "./pages/SetupProfile";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
         <BrowserRouter>
         <Routes>
           <Route path="/auth" element={<Auth />} />
+          <Route path="/setup-profile" element={<ProtectedRoute><SetupProfile /></ProtectedRoute>} />
           <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/quiz" element={<ProtectedRoute><Quiz /></ProtectedRoute>} />
           <Route path="/results" element={<ProtectedRoute><Results /></ProtectedRoute>} />
