@@ -1,200 +1,284 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { GraduationCap, BookOpen, Trophy, Sparkles } from "lucide-react";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
+import { GraduationCap, Flame, Trophy, Target, TrendingUp, Sparkles, ChevronRight } from "lucide-react";
 import { subjects } from "@/data/quizData";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { getLeagueIcon, getLeagueName } from "@/utils/pointsCalculator";
 import BottomNav from "@/components/BottomNav";
 import HamburgerMenu from "@/components/HamburgerMenu";
+import UserAvatar from "@/components/UserAvatar";
 
 const Home = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
-  const [selectedCount, setSelectedCount] = useState<number>(10);
-  const [selectedSubject, setSelectedSubject] = useState<string>("all");
-  const [userClassLevel, setUserClassLevel] = useState<number | undefined>(undefined);
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string>("all");
+  const [profile, setProfile] = useState<any>(null);
+  const [todayStats, setTodayStats] = useState({ quizzes: 0, accuracy: 0, points: 0 });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
+    const fetchUserData = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user ?? null);
       
       if (session?.user) {
-        const { data: profile } = await supabase
+        // Fetch profile
+        const { data: profileData } = await supabase
           .from('profiles')
-          .select('class_level')
+          .select('*')
           .eq('id', session.user.id)
           .single();
         
-        if (profile?.class_level) {
-          setUserClassLevel(profile.class_level);
+        if (profileData) {
+          setProfile(profileData);
         }
-      }
-    });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setUser(session?.user ?? null);
-      
-      if (session?.user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('class_level')
-          .eq('id', session.user.id)
-          .single();
-        
-        if (profile?.class_level) {
-          setUserClassLevel(profile.class_level);
+        // Fetch today's stats
+        const today = new Date().toISOString().split('T')[0];
+        const { data: quizHistory } = await supabase
+          .from('quiz_history')
+          .select('*')
+          .eq('user_id', session.user.id)
+          .gte('created_at', today);
+
+        if (quizHistory && quizHistory.length > 0) {
+          const totalQuizzes = quizHistory.length;
+          const totalCorrect = quizHistory.reduce((sum, quiz) => sum + quiz.score, 0);
+          const totalQuestions = quizHistory.reduce((sum, quiz) => sum + quiz.total_questions, 0);
+          const totalPoints = quizHistory.reduce((sum, quiz) => sum + (quiz.points_earned || 0), 0);
+          const accuracy = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+
+          setTodayStats({
+            quizzes: totalQuizzes,
+            accuracy,
+            points: totalPoints,
+          });
         }
       }
+      setLoading(false);
+    };
+
+    fetchUserData();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, []);
 
-  const questionOptions = [5, 10, 15, 20, 25, 30, 40, 50];
-
-  const handleStartQuiz = () => {
+  const handleSubjectClick = (subjectId: string) => {
     navigate("/quiz", { 
       state: { 
-        questionCount: selectedCount,
-        subject: selectedSubject,
-        classLevel: userClassLevel,
-        difficulty: selectedDifficulty 
+        questionCount: 10,
+        subject: subjectId,
+        classLevel: profile?.class_level,
+        difficulty: 'all'
       } 
     });
   };
 
+  const subjectGradients: Record<string, string> = {
+    math: 'from-[hsl(217,91%,60%)] to-[hsl(217,91%,50%)]',
+    science: 'from-[hsl(142,76%,36%)] to-[hsl(142,76%,28%)]',
+    social_science: 'from-[hsl(25,95%,53%)] to-[hsl(25,95%,43%)]',
+    hindi: 'from-[hsl(271,81%,56%)] to-[hsl(271,81%,46%)]',
+    english: 'from-[hsl(330,81%,60%)] to-[hsl(330,81%,50%)]',
+  };
+
+  const subjectEmojis: Record<string, string> = {
+    math: '📐',
+    science: '🔬',
+    social_science: '🌍',
+    hindi: '✍️',
+    english: '📚',
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/20 via-background to-accent/20 p-4 pb-20 md:pb-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-between mb-8 md:mb-12">
-          <div className="flex items-center gap-2 md:gap-3">
-            <GraduationCap className="w-8 h-8 md:w-10 md:h-10 text-primary" />
-            <h1 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              क्विज़ ऐप
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 pb-20">
+      <div className="max-w-4xl mx-auto p-4 space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <GraduationCap className="w-8 h-8 text-primary" />
+            <h1 className="text-2xl font-bold text-foreground">
+              Quiz App
             </h1>
           </div>
           <HamburgerMenu />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
-          <Card className="p-4 md:p-6 text-center border-border hover:shadow-lg transition-all">
-            <BookOpen className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 text-primary" />
-            <h3 className="text-lg md:text-xl font-semibold text-foreground mb-1 md:mb-2">विषय</h3>
-            <p className="text-sm md:text-base text-muted-foreground">5 विषय उपलब्ध</p>
-          </Card>
-          
-          <Card className="p-4 md:p-6 text-center border-border hover:shadow-lg transition-all">
-            <Trophy className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 text-accent" />
-            <h3 className="text-lg md:text-xl font-semibold text-foreground mb-1 md:mb-2">प्रतिस्पर्धा</h3>
-            <p className="text-sm md:text-base text-muted-foreground">रैंकिंग देखें</p>
-          </Card>
-          
-          <Card className="p-4 md:p-6 text-center border-border hover:shadow-lg transition-all">
-            <Sparkles className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 text-primary" />
-            <h3 className="text-lg md:text-xl font-semibold text-foreground mb-1 md:mb-2">विशेषताएं</h3>
-            <p className="text-sm md:text-base text-muted-foreground">असीमित अभ्यास</p>
-          </Card>
-        </div>
-
-        <Card className="p-4 md:p-8 border-border mb-8 md:mb-12">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 md:mb-6 text-center">
-            अपनी क्विज़ कस्टमाइज़ करें
-          </h2>
-          
-          <div className="space-y-4 md:space-y-6">
-            <div>
-              <Label className="text-sm md:text-base font-medium mb-2 md:mb-3 block text-foreground">
-                प्रश्नों की संख्या चुनें
-              </Label>
-              <div className="grid grid-cols-4 gap-2 md:gap-3">
-                {questionOptions.map((count) => (
-                  <Button
-                    key={count}
-                    variant={selectedCount === count ? "default" : "outline"}
-                    onClick={() => setSelectedCount(count)}
-                    className="text-sm md:text-base"
-                  >
-                    {count}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            <Separator />
-
-            <div>
-              <Label className="text-sm md:text-base font-medium mb-2 md:mb-3 block text-foreground">
-                विषय चुनें
-              </Label>
-              <RadioGroup value={selectedSubject} onValueChange={setSelectedSubject}>
-                {subjects.map((subject) => (
-                  <div key={subject.id} className="flex items-center space-x-2 md:space-x-3 p-2 md:p-3 rounded-lg hover:bg-accent/5 transition-colors">
-                    <RadioGroupItem value={subject.id} id={subject.id} />
-                    <Label 
-                      htmlFor={subject.id} 
-                      className="flex-1 cursor-pointer text-sm md:text-base text-foreground font-medium"
-                    >
-                      {subject.name}
-                    </Label>
+        {/* Hero Card - User Stats */}
+        {profile && (
+          <Card className="overflow-hidden border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
+            <CardContent className="p-6 bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <UserAvatar 
+                      userId={user?.id} 
+                      avatarStyle={profile.avatar_style}
+                      size="lg"
+                    />
                   </div>
-                ))}
-              </RadioGroup>
-            </div>
-
-            <Separator />
-
-            <div>
-              <Label className="text-sm md:text-base font-medium mb-2 md:mb-3 block text-foreground">
-                कठिनाई स्तर
-              </Label>
-              <RadioGroup value={selectedDifficulty} onValueChange={setSelectedDifficulty}>
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2 md:space-x-3 p-2 md:p-3 rounded-lg hover:bg-accent/5 transition-colors">
-                    <RadioGroupItem value="all" id="diff-all" />
-                    <Label htmlFor="diff-all" className="flex-1 cursor-pointer text-sm md:text-base text-foreground font-medium">
-                      सभी (Easy + Medium + Hard)
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2 md:space-x-3 p-2 md:p-3 rounded-lg hover:bg-accent/5 transition-colors">
-                    <RadioGroupItem value="easy" id="diff-easy" />
-                    <Label htmlFor="diff-easy" className="flex-1 cursor-pointer text-sm md:text-base text-foreground font-medium">
-                      Easy
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2 md:space-x-3 p-2 md:p-3 rounded-lg hover:bg-accent/5 transition-colors">
-                    <RadioGroupItem value="medium" id="diff-medium" />
-                    <Label htmlFor="diff-medium" className="flex-1 cursor-pointer text-sm md:text-base text-foreground font-medium">
-                      Medium
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2 md:space-x-3 p-2 md:p-3 rounded-lg hover:bg-accent/5 transition-colors">
-                    <RadioGroupItem value="hard" id="diff-hard" />
-                    <Label htmlFor="diff-hard" className="flex-1 cursor-pointer text-sm md:text-base text-foreground font-medium">
-                      Hard
-                    </Label>
+                  <div>
+                    <h2 className="text-2xl font-bold text-foreground">
+                      👋 नमस्ते, {profile.username}!
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                      कक्षा {profile.class_level}
+                    </p>
                   </div>
                 </div>
-              </RadioGroup>
+              </div>
+              
+              <div className="grid grid-cols-3 gap-4 mt-6">
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-1 mb-1">
+                    <Flame className="w-5 h-5 text-orange-500 fill-orange-500" />
+                    <span className="text-2xl font-bold text-orange-600">
+                      {profile.current_streak || 0}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Day Streak</p>
+                </div>
+                
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-1 mb-1">
+                    <Trophy className="w-5 h-5 text-gold" />
+                    <span className="text-2xl font-bold text-foreground">
+                      {getLeagueIcon(profile.league || 'bronze')}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground capitalize">
+                    {profile.league || 'Bronze'} League
+                  </p>
+                </div>
+                
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-1 mb-1">
+                    <Sparkles className="w-5 h-5 text-primary" />
+                    <span className="text-2xl font-bold text-primary">
+                      {profile.league_points || 0}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Points</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Daily Mission Card */}
+        <Card className="border-secondary/30 bg-gradient-to-br from-secondary/10 to-secondary/5 hover:shadow-lg transition-all duration-300">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <Target className="w-5 h-5 text-secondary" />
+                  <h3 className="text-lg font-bold text-foreground">⭐ Daily Mission</h3>
+                </div>
+                <p className="text-sm text-muted-foreground mb-1">
+                  आज 10 प्रश्नों का अभ्यास पूरा करें
+                </p>
+                <p className="text-xs text-secondary font-semibold">
+                  ⚡ Reward: 50 bonus points
+                </p>
+              </div>
+              <Button 
+                onClick={() => navigate("/quiz", { state: { questionCount: 10, difficulty: 'all' } })}
+                className="bg-secondary hover:bg-secondary/90"
+              >
+                Start
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </Button>
             </div>
-          </div>
+          </CardContent>
         </Card>
 
-        <Button 
-          onClick={handleStartQuiz}
-          size="lg"
-          className="w-full text-base md:text-lg py-4 md:py-6 shadow-lg hover:shadow-xl transition-all"
-        >
-          <Sparkles className="w-5 h-5 mr-2" />
-          क्विज़ शुरू करें
-        </Button>
+        {/* Subject Cards */}
+        <div>
+          <h2 className="text-xl font-bold text-foreground mb-4">📚 अपना विषय चुनें</h2>
+          <div className="grid grid-cols-2 gap-4">
+            {subjects.filter(s => s.id !== 'all').map((subject) => (
+              <Card 
+                key={subject.id}
+                className="group cursor-pointer border-border/50 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                onClick={() => handleSubjectClick(subject.id)}
+              >
+                <CardContent className={`p-6 bg-gradient-to-br ${subjectGradients[subject.id]} relative`}>
+                  <div className="absolute inset-0 bg-background/10 group-hover:bg-background/0 transition-colors" />
+                  <div className="relative z-10">
+                    <div className="text-4xl mb-3">
+                      {subjectEmojis[subject.id]}
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">
+                      {subject.name}
+                    </h3>
+                    <div className="flex items-center gap-2 text-white/90 text-sm">
+                      <span>Practice</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Today's Progress */}
+        {todayStats.quizzes > 0 && (
+          <Card className="border-border/50">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="w-5 h-5 text-primary" />
+                <h3 className="text-lg font-bold text-foreground">📊 आज की प्रगति</h3>
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="text-center p-3 rounded-lg bg-primary/5">
+                  <div className="text-2xl font-bold text-primary mb-1">
+                    {todayStats.quizzes}
+                  </div>
+                  <p className="text-xs text-muted-foreground">Quizzes</p>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-secondary/5">
+                  <div className="text-2xl font-bold text-secondary mb-1">
+                    {todayStats.accuracy}%
+                  </div>
+                  <p className="text-xs text-muted-foreground">Accuracy</p>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-accent/5">
+                  <div className="text-2xl font-bold text-accent mb-1">
+                    +{todayStats.points}
+                  </div>
+                  <p className="text-xs text-muted-foreground">Points</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Motivational Quote */}
+        <Card className="border-border/50 bg-gradient-to-r from-primary/5 to-secondary/5">
+          <CardContent className="p-6 text-center">
+            <p className="text-sm text-foreground/80 italic">
+              💡 "Success is the sum of small efforts repeated day in and day out"
+            </p>
+            <p className="text-xs text-muted-foreground mt-2">- APJ Abdul Kalam</p>
+          </CardContent>
+        </Card>
       </div>
-      
+
       <BottomNav />
     </div>
   );

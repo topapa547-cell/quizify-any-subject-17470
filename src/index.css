@@ -38,25 +38,48 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
     
+    /* Duolingo-inspired colors */
+    --success-green: 142 76% 36%;
+    --learning-blue: 199 89% 48%;
+    --warning-yellow: 45 100% 51%;
+    --energy-orange: 25 95% 53%;
+    
+    /* Subject colors */
+    --math-blue: 217 91% 60%;
+    --science-green: 142 76% 36%;
+    --social-orange: 25 95% 53%;
+    --hindi-purple: 271 81% 56%;
+    --english-pink: 330 81% 60%;
+    
+    /* League colors */
+    --bronze-color: 25 50% 50%;
+    --silver-color: 0 0% 75%;
+    --gold-color: 43 100% 50%;
+    --diamond-color: 190 100% 85%;
+    
+    /* Gradients */
     --quiz-gradient: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 91% 70%) 100%);
+    --hero-gradient: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(271 81% 56%) 100%);
+    --success-gradient: linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(142 76% 46%) 100%);
+    --math-gradient: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 91% 50%) 100%);
+    --science-gradient: linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(142 76% 28%) 100%);
+    --social-gradient: linear-gradient(135deg, hsl(25 95% 53%) 0%, hsl(25 95% 43%) 100%);
+    --hindi-gradient: linear-gradient(135deg, hsl(271 81% 56%) 0%, hsl(271 81% 46%) 100%);
+    --english-gradient: linear-gradient(135deg, hsl(330 81% 60%) 0%, hsl(330 81% 50%) 100%);
+    
+    /* Effects */
     --success-glow: 0 4px 20px hsla(142 76% 36% / 0.3);
     --card-shadow: 0 2px 8px hsla(222.2 84% 4.9% / 0.08);
+    --card-hover-shadow: 0 8px 24px hsla(222.2 84% 4.9% / 0.12);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -90,8 +113,16 @@ All colors MUST be HSL.
     --ring: 217 91% 60%;
     
     --quiz-gradient: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 91% 70%) 100%);
+    --hero-gradient: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(271 81% 56%) 100%);
+    --success-gradient: linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(142 76% 46%) 100%);
+    --math-gradient: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 91% 50%) 100%);
+    --science-gradient: linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(142 76% 28%) 100%);
+    --social-gradient: linear-gradient(135deg, hsl(25 95% 53%) 0%, hsl(25 95% 43%) 100%);
+    --hindi-gradient: linear-gradient(135deg, hsl(271 81% 56%) 0%, hsl(271 81% 46%) 100%);
+    --english-gradient: linear-gradient(135deg, hsl(330 81% 60%) 0%, hsl(330 81% 50%) 100%);
     --success-glow: 0 4px 20px hsla(142 76% 36% / 0.4);
     --card-shadow: 0 2px 8px hsla(0 0% 0% / 0.2);
+    --card-hover-shadow: 0 8px 24px hsla(0 0% 0% / 0.3);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
