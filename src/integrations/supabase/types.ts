@@ -199,6 +199,51 @@ export type Database = {
           },
         ]
       }
+      grammar_progress: {
+        Row: {
+          class_level: number | null
+          completed: boolean | null
+          created_at: string | null
+          id: string
+          last_attempted: string | null
+          questions_attempted: number | null
+          questions_correct: number | null
+          score_percentage: number | null
+          topic_id: string
+          updated_at: string | null
+          user_id: string
+          weak_areas: string[] | null
+        }
+        Insert: {
+          class_level?: number | null
+          completed?: boolean | null
+          created_at?: string | null
+          id?: string
+          last_attempted?: string | null
+          questions_attempted?: number | null
+          questions_correct?: number | null
+          score_percentage?: number | null
+          topic_id: string
+          updated_at?: string | null
+          user_id: string
+          weak_areas?: string[] | null
+        }
+        Update: {
+          class_level?: number | null
+          completed?: boolean | null
+          created_at?: string | null
+          id?: string
+          last_attempted?: string | null
+          questions_attempted?: number | null
+          questions_correct?: number | null
+          score_percentage?: number | null
+          topic_id?: string
+          updated_at?: string | null
+          user_id?: string
+          weak_areas?: string[] | null
+        }
+        Relationships: []
+      }
       long_questions: {
         Row: {
           answer_text: string

@@ -18,6 +18,7 @@ import Downloads from "./pages/Downloads";
 import Help from "./pages/Help";
 import SetupProfile from "./pages/SetupProfile";
 import Motivations from "./pages/Motivations";
+import GrammarLab from "./pages/GrammarLab";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/ncert-solutions" element={<ProtectedRoute><NCERTSolutions /></ProtectedRoute>} />
           <Route path="/previous-year-papers" element={<ProtectedRoute><PreviousYearPapers /></ProtectedRoute>} />
           <Route path="/motivations" element={<ProtectedRoute><Motivations /></ProtectedRoute>} />
+          <Route path="/grammar-lab" element={<ProtectedRoute><GrammarLab /></ProtectedRoute>} />
           <Route path="/downloads" element={<ProtectedRoute><Downloads /></ProtectedRoute>} />
           <Route path="/help" element={<ProtectedRoute><Help /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
