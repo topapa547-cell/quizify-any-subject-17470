@@ -19,6 +19,7 @@ import Help from "./pages/Help";
 import SetupProfile from "./pages/SetupProfile";
 import Motivations from "./pages/Motivations";
 import GrammarLab from "./pages/GrammarLab";
+import AdminInsert from "./pages/AdminInsert";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ const App = () => (
           <Route path="/grammar-lab" element={<ProtectedRoute><GrammarLab /></ProtectedRoute>} />
           <Route path="/downloads" element={<ProtectedRoute><Downloads /></ProtectedRoute>} />
           <Route path="/help" element={<ProtectedRoute><Help /></ProtectedRoute>} />
+          <Route path="/admin-insert" element={<AdminInsert />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
