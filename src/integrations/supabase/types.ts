@@ -313,6 +313,7 @@ export type Database = {
           question_number: string
           question_text: string
           question_text_english: string | null
+          question_type: string | null
           solution_text: string
           solution_text_english: string | null
           subject: string
@@ -331,6 +332,7 @@ export type Database = {
           question_number: string
           question_text: string
           question_text_english?: string | null
+          question_type?: string | null
           solution_text: string
           solution_text_english?: string | null
           subject: string
@@ -349,6 +351,7 @@ export type Database = {
           question_number?: string
           question_text?: string
           question_text_english?: string | null
+          question_type?: string | null
           solution_text?: string
           solution_text_english?: string | null
           subject?: string

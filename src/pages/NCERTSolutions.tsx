@@ -27,6 +27,7 @@ interface NCERTSolution {
   difficulty: string | null;
   marks: number | null;
   ncert_page_number: number | null;
+  question_type?: string | null;
 }
 
 const NCERTSolutions = () => {
@@ -40,6 +41,7 @@ const NCERTSolutions = () => {
   const [selectedSubject, setSelectedSubject] = useState<string>("all");
   const [selectedChapter, setSelectedChapter] = useState<string>("all");
   const [selectedExercise, setSelectedExercise] = useState<string>("all");
+  const [selectedQuestionType, setSelectedQuestionType] = useState<string>("all");
   const [openSolutions, setOpenSolutions] = useState<Set<string>>(new Set());
 
   const subjects = [
@@ -57,7 +59,7 @@ const NCERTSolutions = () => {
 
   useEffect(() => {
     filterSolutions();
-  }, [solutions, selectedClass, selectedSubject, selectedChapter, selectedExercise]);
+  }, [solutions, selectedClass, selectedSubject, selectedChapter, selectedExercise, selectedQuestionType]);
 
   const fetchSolutions = async () => {
     const { data, error } = await supabase
@@ -97,6 +99,10 @@ const NCERTSolutions = () => {
 
     if (selectedExercise !== "all") {
       filtered = filtered.filter(s => s.exercise_number === selectedExercise);
+    }
+
+    if (selectedQuestionType !== "all") {
+      filtered = filtered.filter(s => (s.question_type || "exercise") === selectedQuestionType);
     }
 
     setFilteredSolutions(filtered);
@@ -162,7 +168,7 @@ const NCERTSolutions = () => {
             <CardTitle>{t("फ़िल्टर", "Filters")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
               <div>
                 <label className="text-sm font-medium mb-2 block">
                   {t("कक्षा", "Class")}
@@ -231,6 +237,22 @@ const NCERTSolutions = () => {
                         {ex}
                       </SelectItem>
                     ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium mb-2 block">
+                  {t("प्रश्न प्रकार", "Question Type")}
+                </label>
+                <Select value={selectedQuestionType} onValueChange={setSelectedQuestionType}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">{t("सभी प्रश्न", "All Questions")}</SelectItem>
+                    <SelectItem value="in-text">{t("पाठ्य प्रश्न", "In-text Questions")}</SelectItem>
+                    <SelectItem value="exercise">{t("अभ्यास प्रश्न", "Exercise Questions")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
