@@ -19,9 +19,15 @@ export async function insertClass10ScienceComplete() {
     for (let i = 0; i < allQuestions.length; i += batchSize) {
       const batch = allQuestions.slice(i, i + batchSize);
       
+      // Remove 'id' field from each question to let database auto-generate UUIDs
+      const batchWithoutIds = batch.map((question: any) => {
+        const { id, ...rest } = question;
+        return rest;
+      });
+      
       const { data, error } = await supabase
         .from('ncert_solutions')
-        .insert(batch);
+        .insert(batchWithoutIds);
       
       if (error) {
         console.error(`❌ Error inserting batch ${i / batchSize + 1}:`, error);
