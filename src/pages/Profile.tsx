@@ -82,6 +82,25 @@ const Profile = () => {
     checkUser();
   }, [navigate]);
 
+  const retryWithBackoff = async (fn: () => Promise<any>, maxRetries = 3) => {
+    for (let i = 0; i < maxRetries; i++) {
+      try {
+        const result = await fn();
+        return result;
+      } catch (error: any) {
+        const isNetworkError = error.message?.includes('fetch') || 
+                               error.message?.includes('network') ||
+                               error.code === 'PGRST301';
+        
+        if (i === maxRetries - 1 || !isNetworkError) throw error;
+        
+        const delay = Math.min(1000 * Math.pow(2, i), 5000);
+        console.log(`Retry ${i + 1}/${maxRetries} after ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+  };
+
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -125,11 +144,16 @@ const Profile = () => {
       // Optimistic UI update
       setProfile(prev => prev ? { ...prev, ...updateData } : null);
 
-      const { data, error } = await supabase
-        .from("profiles")
-        .upsert(updateData, { onConflict: 'id' })
-        .select()
-        .single();
+      const result = await retryWithBackoff(async () => {
+        const { data, error } = await supabase
+          .from("profiles")
+          .upsert(updateData, { onConflict: 'id' })
+          .select()
+          .single();
+        return { data, error };
+      });
+
+      const { data, error } = result;
 
       console.log("Update result:", { data, error });
 
@@ -156,28 +180,33 @@ const Profile = () => {
       });
 
       // Force refresh from database
-      const { data: refreshedProfile } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", user.id)
-        .single();
+      const refreshResult = await retryWithBackoff(async () => {
+        const { data: refreshedProfile } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+        return refreshedProfile;
+      });
 
-      console.log("Refreshed profile:", refreshedProfile);
+      console.log("Refreshed profile:", refreshResult);
 
-      if (refreshedProfile) {
-        setProfile(refreshedProfile);
-        setEditUsername(refreshedProfile.username);
-        setEditClassLevel(refreshedProfile.class_level);
-        setEditLanguage(refreshedProfile.preferred_language);
+      if (refreshResult) {
+        setProfile(refreshResult);
+        setEditUsername(refreshResult.username);
+        setEditClassLevel(refreshResult.class_level);
+        setEditLanguage(refreshResult.preferred_language);
       }
 
       setIsEditing(false);
 
-    } catch (err) {
+    } catch (err: any) {
       console.error("Unexpected error:", err);
+      const isNetworkError = err.message?.includes('fetch') || 
+                             err.message?.includes('network');
       toast({
-        title: "अप्रत्याशित त्रुटि",
-        description: "कृपया पुनः प्रयास करें",
+        title: isNetworkError ? "नेटवर्क त्रुटि" : "अप्रत्याशित त्रुटि",
+        description: isNetworkError ? "इंटरनेट कनेक्शन जांचें और पुनः प्रयास करें" : "कृपया पुनः प्रयास करें",
         variant: "destructive",
       });
     }
