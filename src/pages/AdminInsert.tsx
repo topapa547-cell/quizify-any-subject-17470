@@ -8,8 +8,14 @@ import { toast } from "sonner";
 const AdminInsert = () => {
   const [isInsertingMath, setIsInsertingMath] = useState(false);
   const [isInsertingScience, setIsInsertingScience] = useState(false);
+  const [isInsertingSocialScience, setIsInsertingSocialScience] = useState(false);
+  const [isInsertingEnglish, setIsInsertingEnglish] = useState(false);
+  const [isInsertingHindi, setIsInsertingHindi] = useState(false);
   const [mathResult, setMathResult] = useState<any>(null);
   const [scienceResult, setScienceResult] = useState<any>(null);
+  const [socialScienceResult, setSocialScienceResult] = useState<any>(null);
+  const [englishResult, setEnglishResult] = useState<any>(null);
+  const [hindiResult, setHindiResult] = useState<any>(null);
 
   const handleInsertClass10Math = async () => {
     setIsInsertingMath(true);
