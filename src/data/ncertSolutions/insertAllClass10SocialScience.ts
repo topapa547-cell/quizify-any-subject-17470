@@ -1,20 +1,32 @@
 import { supabase } from "@/integrations/supabase/client";
 import { class10SocialScienceNCERT } from "./class10SocialScienceNCERT";
 import { class10SocialScienceInText } from "./class10SocialScienceInText";
+import { class10SocialScienceHistory } from "./class10SocialScienceHistory";
+import { class10SocialScienceGeography } from "./class10SocialScienceGeography";
+import { class10SocialSciencePolitics } from "./class10SocialSciencePolitics";
+import { class10SocialScienceEconomics } from "./class10SocialScienceEconomics";
 
 export const insertClass10SocialScienceComplete = async () => {
   try {
     console.log("🚀 Starting Class 10 Social Science NCERT Solutions insertion...");
     
-    // Combine all questions (exercise + in-text)
+    // Combine all questions (exercise + in-text + all books)
     const allQuestions = [
       ...class10SocialScienceNCERT,
-      ...class10SocialScienceInText
+      ...class10SocialScienceInText,
+      ...class10SocialScienceHistory,
+      ...class10SocialScienceGeography,
+      ...class10SocialSciencePolitics,
+      ...class10SocialScienceEconomics
     ];
     
     console.log(`📊 Total questions to insert: ${allQuestions.length}`);
     console.log(`   - Exercise questions: ${class10SocialScienceNCERT.length}`);
     console.log(`   - In-text questions: ${class10SocialScienceInText.length}`);
+    console.log(`   - History (4 books): ${class10SocialScienceHistory.length}`);
+    console.log(`   - Geography: ${class10SocialScienceGeography.length}`);
+    console.log(`   - Politics: ${class10SocialSciencePolitics.length}`);
+    console.log(`   - Economics: ${class10SocialScienceEconomics.length}`);
     
     let successCount = 0;
     let errorCount = 0;
