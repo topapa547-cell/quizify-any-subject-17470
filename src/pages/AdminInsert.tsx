@@ -8,6 +8,7 @@ import { insertClass10EnglishComplete } from "@/data/ncertSolutions/insertAllCla
 import { insertClass10HindiComplete } from "@/data/ncertSolutions/insertAllClass10Hindi";
 import { insertClass9MathNCERT } from "@/data/ncertSolutions/insertAllClass9Math";
 import { insertClass9ScienceNCERT } from "@/data/ncertSolutions/insertAllClass9Science";
+import { insertClass9EnglishNCERT } from "@/data/ncertSolutions/insertAllClass9English";
 import { toast } from "sonner";
 
 const AdminInsert = () => {
@@ -21,6 +22,8 @@ const AdminInsert = () => {
   const [mathResult, setMathResult] = useState<any>(null);
   const [class9MathResult, setClass9MathResult] = useState<any>(null);
   const [class9ScienceResult, setClass9ScienceResult] = useState<any>(null);
+  const [isInsertingClass9English, setIsInsertingClass9English] = useState(false);
+  const [class9EnglishResult, setClass9EnglishResult] = useState<any>(null);
   const [scienceResult, setScienceResult] = useState<any>(null);
   const [socialScienceResult, setSocialScienceResult] = useState<any>(null);
   const [englishResult, setEnglishResult] = useState<any>(null);
@@ -177,6 +180,28 @@ const AdminInsert = () => {
       setClass9ScienceResult({ success: false, error });
     } finally {
       setIsInsertingClass9Science(false);
+    }
+  };
+
+  const handleInsertClass9English = async () => {
+    setIsInsertingClass9English(true);
+    setClass9EnglishResult(null);
+    
+    try {
+      const insertResult = await insertClass9EnglishNCERT();
+      setClass9EnglishResult(insertResult);
+      
+      if (insertResult.success) {
+        toast.success(`✅ Successfully inserted ${insertResult.successCount} Class 9 English solutions!`);
+      } else {
+        toast.error(`❌ Failed to insert Class 9 English solutions`);
+      }
+    } catch (error) {
+      console.error("Error during insertion:", error);
+      toast.error("Failed to insert Class 9 English solutions");
+      setClass9EnglishResult({ success: false, error });
+    } finally {
+      setIsInsertingClass9English(false);
     }
   };
 
@@ -373,6 +398,34 @@ const AdminInsert = () => {
               <div className="space-y-2">
                 <p>Status: {class9ScienceResult.success ? "✅ Success" : "❌ Failed"}</p>
                 <p>Total Questions: {class9ScienceResult.count}</p>
+              </div>
+            </div>
+          )}
+        </Card>
+
+        {/* Class 9 English NCERT Solutions */}
+        <Card className="p-6 border-2 border-orange-500">
+          <h2 className="text-xl font-semibold mb-4">🆕 Class 9 English NCERT</h2>
+          <p className="text-muted-foreground mb-4">
+            Insert 60+ comprehensive NCERT solutions for Class 9 English (Beehive + Moments textbooks)
+          </p>
+          
+          <Button 
+            onClick={handleInsertClass9English}
+            disabled={isInsertingClass9English}
+            size="lg"
+            className="bg-orange-600 hover:bg-orange-700"
+          >
+            {isInsertingClass9English ? "Inserting..." : "Insert Class 9 English"}
+          </Button>
+
+          {class9EnglishResult && (
+            <div className="mt-4 p-4 bg-muted rounded-lg">
+              <h3 className="text-lg font-semibold mb-3">Class 9 English Result:</h3>
+              <div className="space-y-2">
+                <p>Status: {class9EnglishResult.success ? "✅ Success" : "❌ Failed"}</p>
+                <p>Total Questions: {class9EnglishResult.total}</p>
+                <p>Successfully Inserted: {class9EnglishResult.successCount}</p>
               </div>
             </div>
           )}
