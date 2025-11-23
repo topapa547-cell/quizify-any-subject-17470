@@ -6,6 +6,7 @@ import { insertClass10MathComplete } from "@/data/ncertSolutions/insertAllClass1
 import { insertClass10SocialScienceComplete } from "@/data/ncertSolutions/insertAllClass10SocialScience";
 import { insertClass10EnglishComplete } from "@/data/ncertSolutions/insertAllClass10English";
 import { insertClass10HindiComplete } from "@/data/ncertSolutions/insertAllClass10Hindi";
+import { insertClass9MathNCERT } from "@/data/ncertSolutions/insertAllClass9Math";
 import { toast } from "sonner";
 
 const AdminInsert = () => {
@@ -14,7 +15,9 @@ const AdminInsert = () => {
   const [isInsertingSocialScience, setIsInsertingSocialScience] = useState(false);
   const [isInsertingEnglish, setIsInsertingEnglish] = useState(false);
   const [isInsertingHindi, setIsInsertingHindi] = useState(false);
+  const [isInsertingClass9Math, setIsInsertingClass9Math] = useState(false);
   const [mathResult, setMathResult] = useState<any>(null);
+  const [class9MathResult, setClass9MathResult] = useState<any>(null);
   const [scienceResult, setScienceResult] = useState<any>(null);
   const [socialScienceResult, setSocialScienceResult] = useState<any>(null);
   const [englishResult, setEnglishResult] = useState<any>(null);
@@ -127,6 +130,28 @@ const AdminInsert = () => {
       setHindiResult({ success: false, error });
     } finally {
       setIsInsertingHindi(false);
+    }
+  };
+
+  const handleInsertClass9Math = async () => {
+    setIsInsertingClass9Math(true);
+    setClass9MathResult(null);
+    
+    try {
+      const insertResult = await insertClass9MathNCERT();
+      setClass9MathResult(insertResult);
+      
+      if (insertResult.success) {
+        toast.success(`✅ Successfully inserted ${insertResult.count} Class 9 Math solutions!`);
+      } else {
+        toast.error(`❌ Failed to insert Class 9 Math solutions`);
+      }
+    } catch (error) {
+      console.error("Error during insertion:", error);
+      toast.error("Failed to insert Class 9 Math solutions");
+      setClass9MathResult({ success: false, error });
+    } finally {
+      setIsInsertingClass9Math(false);
     }
   };
 
@@ -270,6 +295,32 @@ const AdminInsert = () => {
                 <p>Total Questions: {hindiResult.total}</p>
                 <p>Successfully Inserted: {hindiResult.successCount}</p>
                 <p>Errors: {hindiResult.errorCount}</p>
+              </div>
+            </div>
+          )}
+        </Card>
+
+        <Card className="p-6 border-2 border-primary">
+          <h2 className="text-xl font-semibold mb-4">🆕 Class 9 Mathematics NCERT</h2>
+          <p className="text-muted-foreground mb-4">
+            Insert 85 comprehensive NCERT solutions for Class 9 Math (all 15 chapters)
+          </p>
+          
+          <Button 
+            onClick={handleInsertClass9Math}
+            disabled={isInsertingClass9Math}
+            size="lg"
+            className="bg-indigo-600 hover:bg-indigo-700"
+          >
+            {isInsertingClass9Math ? "Inserting..." : "Insert Class 9 Math"}
+          </Button>
+
+          {class9MathResult && (
+            <div className="mt-4 p-4 bg-muted rounded-lg">
+              <h3 className="text-lg font-semibold mb-3">Class 9 Math Result:</h3>
+              <div className="space-y-2">
+                <p>Status: {class9MathResult.success ? "✅ Success" : "❌ Failed"}</p>
+                <p>Total Questions: {class9MathResult.count}</p>
               </div>
             </div>
           )}
