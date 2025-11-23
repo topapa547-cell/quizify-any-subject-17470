@@ -55,7 +55,7 @@ export const class10SocialScienceNCERT = [
   // Chapter 2: लोकतंत्र में सत्ता की साझेदारी (Power Sharing)
   {
     subject: 'social_science',
-    level: 10,
+    class_level: 10,
     chapter_number: 2,
     chapter_name: 'लोकतंत्र में सत्ता की साझेदारी',
     chapter_name_english: 'Power Sharing',
