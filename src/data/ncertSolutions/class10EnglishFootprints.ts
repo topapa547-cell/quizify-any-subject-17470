@@ -89,5 +89,61 @@ export const class10EnglishFootprints = [
     marks: 5,
     difficulty: 'medium',
     ncert_page_number: 9
+  },
+  // Chapter 3: The Midnight Visitor
+  {
+    subject: 'english',
+    class_level: 10,
+    chapter_number: 3,
+    chapter_name: 'The Midnight Visitor',
+    chapter_name_english: 'The Midnight Visitor',
+    exercise_number: 'Exercise 3.1',
+    question_number: '1',
+    question_type: 'exercise',
+    question_text: 'How is Ausable different from other secret agents?',
+    question_text_english: 'How is Ausable different from other secret agents?',
+    solution_text: 'Ausable is very different from the typical secret agent portrayed in movies and books:\n\n**Physical Appearance:**\n1. **Fat and sloppy**: Unlike the fit, athletic secret agents, Ausable is described as a fat man who is very sloppy in appearance.\n2. **Not impressive**: He doesn\'t have the glamorous, impressive look that people associate with secret agents.\n\n**Behavior and Lifestyle:**\n1. **Ordinary habits**: He stays in a small room in a French hotel, lives like an ordinary person.\n2. **No excitement**: His life seems boring and mundane, not filled with adventure and danger as Fowler expected.\n3. **American accent**: Despite living in Paris for twenty years, he still speaks French with an American accent, showing he doesn\'t fit the sophisticated European spy image.\n\n**Methods:**\n1. **Uses intelligence, not action**: Instead of physical strength or weapons, Ausable uses his sharp mind and quick thinking.\n2. **Deception through words**: He defeats Max not through fighting but through a cleverly fabricated story about a balcony.\n3. **Calm under pressure**: He remains calm and doesn\'t panic when threatened.\n\n**Result:**\nDespite his unimpressive appearance, Ausable proves to be highly effective. He demonstrates that real intelligence work requires brains, not brawn. His ordinary appearance is actually an advantage - people underestimate him, making him more successful.',
+    solution_text_english: 'Ausable is very different from the typical secret agent portrayed in movies and books:\n\n**Physical Appearance:**\n1. **Fat and sloppy**: Unlike the fit, athletic secret agents, Ausable is described as a fat man who is very sloppy in appearance.\n2. **Not impressive**: He doesn\'t have the glamorous, impressive look that people associate with secret agents.\n\n**Behavior and Lifestyle:**\n1. **Ordinary habits**: He stays in a small room in a French hotel, lives like an ordinary person.\n2. **No excitement**: His life seems boring and mundane, not filled with adventure and danger as Fowler expected.\n3. **American accent**: Despite living in Paris for twenty years, he still speaks French with an American accent, showing he doesn\'t fit the sophisticated European spy image.\n\n**Methods:**\n1. **Uses intelligence, not action**: Instead of physical strength or weapons, Ausable uses his sharp mind and quick thinking.\n2. **Deception through words**: He defeats Max not through fighting but through a cleverly fabricated story about a balcony.\n3. **Calm under pressure**: He remains calm and doesn\'t panic when threatened.\n\n**Result:**\nDespite his unimpressive appearance, Ausable proves to be highly effective. He demonstrates that real intelligence work requires brains, not brawn. His ordinary appearance is actually an advantage - people underestimate him, making him more successful.',
+    marks: 5,
+    difficulty: 'medium',
+    ncert_page_number: 17
+  },
+
+  // Chapter 4: A Question of Trust
+  {
+    subject: 'english',
+    class_level: 10,
+    chapter_number: 4,
+    chapter_name: 'A Question of Trust',
+    chapter_name_english: 'A Question of Trust',
+    exercise_number: 'Exercise 4.1',
+    question_number: '1',
+    question_type: 'exercise',
+    question_text: 'What does Horace Danby like to collect? How does he manage to do so?',
+    question_text_english: 'What does Horace Danby like to collect? How does he manage to do so?',
+    solution_text: '**What Horace Danby collects:**\nHorace Danby loves to collect rare and expensive books. He is passionate about books and this is his main hobby.\n\n**How he manages to collect them:**\n\n1. **Robbery for books**: Since rare books are very expensive and Horace is not wealthy enough to afford them through honest means, he commits robberies once a year.\n\n2. **Annual theft**: He carefully plans and executes one burglary each year, stealing enough money or valuables to buy the rare books he desires.\n\n3. **Careful planning**: He is very meticulous in his planning. He studies houses for weeks, learns the routines of the occupants, and chooses the safest time to break in.\n\n4. **Skilled thief**: He has mastered lock-picking and other burglary techniques. He can open safes without any difficulty.\n\n5. **No violence**: He is a "good" thief in the sense that he never hurts anyone and only steals from wealthy people who are insured.\n\n6. **Legitimate business**: He also runs a legitimate locksmith business, which provides him with a cover and helps him study locks and security systems.\n\nIronically, his love for books - a noble passion - drives him to crime. This creates a moral dilemma: can we justify theft when it\'s done to pursue knowledge and culture? The story suggests that no matter how "gentlemanly" a thief may be, crime remains wrong.',
+    solution_text_english: '**What Horace Danby collects:**\nHorace Danby loves to collect rare and expensive books. He is passionate about books and this is his main hobby.\n\n**How he manages to collect them:**\n\n1. **Robbery for books**: Since rare books are very expensive and Horace is not wealthy enough to afford them through honest means, he commits robberies once a year.\n\n2. **Annual theft**: He carefully plans and executes one burglary each year, stealing enough money or valuables to buy the rare books he desires.\n\n3. **Careful planning**: He is very meticulous in his planning. He studies houses for weeks, learns the routines of the occupants, and chooses the safest time to break in.\n\n4. **Skilled thief**: He has mastered lock-picking and other burglary techniques. He can open safes without any difficulty.\n\n5. **No violence**: He is a "good" thief in the sense that he never hurts anyone and only steals from wealthy people who are insured.\n\n6. **Legitimate business**: He also runs a legitimate locksmith business, which provides him with a cover and helps him study locks and security systems.\n\nIronically, his love for books - a noble passion - drives him to crime. This creates a moral dilemma: can we justify theft when it\'s done to pursue knowledge and culture? The story suggests that no matter how "gentlemanly" a thief may be, crime remains wrong.',
+    marks: 3,
+    difficulty: 'easy',
+    ncert_page_number: 24
+  },
+
+  // Chapter 5: Footprints without Feet
+  {
+    subject: 'english',
+    class_level: 10,
+    chapter_number: 5,
+    chapter_name: 'Footprints without Feet',
+    chapter_name_english: 'Footprints without Feet',
+    exercise_number: 'Exercise 5.1',
+    question_number: '1',
+    question_type: 'exercise',
+    question_text: 'How did the invisible man first become visible? Why did he become furious?',
+    question_text_english: 'How did the invisible man first become visible? Why did he become furious?',
+    solution_text: '**How Griffin became visible:**\n\nGriffin first became visible when he was seen by two boys in London:\n\n1. **Muddy footprints**: He had stepped in mud, and as he walked, he left muddy footprints on the steps of a house in the middle of London.\n\n2. **Fresh footprints**: The boys saw fresh, muddy footprints appearing one after another, but no person was visible.\n\n3. **Followed the prints**: Fascinated and puzzled, the boys followed these mysterious footprints.\n\n4. **Discovery**: As they followed, they realized that the footprints were being made by someone invisible - they could see the impressions but not the person making them.\n\n**Why he became furious:**\n\nGriffin became furious for several reasons:\n\n1. **Loss of privacy**: His invisibility was his secret power, and being discovered, even partially, threatened his privacy and safety.\n\n2. **Being followed**: The boys were following him, which made him feel exposed and vulnerable.\n\n3. **His nature**: Griffin was an irritable, short-tempered person by nature. He easily became angry.\n\n4. **Fear of capture**: He was worried that if people discovered his presence, they might try to capture or harm him.\n\n5. **Lawless character**: He was a lawless person who had already committed crimes. Any attention was dangerous for him.\n\nThis incident shows that even with the power of invisibility, Griffin couldn\'t escape completely. Small mistakes like stepping in mud could expose him.',
+    solution_text_english: '**How Griffin became visible:**\n\nGriffin first became visible when he was seen by two boys in London:\n\n1. **Muddy footprints**: He had stepped in mud, and as he walked, he left muddy footprints on the steps of a house in the middle of London.\n\n2. **Fresh footprints**: The boys saw fresh, muddy footprints appearing one after another, but no person was visible.\n\n3. **Followed the prints**: Fascinated and puzzled, the boys followed these mysterious footprints.\n\n4. **Discovery**: As they followed, they realized that the footprints were being made by someone invisible - they could see the impressions but not the person making them.\n\n**Why he became furious:**\n\nGriffin became furious for several reasons:\n\n1. **Loss of privacy**: His invisibility was his secret power, and being discovered, even partially, threatened his privacy and safety.\n\n2. **Being followed**: The boys were following him, which made him feel exposed and vulnerable.\n\n3. **His nature**: Griffin was an irritable, short-tempered person by nature. He easily became angry.\n\n4. **Fear of capture**: He was worried that if people discovered his presence, they might try to capture or harm him.\n\n5. **Lawless character**: He was a lawless person who had already committed crimes. Any attention was dangerous for him.\n\nThis incident shows that even with the power of invisibility, Griffin couldn\'t escape completely. Small mistakes like stepping in mud could expose him.',
+    marks: 5,
+    difficulty: 'medium',
+    ncert_page_number: 31
   }
 ];

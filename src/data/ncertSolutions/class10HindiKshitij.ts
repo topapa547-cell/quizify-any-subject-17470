@@ -93,5 +93,61 @@ export const class10HindiKshitij = [
     marks: 5,
     difficulty: 'medium',
     ncert_page_number: 42
+  },
+  // गद्य - Chapter 3: उपभोक्तावाद की संस्कृति
+  {
+    subject: 'hindi',
+    class_level: 10,
+    chapter_number: 3,
+    chapter_name: 'उपभोक्तावाद की संस्कृति',
+    chapter_name_english: 'Upbhoktavad Ki Sanskriti',
+    exercise_number: 'Exercise 3.1',
+    question_number: '1',
+    question_type: 'exercise',
+    question_text: 'लेखक के अनुसार जीवन में "सुख" से क्या अभिप्राय है?',
+    question_text_english: 'According to the author, what is meant by "happiness" in life?',
+    solution_text: 'लेखक के अनुसार जीवन में सच्चे सुख का अर्थ:\n\n1. **आवश्यकता की पूर्ति**: सुख का अर्थ है बुनियादी आवश्यकताओं की पूर्ति - भोजन, वस्त्र, आवास की उचित व्यवस्था।\n\n2. **संतोष**: जो है उसमें संतुष्ट रहना। लगातार अधिक चाहना सुख नहीं, बल्कि दुख का कारण है।\n\n3. **भौतिक सुख की सीमा**: केवल भौतिक वस्तुओं से सुख नहीं मिलता। नई वस्तुएं खरीदते रहना सच्चा सुख नहीं है।\n\n4. **आत्मिक शांति**: असली सुख मन की शांति और आत्मिक संतोष में है, न कि भौतिक संग्रह में।\n\n5. **रिश्तों का महत्व**: परिवार, मित्र और समाज के साथ अच्छे संबंध सच्चे सुख का स्रोत हैं।\n\n6. **उपभोक्तावाद का खंडन**: लेखक कहता है कि विज्ञापनों द्वारा दिखाया गया "सुख" झूठा है। वे बार-बार नई वस्तुएं खरीदने के लिए प्रेरित करते हैं, जो एक अंतहीन दौड़ है।\n\n7. **सरलता में सुख**: सादा जीवन, उच्च विचार - यही सच्चे सुख का मार्ग है।\n\nलेखक का संदेश है कि हमें उपभोक्तावादी संस्कृति के झांसे में नहीं आना चाहिए और सच्चे सुख को पहचानना चाहिए।',
+    solution_text_english: 'According to the author, the meaning of true happiness in life:\n\n1. **Fulfillment of Needs**: Happiness means fulfillment of basic needs - proper arrangement of food, clothing, shelter.\n\n2. **Contentment**: Being satisfied with what one has. Constantly wanting more is not happiness, but cause of suffering.\n\n3. **Limit of Material Happiness**: Happiness doesn\'t come only from material things. Continuously buying new things is not true happiness.\n\n4. **Spiritual Peace**: Real happiness is in peace of mind and spiritual contentment, not in material accumulation.\n\n5. **Importance of Relationships**: Good relations with family, friends and society are sources of true happiness.\n\n6. **Refutation of Consumerism**: The author says the "happiness" shown by advertisements is false. They constantly motivate to buy new things, which is an endless race.\n\n7. **Happiness in Simplicity**: Simple living, high thinking - this is the path to true happiness.\n\nThe author\'s message is that we should not fall for consumerist culture and should recognize true happiness.',
+    marks: 5,
+    difficulty: 'medium',
+    ncert_page_number: 28
+  },
+
+  // पद्य - Poem 3: देव के पद
+  {
+    subject: 'hindi',
+    class_level: 10,
+    chapter_number: 3,
+    chapter_name: 'देव',
+    chapter_name_english: 'Dev',
+    exercise_number: 'Exercise P3.1',
+    question_number: '1',
+    question_type: 'exercise',
+    question_text: 'कवि ने नायिका के सौंदर्य का वर्णन करने के लिए किन-किन उपमानों का प्रयोग किया है?',
+    question_text_english: 'What similes has the poet used to describe the beauty of the heroine?',
+    solution_text: 'कवि देव ने नायिका के सौंदर्य का वर्णन करने के लिए अनेक सुंदर उपमानों का प्रयोग किया है:\n\n**शारीरिक सौंदर्य के उपमान:**\n\n1. **मुख की उपमा**: चंद्रमा से - चंद्र जैसा गोल और सुंदर मुख।\n\n2. **आँखों की उपमा**: मछली से - मछली की तरह चंचल और सुंदर आँखें।\n\n3. **भौंहों की उपमा**: धनुष से - धनुष जैसी तिरछी और सुंदर भौंहें।\n\n4. **दांतों की उपमा**: मोती से - मोती जैसे चमकीले और सफेद दांत।\n\n5. **बालों की उपमा**: भंवरे से - भंवरे की तरह काले और घुंघराले बाल।\n\n6. **होठों की उपमा**: बिंब फल (लाल फल) से - लाल और रसीले होठ।\n\n7. **गर्दन की उपमा**: शंख से - शंख की तरह सुंदर और लंबी गर्दन।\n\n**विशेषताएं:**\n\n1. **रीतिकालीन परंपरा**: यह रीतिकाल की परंपरा के अनुसार नायिका के अंग-प्रत्यंग का वर्णन है।\n\n2. **प्राकृतिक उपमान**: अधिकतर उपमान प्रकृति से लिए गए हैं।\n\n3. **सांस्कृतिक संदर्भ**: कुछ उपमान भारतीय संस्कृति और परंपरा से जुड़े हैं।\n\n4. **कल्पनाशीलता**: कवि की कल्पनाशीलता और भाषा-कौशल का उत्कृष्ट उदाहरण।',
+    solution_text_english: 'Poet Dev has used many beautiful similes to describe the heroine\'s beauty:\n\n**Similes for Physical Beauty:**\n\n1. **Face compared to**: Moon - round and beautiful face like the moon.\n\n2. **Eyes compared to**: Fish - playful and beautiful eyes like fish.\n\n3. **Eyebrows compared to**: Bow - curved and beautiful eyebrows like a bow.\n\n4. **Teeth compared to**: Pearls - shining and white teeth like pearls.\n\n5. **Hair compared to**: Bumblebee - black and curly hair like bumblebee.\n\n6. **Lips compared to**: Bimb fruit (red fruit) - red and juicy lips.\n\n7. **Neck compared to**: Conch - beautiful and long neck like conch.\n\n**Features:**\n\n1. **Riti period tradition**: This is description of heroine\'s body parts according to Riti period tradition.\n\n2. **Natural similes**: Most similes are taken from nature.\n\n3. **Cultural context**: Some similes are connected to Indian culture and tradition.\n\n4. **Imagination**: Excellent example of poet\'s imagination and language skills.',
+    marks: 5,
+    difficulty: 'medium',
+    ncert_page_number: 52
+  },
+
+  // पद्य - Poem 4: जयशंकर प्रसाद
+  {
+    subject: 'hindi',
+    class_level: 10,
+    chapter_number: 4,
+    chapter_name: 'आत्मकथ्य',
+    chapter_name_english: 'Atmakathya',
+    exercise_number: 'Exercise P4.1',
+    question_number: '1',
+    question_type: 'exercise',
+    question_text: 'कवि जयशंकर प्रसाद अपने जीवन के बारे में क्या नहीं कहना चाहते?',
+    question_text_english: 'What does poet Jayshankar Prasad not want to say about his life?',
+    solution_text: 'कवि जयशंकर प्रसाद अपने जीवन के दुखद पहलुओं के बारे में नहीं कहना चाहते:\n\n**क्या नहीं कहना चाहते:**\n\n1. **व्यक्तिगत दुख**: अपने व्यक्तिगत दुखों और पीड़ाओं को सार्वजनिक नहीं करना चाहते।\n\n2. **जीवन की कठिनाइयां**: जीवन में आई कठिनाइयों का रोना नहीं रोना चाहते।\n\n3. **दुखद यादें**: बीते हुए दुखद समय की यादों को ताजा नहीं करना चाहते।\n\n4. **निजी संघर्ष**: अपने निजी संघर्षों को दूसरों के सामने प्रस्तुत नहीं करना चाहते।\n\n**क्यों नहीं कहना चाहते:**\n\n1. **गरिमा**: कवि की मान्यता है कि अपने दुखों का प्रदर्शन करना आत्म-सम्मान के विरुद्ध है।\n\n2. **सकारात्मकता**: वे सकारात्मक दृष्टिकोण रखना चाहते हैं, न कि अतीत के दुखों में उलझे रहना।\n\n3. **कमजोरी नहीं**: दुख का प्रदर्शन कमजोरी माना जाता है, और कवि मजबूत बने रहना चाहते हैं।\n\n4. **व्यर्थता**: बीते हुए दुखों को दोहराना व्यर्थ है, उससे कुछ लाभ नहीं।\n\n**संदेश:**\n"जो बीत गई सो बात गई" - यह कहावत इस भाव को स्पष्ट करती है। कवि चाहते हैं कि लोग अतीत में न उलझकर वर्तमान और भविष्य पर ध्यान दें।',
+    solution_text_english: 'Poet Jayshankar Prasad doesn\'t want to talk about the sad aspects of his life:\n\n**What he doesn\'t want to say:**\n\n1. **Personal sorrows**: Doesn\'t want to make his personal sorrows and sufferings public.\n\n2. **Life\'s difficulties**: Doesn\'t want to complain about difficulties faced in life.\n\n3. **Sad memories**: Doesn\'t want to refresh memories of sad past times.\n\n4. **Private struggles**: Doesn\'t want to present his private struggles before others.\n\n**Why he doesn\'t want to say:**\n\n1. **Dignity**: The poet believes that displaying one\'s sorrows is against self-respect.\n\n2. **Positivity**: He wants to maintain a positive outlook, not remain entangled in past sorrows.\n\n3. **Not weakness**: Display of sorrow is considered weakness, and the poet wants to remain strong.\n\n4. **Futility**: Repeating past sorrows is futile, there\'s no benefit from it.\n\n**Message:**\n"What\'s gone is gone" - this saying clarifies this sentiment. The poet wants people to focus on present and future, not get stuck in the past.',
+    marks: 5,
+    difficulty: 'medium',
+    ncert_page_number: 62
   }
 ];

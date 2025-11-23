@@ -193,5 +193,97 @@ export const class10EnglishFirstFlight = [
     marks: 5,
     difficulty: 'medium',
     ncert_page_number: 33
+  },
+  // PROSE - Chapter 3: Two Stories about Flying
+  {
+    subject: 'english',
+    class_level: 10,
+    chapter_number: 3,
+    chapter_name: 'Two Stories about Flying - I. His First Flight',
+    chapter_name_english: 'Two Stories about Flying - I. His First Flight',
+    exercise_number: 'Exercise 3.1',
+    question_number: '1',
+    question_type: 'exercise',
+    question_text: 'Why was the young seagull afraid to fly? Do you think all young birds are afraid to make their first flight?',
+    question_text_english: 'Why was the young seagull afraid to fly? Do you think all young birds are afraid to make their first flight?',
+    solution_text: 'The young seagull was afraid to fly for several reasons:\n\n1. **Fear of falling**: When he looked down at the vast sea below, he was terrified that his wings would not support him and he would fall into the water and drown.\n\n2. **Lack of confidence**: He had no faith in his wings. He felt they were too weak to carry his weight.\n\n3. **Great height**: The ledge where he stood was very high above the sea, which made the distance seem enormous and frightening.\n\n4. **First experience**: This was his first attempt at flying. Like any new experience, it filled him with anxiety and uncertainty.\n\nRegarding whether all young birds are afraid:\n\nYes, it is quite natural for young birds to be afraid of their first flight. Just like human children learning to walk or ride a bicycle, young birds experience fear when attempting something for the first time. However, the degree of fear may vary - some might be more adventurous while others more cautious. The young seagull\'s siblings had already flown, suggesting that while fear is common, some overcome it more quickly than others. The instinct to fly is strong, and with encouragement and necessity, most young birds eventually overcome their initial fear.',
+    solution_text_english: 'The young seagull was afraid to fly for several reasons:\n\n1. **Fear of falling**: When he looked down at the vast sea below, he was terrified that his wings would not support him and he would fall into the water and drown.\n\n2. **Lack of confidence**: He had no faith in his wings. He felt they were too weak to carry his weight.\n\n3. **Great height**: The ledge where he stood was very high above the sea, which made the distance seem enormous and frightening.\n\n4. **First experience**: This was his first attempt at flying. Like any new experience, it filled him with anxiety and uncertainty.\n\nRegarding whether all young birds are afraid:\n\nYes, it is quite natural for young birds to be afraid of their first flight. Just like human children learning to walk or ride a bicycle, young birds experience fear when attempting something for the first time. However, the degree of fear may vary - some might be more adventurous while others more cautious. The young seagull\'s siblings had already flown, suggesting that while fear is common, some overcome it more quickly than others. The instinct to fly is strong, and with encouragement and necessity, most young birds eventually overcome their initial fear.',
+    marks: 5,
+    difficulty: 'medium',
+    ncert_page_number: 32
+  },
+  {
+    subject: 'english',
+    class_level: 10,
+    chapter_number: 3,
+    chapter_name: 'Two Stories about Flying - I. His First Flight',
+    chapter_name_english: 'Two Stories about Flying - I. His First Flight',
+    exercise_number: 'Exercise 3.1',
+    question_number: '2',
+    question_type: 'exercise',
+    question_text: 'How did the seagull express his excitement when he saw his mother bringing food for him?',
+    question_text_english: 'How did the seagull express his excitement when he saw his mother bringing food for him?',
+    solution_text: 'The young seagull expressed his excitement in several ways when he saw his mother approaching with food:\n\n1. **Loud screaming**: He uttered a joyful scream, expressing his happiness and hunger.\n\n2. **Physical movement**: He leaned out eagerly from the ledge, tapping the rock with his feet.\n\n3. **Trying to reach closer**: He attempted to come nearer to her, showing his eagerness to get the food.\n\n4. **Complete focus**: His entire attention was on the piece of fish in his mother\'s beak.\n\nThis excitement was natural because he had been hungry for a whole day. His family had been trying to encourage him to fly by leaving him without food. The sight of food after such a long wait naturally made him forget his fear temporarily and focus entirely on satisfying his hunger. This strong desire for food ultimately became the motivation that made him take his first flight - when he leaned too far trying to reach the fish, he fell and was forced to use his wings.',
+    solution_text_english: 'The young seagull expressed his excitement in several ways when he saw his mother approaching with food:\n\n1. **Loud screaming**: He uttered a joyful scream, expressing his happiness and hunger.\n\n2. **Physical movement**: He leaned out eagerly from the ledge, tapping the rock with his feet.\n\n3. **Trying to reach closer**: He attempted to come nearer to her, showing his eagerness to get the food.\n\n4. **Complete focus**: His entire attention was on the piece of fish in his mother\'s beak.\n\nThis excitement was natural because he had been hungry for a whole day. His family had been trying to encourage him to fly by leaving him without food. The sight of food after such a long wait naturally made him forget his fear temporarily and focus entirely on satisfying his hunger. This strong desire for food ultimately became the motivation that made him take his first flight - when he leaned too far trying to reach the fish, he fell and was forced to use his wings.',
+    marks: 3,
+    difficulty: 'easy',
+    ncert_page_number: 34
+  },
+
+  // PROSE - Chapter 4: From the Diary of Anne Frank
+  {
+    subject: 'english',
+    class_level: 10,
+    chapter_number: 4,
+    chapter_name: 'From the Diary of Anne Frank',
+    chapter_name_english: 'From the Diary of Anne Frank',
+    exercise_number: 'Exercise 4.1',
+    question_number: '1',
+    question_type: 'exercise',
+    question_text: 'Was Anne right when she said that the paper has more patience than people? Give reasons.',
+    question_text_english: 'Was Anne right when she said that the paper has more patience than people? Give reasons.',
+    solution_text: 'Yes, Anne Frank was absolutely right when she said that "paper has more patience than people." Her observation was both profound and practical:\n\n**Why Anne was correct:**\n\n1. **Non-judgmental**: Paper (her diary) would never judge her thoughts, feelings, or actions. People, on the other hand, often judge and criticize.\n\n2. **Always available**: The diary was always there to listen whenever she wanted to express herself. People may not always be available or willing to listen.\n\n3. **Complete confidentiality**: The diary would keep all her secrets safe. People might gossip or reveal her private thoughts to others.\n\n4. **Unlimited time**: She could write as much and as long as she wanted. People might get bored, interrupt, or ask her to stop.\n\n5. **No interruptions**: The diary would never interrupt her thoughts or change the subject. People often do both.\n\n6. **Understanding without explanation**: She could express herself freely without having to explain or justify. People often demand explanations.\n\n7. **Her difficult circumstances**: Being in hiding during the Holocaust, she couldn\'t speak freely to people. The diary was her only safe outlet.\n\nAnne\'s statement reflects her deep need for a patient, understanding companion in her lonely, confined life. The diary became her best friend "Kitty" - more reliable than any human could be in her situation.',
+    solution_text_english: 'Yes, Anne Frank was absolutely right when she said that "paper has more patience than people." Her observation was both profound and practical:\n\n**Why Anne was correct:**\n\n1. **Non-judgmental**: Paper (her diary) would never judge her thoughts, feelings, or actions. People, on the other hand, often judge and criticize.\n\n2. **Always available**: The diary was always there to listen whenever she wanted to express herself. People may not always be available or willing to listen.\n\n3. **Complete confidentiality**: The diary would keep all her secrets safe. People might gossip or reveal her private thoughts to others.\n\n4. **Unlimited time**: She could write as much and as long as she wanted. People might get bored, interrupt, or ask her to stop.\n\n5. **No interruptions**: The diary would never interrupt her thoughts or change the subject. People often do both.\n\n6. **Understanding without explanation**: She could express herself freely without having to explain or justify. People often demand explanations.\n\n7. **Her difficult circumstances**: Being in hiding during the Holocaust, she couldn\'t speak freely to people. The diary was her only safe outlet.\n\nAnne\'s statement reflects her deep need for a patient, understanding companion in her lonely, confined life. The diary became her best friend "Kitty" - more reliable than any human could be in her situation.',
+    marks: 5,
+    difficulty: 'medium',
+    ncert_page_number: 51
+  },
+
+  // POETRY - Poem 2: Fire and Ice
+  {
+    subject: 'english',
+    class_level: 10,
+    chapter_number: 2,
+    chapter_name: 'Fire and Ice',
+    chapter_name_english: 'Fire and Ice',
+    exercise_number: 'Exercise P2.1',
+    question_number: '1',
+    question_type: 'exercise',
+    question_text: 'What is the rhyme scheme of the poem? How does it help in bringing out the contrasting ideas in the poem?',
+    question_text_english: 'What is the rhyme scheme of the poem? How does it help in bringing out the contrasting ideas in the poem?',
+    solution_text: '**Rhyme Scheme:**\n\nThe rhyme scheme of "Fire and Ice" is: a-b-a-a-b-c-b-c-b\n\nBreakdown:\n- Line 1: "desire" (a)\n- Line 2: "ice" (b)\n- Line 3: "fire" (a)\n- Line 4: "fire" (a)\n- Line 5: "twice" (b)\n- Line 6: "hate" (c)\n- Line 7: "ice" (b)\n- Line 8: "great" (c)\n- Line 9: "suffice" (b)\n\n**How it helps bring out contrasting ideas:**\n\n1. **Interlocking pattern**: The alternating rhyme creates an interlocking effect that mirrors how fire and ice, though opposites, are both equally destructive. They are woven together in the rhyme just as they are connected in the poem\'s theme.\n\n2. **Emphasis on "ice"**: The rhyme "ice" appears three times (lines 2, 7, 9), emphasizing the importance of this destructive force alongside fire.\n\n3. **Compact structure**: The tight rhyme scheme creates a compact, powerful poem that delivers its message efficiently - just as both fire and ice would end the world efficiently.\n\n4. **Balance**: The recurring "b" rhyme (ice, twice, suffice) balances with the "a" rhyme (desire, fire), showing that both forces are equally capable of destruction.\n\n5. **Controlled chaos**: The structured rhyme represents controlled expression of chaotic, destructive emotions (desire and hatred).',
+    solution_text_english: '**Rhyme Scheme:**\n\nThe rhyme scheme of "Fire and Ice" is: a-b-a-a-b-c-b-c-b\n\nBreakdown:\n- Line 1: "desire" (a)\n- Line 2: "ice" (b)\n- Line 3: "fire" (a)\n- Line 4: "fire" (a)\n- Line 5: "twice" (b)\n- Line 6: "hate" (c)\n- Line 7: "ice" (b)\n- Line 8: "great" (c)\n- Line 9: "suffice" (b)\n\n**How it helps bring out contrasting ideas:**\n\n1. **Interlocking pattern**: The alternating rhyme creates an interlocking effect that mirrors how fire and ice, though opposites, are both equally destructive. They are woven together in the rhyme just as they are connected in the poem\'s theme.\n\n2. **Emphasis on "ice"**: The rhyme "ice" appears three times (lines 2, 7, 9), emphasizing the importance of this destructive force alongside fire.\n\n3. **Compact structure**: The tight rhyme scheme creates a compact, powerful poem that delivers its message efficiently - just as both fire and ice would end the world efficiently.\n\n4. **Balance**: The recurring "b" rhyme (ice, twice, suffice) balances with the "a" rhyme (desire, fire), showing that both forces are equally capable of destruction.\n\n5. **Controlled chaos**: The structured rhyme represents controlled expression of chaotic, destructive emotions (desire and hatred).',
+    marks: 5,
+    difficulty: 'hard',
+    ncert_page_number: 37
+  },
+
+  // POETRY - Poem 3: A Tiger in the Zoo
+  {
+    subject: 'english',
+    class_level: 10,
+    chapter_number: 3,
+    chapter_name: 'A Tiger in the Zoo',
+    chapter_name_english: 'A Tiger in the Zoo',
+    exercise_number: 'Exercise P3.1',
+    question_number: '1',
+    question_type: 'exercise',
+    question_text: 'How does the tiger act in the cage? How is it different from the tiger in the jungle?',
+    question_text_english: 'How does the tiger act in the cage? How is it different from the tiger in the jungle?',
+    solution_text: '**Tiger in the Cage:**\n\n1. **Stalking in limited space**: The tiger walks in his cage, stalking the length of it with quiet rage.\n\n2. **Ignoring visitors**: He ignores the visitors who come to see him, showing his disinterest and possibly depression.\n\n3. **Silent anger**: His rage is "quiet" - he is angry but helpless, unable to express it.\n\n4. **Pacing back and forth**: He moves in a repetitive pattern within his confined space, showing frustration.\n\n5. **Looking at stars**: At night, he stares at the stars, perhaps longing for freedom.\n\n6. **Locked behind bars**: He is imprisoned, his strength and power useless.\n\n**Tiger in the Jungle (Natural Habitat):**\n\n1. **Free movement**: He would be lurking in shadow, sliding through long grass near a water hole.\n\n2. **Hunting**: He would be terrorizing the village, displaying his power and hunting for prey.\n\n3. **Powerful presence**: His teeth would be bared, claws would be sharp and ready, showing his natural predatory nature.\n\n4. **Fearsome**: Villagers would be afraid of him, recognizing his strength and danger.\n\n5. **Active and purposeful**: Every movement would have purpose - hunting, protecting territory, or seeking mates.\n\n**Contrast:**\nThe caged tiger is a shadow of his natural self - from a mighty predator to a helpless prisoner, from freedom to confinement, from purposeful hunting to meaningless pacing. The poem powerfully conveys how captivity destroys the tiger\'s natural spirit and dignity.',
+    solution_text_english: '**Tiger in the Cage:**\n\n1. **Stalking in limited space**: The tiger walks in his cage, stalking the length of it with quiet rage.\n\n2. **Ignoring visitors**: He ignores the visitors who come to see him, showing his disinterest and possibly depression.\n\n3. **Silent anger**: His rage is "quiet" - he is angry but helpless, unable to express it.\n\n4. **Pacing back and forth**: He moves in a repetitive pattern within his confined space, showing frustration.\n\n5. **Looking at stars**: At night, he stares at the stars, perhaps longing for freedom.\n\n6. **Locked behind bars**: He is imprisoned, his strength and power useless.\n\n**Tiger in the Jungle (Natural Habitat):**\n\n1. **Free movement**: He would be lurking in shadow, sliding through long grass near a water hole.\n\n2. **Hunting**: He would be terrorizing the village, displaying his power and hunting for prey.\n\n3. **Powerful presence**: His teeth would be bared, claws would be sharp and ready, showing his natural predatory nature.\n\n4. **Fearsome**: Villagers would be afraid of him, recognizing his strength and danger.\n\n5. **Active and purposeful**: Every movement would have purpose - hunting, protecting territory, or seeking mates.\n\n**Contrast:**\nThe caged tiger is a shadow of his natural self - from a mighty predator to a helpless prisoner, from freedom to confinement, from purposeful hunting to meaningless pacing. The poem powerfully conveys how captivity destroys the tiger\'s natural spirit and dignity.',
+    marks: 5,
+    difficulty: 'medium',
+    ncert_page_number: 41
   }
 ];
