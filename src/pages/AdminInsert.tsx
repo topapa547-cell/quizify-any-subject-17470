@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { insertClass10ScienceComplete } from "@/data/ncertSolutions/insertAllClass10ScienceComplete";
 import { insertClass10MathComplete } from "@/data/ncertSolutions/insertAllClass10MathComplete";
+import { insertClass10SocialScienceComplete } from "@/data/ncertSolutions/insertAllClass10SocialScience";
+import { insertClass10EnglishComplete } from "@/data/ncertSolutions/insertAllClass10English";
+import { insertClass10HindiComplete } from "@/data/ncertSolutions/insertAllClass10Hindi";
 import { toast } from "sonner";
 
 const AdminInsert = () => {
@@ -58,6 +61,72 @@ const AdminInsert = () => {
       setScienceResult({ success: false, error });
     } finally {
       setIsInsertingScience(false);
+    }
+  };
+
+  const handleInsertClass10SocialScience = async () => {
+    setIsInsertingSocialScience(true);
+    setSocialScienceResult(null);
+    
+    try {
+      const insertResult = await insertClass10SocialScienceComplete();
+      setSocialScienceResult(insertResult);
+      
+      if (insertResult.success) {
+        toast.success(`✅ Successfully inserted ${insertResult.successCount} Class 10 Social Science solutions!`);
+      } else {
+        toast.error(`❌ Insertion completed with ${insertResult.errorCount} errors`);
+      }
+    } catch (error) {
+      console.error("Error during insertion:", error);
+      toast.error("Failed to insert Social Science solutions");
+      setSocialScienceResult({ success: false, error });
+    } finally {
+      setIsInsertingSocialScience(false);
+    }
+  };
+
+  const handleInsertClass10English = async () => {
+    setIsInsertingEnglish(true);
+    setEnglishResult(null);
+    
+    try {
+      const insertResult = await insertClass10EnglishComplete();
+      setEnglishResult(insertResult);
+      
+      if (insertResult.success) {
+        toast.success(`✅ Successfully inserted ${insertResult.successCount} Class 10 English solutions!`);
+      } else {
+        toast.error(`❌ Insertion completed with ${insertResult.errorCount} errors`);
+      }
+    } catch (error) {
+      console.error("Error during insertion:", error);
+      toast.error("Failed to insert English solutions");
+      setEnglishResult({ success: false, error });
+    } finally {
+      setIsInsertingEnglish(false);
+    }
+  };
+
+  const handleInsertClass10Hindi = async () => {
+    setIsInsertingHindi(true);
+    setHindiResult(null);
+    
+    try {
+      const insertResult = await insertClass10HindiComplete();
+      setHindiResult(insertResult);
+      
+      if (insertResult.success) {
+        toast.success(`✅ Successfully inserted ${insertResult.successCount} Class 10 Hindi solutions!`);
+      } else {
+        toast.error(`❌ Insertion completed with ${insertResult.errorCount} errors`);
+      }
+    } catch (error) {
+      console.error("Error during insertion:", error);
+      toast.error("Failed to insert Hindi solutions");
+      setHindiResult({ success: false, error });
+    } finally {
+      setIsInsertingHindi(false);
     }
   };
 
@@ -117,6 +186,90 @@ const AdminInsert = () => {
                 <p>Total Questions: {scienceResult.total}</p>
                 <p>Successfully Inserted: {scienceResult.successCount}</p>
                 <p>Errors: {scienceResult.errorCount}</p>
+              </div>
+            </div>
+          )}
+        </Card>
+
+        <Card className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Batch 3: Class 10 Social Science</h2>
+          <p className="text-muted-foreground mb-4">
+            Insert ~70 NCERT solutions (History + Geography + Politics + Economics)
+          </p>
+          
+          <Button 
+            onClick={handleInsertClass10SocialScience}
+            disabled={isInsertingSocialScience}
+            size="lg"
+            className="bg-purple-600 hover:bg-purple-700"
+          >
+            {isInsertingSocialScience ? "Inserting..." : "Insert Class 10 Social Science"}
+          </Button>
+
+          {socialScienceResult && (
+            <div className="mt-4 p-4 bg-muted rounded-lg">
+              <h3 className="text-lg font-semibold mb-3">Social Science Insertion Result:</h3>
+              <div className="space-y-2">
+                <p>Status: {socialScienceResult.success ? "✅ Success" : "❌ Failed"}</p>
+                <p>Total Questions: {socialScienceResult.total}</p>
+                <p>Successfully Inserted: {socialScienceResult.successCount}</p>
+                <p>Errors: {socialScienceResult.errorCount}</p>
+              </div>
+            </div>
+          )}
+        </Card>
+
+        <Card className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Batch 4: Class 10 English</h2>
+          <p className="text-muted-foreground mb-4">
+            Insert ~20 NCERT solutions (First Flight + Footprints Without Feet)
+          </p>
+          
+          <Button 
+            onClick={handleInsertClass10English}
+            disabled={isInsertingEnglish}
+            size="lg"
+            className="bg-orange-600 hover:bg-orange-700"
+          >
+            {isInsertingEnglish ? "Inserting..." : "Insert Class 10 English"}
+          </Button>
+
+          {englishResult && (
+            <div className="mt-4 p-4 bg-muted rounded-lg">
+              <h3 className="text-lg font-semibold mb-3">English Insertion Result:</h3>
+              <div className="space-y-2">
+                <p>Status: {englishResult.success ? "✅ Success" : "❌ Failed"}</p>
+                <p>Total Questions: {englishResult.total}</p>
+                <p>Successfully Inserted: {englishResult.successCount}</p>
+                <p>Errors: {englishResult.errorCount}</p>
+              </div>
+            </div>
+          )}
+        </Card>
+
+        <Card className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Batch 5: Class 10 Hindi</h2>
+          <p className="text-muted-foreground mb-4">
+            Insert ~20 NCERT solutions (Kshitij Part-2 + Kritika Part-2)
+          </p>
+          
+          <Button 
+            onClick={handleInsertClass10Hindi}
+            disabled={isInsertingHindi}
+            size="lg"
+            className="bg-amber-600 hover:bg-amber-700"
+          >
+            {isInsertingHindi ? "Inserting..." : "Insert Class 10 Hindi"}
+          </Button>
+
+          {hindiResult && (
+            <div className="mt-4 p-4 bg-muted rounded-lg">
+              <h3 className="text-lg font-semibold mb-3">Hindi Insertion Result:</h3>
+              <div className="space-y-2">
+                <p>Status: {hindiResult.success ? "✅ Success" : "❌ Failed"}</p>
+                <p>Total Questions: {hindiResult.total}</p>
+                <p>Successfully Inserted: {hindiResult.successCount}</p>
+                <p>Errors: {hindiResult.errorCount}</p>
               </div>
             </div>
           )}
