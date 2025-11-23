@@ -1,20 +1,26 @@
 import { supabase } from "@/integrations/supabase/client";
 import { class10HindiNCERT } from "./class10HindiNCERT";
 import { class10HindiInText } from "./class10HindiInText";
+import { class10HindiKshitij } from "./class10HindiKshitij";
+import { class10HindiKritika } from "./class10HindiKritika";
 
 export const insertClass10HindiComplete = async () => {
   try {
     console.log("🚀 Starting Class 10 Hindi NCERT Solutions insertion...");
     
-    // Combine all questions (exercise + in-text)
+    // Combine all questions (exercise + in-text + both books)
     const allQuestions = [
       ...class10HindiNCERT,
-      ...class10HindiInText
+      ...class10HindiInText,
+      ...class10HindiKshitij,
+      ...class10HindiKritika
     ];
     
     console.log(`📊 Total questions to insert: ${allQuestions.length}`);
     console.log(`   - Exercise questions: ${class10HindiNCERT.length}`);
     console.log(`   - In-text questions: ${class10HindiInText.length}`);
+    console.log(`   - Kshitij Part-2 (Main Book): ${class10HindiKshitij.length}`);
+    console.log(`   - Kritika Part-2 (Supplementary): ${class10HindiKritika.length}`);
     
     let successCount = 0;
     let errorCount = 0;

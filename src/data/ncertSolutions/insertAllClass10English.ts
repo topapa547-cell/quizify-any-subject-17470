@@ -1,20 +1,26 @@
 import { supabase } from "@/integrations/supabase/client";
 import { class10EnglishNCERT } from "./class10EnglishNCERT";
 import { class10EnglishInText } from "./class10EnglishInText";
+import { class10EnglishFirstFlight } from "./class10EnglishFirstFlight";
+import { class10EnglishFootprints } from "./class10EnglishFootprints";
 
 export const insertClass10EnglishComplete = async () => {
   try {
     console.log("🚀 Starting Class 10 English NCERT Solutions insertion...");
     
-    // Combine all questions (exercise + in-text)
+    // Combine all questions (exercise + in-text + both books)
     const allQuestions = [
       ...class10EnglishNCERT,
-      ...class10EnglishInText
+      ...class10EnglishInText,
+      ...class10EnglishFirstFlight,
+      ...class10EnglishFootprints
     ];
     
     console.log(`📊 Total questions to insert: ${allQuestions.length}`);
     console.log(`   - Exercise questions: ${class10EnglishNCERT.length}`);
     console.log(`   - In-text questions: ${class10EnglishInText.length}`);
+    console.log(`   - First Flight (Main Reader): ${class10EnglishFirstFlight.length}`);
+    console.log(`   - Footprints Without Feet (Supplementary): ${class10EnglishFootprints.length}`);
     
     let successCount = 0;
     let errorCount = 0;
