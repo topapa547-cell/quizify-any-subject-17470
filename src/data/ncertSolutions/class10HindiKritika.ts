@@ -55,5 +55,42 @@ export const class10HindiKritika = [
     marks: 5,
     difficulty: 'medium',
     ncert_page_number: 15
+  },
+  // Chapter 3: साना-साना हाथ जोड़ि
+  {
+    subject: 'hindi',
+    class_level: 10,
+    chapter_number: 3,
+    chapter_name: 'साना-साना हाथ जोड़ि',
+    chapter_name_english: 'Sana-Sana Hath Jodi',
+    exercise_number: 'Exercise 3.1',
+    question_number: '1',
+    question_type: 'exercise',
+    question_text: 'प्रकृति के प्रति लेखिका के मन में श्रद्धा क्यों उत्पन्न हुई?',
+    question_text_english: 'Why did reverence for nature arise in the author\'s mind?',
+    solution_text: 'सिक्किम की यात्रा के दौरान लेखिका मधु कांकरिया के मन में प्रकृति के प्रति श्रद्धा इन कारणों से उत्पन्न हुई:\n\n1. **अद्भुत सौंदर्य**: हिमालय की प्राकृतिक सुंदरता देखकर लेखिका अभिभूत हो गई। बर्फ से ढके पहाड़, हरे-भरे जंगल, झरने और नदियां - सब कुछ मनमोहक था।\n\n2. **विशालता और भव्यता**: प्रकृति की विशालता और भव्यता को देखकर मनुष्य की तुच्छता का एहसास हुआ। पहाड़ों की ऊंचाई और विस्तार ने उन्हें नम्र बना दिया।\n\n3. **शक्ति का प्रदर्शन**: प्रकृति की अपार शक्ति - तूफान, बर्फबारी, बादलों का खेल - ये सब देखकर प्रकृति के सामने नतमस्तक होना पड़ा।\n\n4. **जीवन का स्रोत**: यह एहसास हुआ कि प्रकृति ही सभी जीवन का स्रोत है। पानी, हवा, भोजन - सब प्रकृति की देन है।\n\n5. **शांति और सुकून**: प्रकृति की गोद में अद्भुत शांति और सुकून मिला। शहरी जीवन की भागदौड़ से दूर, प्रकृति ने मन को शांत किया।\n\n6. **आध्यात्मिक अनुभूति**: प्रकृति को देखकर एक आध्यात्मिक अनुभूति हुई। ऐसा लगा जैसे ईश्वर की उपस्थिति महसूस हो रही है।\n\n7. **विनम्रता**: प्रकृति की महानता के सामने मनुष्य का अहंकार समाप्त हो जाता है।\n\nलेखिका ने "साना-साना हाथ जोड़ि" (हाथ जोड़कर प्रार्थना) शीर्षक इसलिए रखा क्योंकि प्रकृति के सामने हाथ जोड़ने के अलावा कुछ नहीं सूझता।',
+    solution_text_english: 'During the Sikkim trip, reverence for nature arose in author Madhu Kankaria\'s mind due to these reasons:\n\n1. **Wonderful Beauty**: The author was overwhelmed seeing the natural beauty of the Himalayas. Snow-covered mountains, green forests, waterfalls and rivers - everything was captivating.\n\n2. **Vastness and Grandeur**: Seeing the vastness and grandeur of nature, she realized human insignificance. The height and expanse of mountains humbled her.\n\n3. **Display of Power**: Nature\'s immense power - storms, snowfall, play of clouds - seeing all this, one had to bow before nature.\n\n4. **Source of Life**: Realization that nature is the source of all life. Water, air, food - all are gifts of nature.\n\n5. **Peace and Comfort**: Found wonderful peace and comfort in nature\'s lap. Away from urban hustle, nature calmed the mind.\n\n6. **Spiritual Experience**: Seeing nature gave a spiritual experience. It felt like experiencing God\'s presence.\n\n7. **Humility**: Human ego disappears before nature\'s greatness.\n\nThe author titled it "Sana-Sana Hath Jodi" (folding hands in prayer) because nothing else comes to mind except folding hands before nature.',
+    marks: 5,
+    difficulty: 'medium',
+    ncert_page_number: 28
+  },
+
+  // Chapter 4: एही ठैयाँ झुलनी हेरानी हो रामा!
+  {
+    subject: 'hindi',
+    class_level: 10,
+    chapter_number: 4,
+    chapter_name: 'एही ठैयाँ झुलनी हेरानी हो रामा!',
+    chapter_name_english: 'Ehi Thaiya Jhulni Herani Ho Rama',
+    exercise_number: 'Exercise 4.1',
+    question_number: '1',
+    question_type: 'exercise',
+    question_text: 'शिरीष के फूल के बारे में लेखक ने क्या कहा है?',
+    question_text_english: 'What has the author said about Shirish flowers?',
+    solution_text: 'लेखक हजारी प्रसाद द्विवेदी ने शिरीष के फूल के बारे में कई महत्वपूर्ण बातें कही हैं:\n\n**शिरीष के फूल की विशेषताएं:**\n\n1. **मासूमियत**: शिरीष के फूल बहुत कोमल और मासूम होते हैं। वे देखने में बहुत सुंदर लगते हैं।\n\n2. **दीर्घजीवी**: ये फूल बहुत लंबे समय तक पेड़ पर टिके रहते हैं। जब दूसरे फूल झड़ जाते हैं, तब भी ये बने रहते हैं।\n\n3. **धैर्य का प्रतीक**: लेखक कहता है कि शिरीष अवधूत की तरह है। जैसे अवधूत संसार की परवाह नहीं करता, वैसे ही शिरीष भी मौसम की परवाह नहीं करता।\n\n4. **जीवटता**: गर्मी हो या बरसात, शिरीष अपनी जगह पर डटा रहता है। यह जीवन की कठिनाइयों में भी स्थिर रहने का संदेश देता है।\n\n5. **सामाजिक संदेश**: लेखक शिरीष की तुलना उन लोगों से करता है जो कठिन परिस्थितियों में भी धैर्य नहीं खोते।\n\n6. **स्वतंत्रता संग्राम से जुड़ाव**: लेखक ने इसे स्वतंत्रता संग्राम के संदर्भ में भी देखा है। जैसे शिरीष अविचल रहता है, वैसे ही स्वतंत्रता सेनानी भी अपने लक्ष्य पर अडिग रहे।\n\n**गहरा अर्थ:**\nशिरीष केवल एक फूल नहीं, बल्कि जीवन-दर्शन का प्रतीक है। यह सिखाता है कि मुश्किलों में भी हँसते रहना चाहिए और अपने सिद्धांतों पर अडिग रहना चाहिए।',
+    solution_text_english: 'Author Hazari Prasad Dwivedi has said several important things about Shirish flowers:\n\n**Features of Shirish Flowers:**\n\n1. **Innocence**: Shirish flowers are very soft and innocent. They look very beautiful.\n\n2. **Long-lasting**: These flowers remain on the tree for a very long time. Even when other flowers fall, these remain.\n\n3. **Symbol of Patience**: The author says Shirish is like an Avadhoot (ascetic). Just as an ascetic doesn\'t care about the world, similarly Shirish doesn\'t care about weather.\n\n4. **Tenacity**: Summer or rain, Shirish stands firm in its place. It conveys the message of remaining stable in life\'s difficulties.\n\n5. **Social Message**: The author compares Shirish to people who don\'t lose patience in difficult circumstances.\n\n6. **Connection with Freedom Struggle**: The author has also seen it in the context of freedom struggle. Just as Shirish remains steadfast, similarly freedom fighters remained firm on their goal.\n\n**Deep Meaning:**\nShirish is not just a flower, but a symbol of life-philosophy. It teaches that one should keep smiling in difficulties and remain firm on one\'s principles.',
+    marks: 5,
+    difficulty: 'medium',
+    ncert_page_number: 38
   }
 ];
