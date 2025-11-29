@@ -3,7 +3,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Download, BookOpen } from "lucide-react";
+import { Download, Sparkles } from "lucide-react";
+import { EnhancedAnswerText } from "@/components/EnhancedAnswerText";
 import { generateLongQuestionPDF, downloadPDF, LongQuestion } from "@/utils/pdfGenerator";
 import { saveDownload } from "@/utils/offlineStorage";
 import { supabase } from "@/integrations/supabase/client";
@@ -212,10 +213,19 @@ const LongQuestions = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  <p className="font-semibold text-sm text-primary">{t("उत्तर:", "Answer:")}</p>
-                  <p className="text-sm whitespace-pre-line">
-                    {language === 'hindi' ? question.answer_text : (question.answer_text_english || question.answer_text)}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-semibold text-sm text-primary">{t("उत्तर:", "Answer:")}</p>
+                    <span className="text-xs text-muted-foreground flex items-center gap-1">
+                      <Sparkles className="h-3 w-3" />
+                      {t("महत्वपूर्ण शब्दों पर क्लिक करें", "Click on important terms")}
+                    </span>
+                  </div>
+                  <EnhancedAnswerText
+                    text={language === 'hindi' ? question.answer_text : (question.answer_text_english || question.answer_text)}
+                    subject={question.subject}
+                    classLevel={question.class_level}
+                    chapter={question.chapter}
+                  />
                 </div>
               </CardContent>
             </Card>

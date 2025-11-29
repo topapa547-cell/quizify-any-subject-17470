@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.insert-ncert-solutions]
 verify_jwt = false
+
+[functions.concept-explainer]
+verify_jwt = false
