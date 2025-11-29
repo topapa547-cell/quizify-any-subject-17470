@@ -30,6 +30,7 @@ const Home = () => {
   const [selectedSubject, setSelectedSubject] = useState<string>('');
   const [selectedQuestionCount, setSelectedQuestionCount] = useState<number>(10);
   const [dailyChallengeOpen, setDailyChallengeOpen] = useState(false);
+  const [showChallengePopup, setShowChallengePopup] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -97,10 +98,10 @@ const Home = () => {
 
       if (error) throw error;
 
-      // If no challenge completed today, show dialog after 1 second
+      // If no challenge completed today, show corner popup after 1 second
       if (!data) {
         setTimeout(() => {
-          setDailyChallengeOpen(true);
+          setShowChallengePopup(true);
         }, 1000);
       }
     } catch (error) {
@@ -356,6 +357,48 @@ const Home = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Daily Challenge Corner Popup */}
+      {showChallengePopup && (
+        <div className="fixed bottom-24 right-4 z-50 animate-slide-in-right">
+          <Card className="w-72 shadow-xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 via-background to-secondary/10">
+            <CardContent className="p-4">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                  <Target className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-bold text-foreground text-sm">🎯 Daily Challenge</h4>
+                  <p className="text-xs text-muted-foreground">आज का चैलेंज पूरा करें!</p>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground mb-3">
+                20 प्रश्नों का उत्तर दें और <span className="font-bold text-primary">40 अंक</span> कमाएं
+              </p>
+              <div className="flex gap-2">
+                <Button 
+                  size="sm" 
+                  className="flex-1"
+                  onClick={() => {
+                    setShowChallengePopup(false);
+                    setDailyChallengeOpen(true);
+                  }}
+                >
+                  <Sparkles className="w-3 h-3 mr-1" />
+                  शुरू करें
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={() => setShowChallengePopup(false)}
+                >
+                  बाद में
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Daily Challenge Dialog */}
       <DailyChallengeDialog 
