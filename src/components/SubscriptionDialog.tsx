@@ -148,7 +148,7 @@ export const SubscriptionDialog = ({ open, onClose }: SubscriptionDialogProps) =
               </div>
               <div className="flex gap-2">
                 <Input
-                  placeholder={language === 'hindi' ? 'जैसे: WELCOME2025' : 'e.g. WELCOME2025'}
+                  placeholder={language === 'hindi' ? 'अपना code यहाँ डालें' : 'Enter your code here'}
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                   className="flex-1 text-lg font-mono"
@@ -169,8 +169,8 @@ export const SubscriptionDialog = ({ open, onClose }: SubscriptionDialogProps) =
               </div>
               <p className="text-xs text-muted-foreground">
                 {language === 'hindi' 
-                  ? '💡 हिंट: WELCOME2025, STUDENT100, BOARD2025 जैसे codes try करें' 
-                  : '💡 Hint: Try codes like WELCOME2025, STUDENT100, BOARD2025'}
+                  ? '💡 अपने school/teacher से coupon code प्राप्त करें' 
+                  : '💡 Get coupon code from your school/teacher'}
               </p>
             </div>
 
