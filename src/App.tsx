@@ -20,6 +20,8 @@ import SetupProfile from "./pages/SetupProfile";
 import Motivations from "./pages/Motivations";
 import GrammarLab from "./pages/GrammarLab";
 import AdminInsert from "./pages/AdminInsert";
+import StudyNotes from "./pages/StudyNotes";
+import StudyMaterials from "./pages/StudyMaterials";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -44,6 +46,8 @@ const App = () => (
           <Route path="/previous-year-papers" element={<ProtectedRoute><PreviousYearPapers /></ProtectedRoute>} />
           <Route path="/motivations" element={<ProtectedRoute><Motivations /></ProtectedRoute>} />
           <Route path="/grammar-lab" element={<ProtectedRoute><GrammarLab /></ProtectedRoute>} />
+          <Route path="/study-notes" element={<ProtectedRoute><StudyNotes /></ProtectedRoute>} />
+          <Route path="/study-materials" element={<ProtectedRoute><StudyMaterials /></ProtectedRoute>} />
           <Route path="/downloads" element={<ProtectedRoute><Downloads /></ProtectedRoute>} />
           <Route path="/help" element={<ProtectedRoute><Help /></ProtectedRoute>} />
           <Route path="/admin-insert" element={<AdminInsert />} />
