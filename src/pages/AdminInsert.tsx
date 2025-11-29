@@ -9,6 +9,7 @@ import { insertClass10HindiComplete } from "@/data/ncertSolutions/insertAllClass
 import { insertClass9MathNCERT } from "@/data/ncertSolutions/insertAllClass9Math";
 import { insertClass9ScienceNCERT } from "@/data/ncertSolutions/insertAllClass9Science";
 import { insertClass9EnglishNCERT } from "@/data/ncertSolutions/insertAllClass9English";
+import { insertClass9SocialScienceNCERT } from "@/data/ncertSolutions/insertAllClass9SocialScience";
 import { toast } from "sonner";
 
 const AdminInsert = () => {
@@ -24,6 +25,8 @@ const AdminInsert = () => {
   const [class9ScienceResult, setClass9ScienceResult] = useState<any>(null);
   const [isInsertingClass9English, setIsInsertingClass9English] = useState(false);
   const [class9EnglishResult, setClass9EnglishResult] = useState<any>(null);
+  const [isInsertingClass9SocialScience, setIsInsertingClass9SocialScience] = useState(false);
+  const [class9SocialScienceResult, setClass9SocialScienceResult] = useState<any>(null);
   const [scienceResult, setScienceResult] = useState<any>(null);
   const [socialScienceResult, setSocialScienceResult] = useState<any>(null);
   const [englishResult, setEnglishResult] = useState<any>(null);
@@ -202,6 +205,28 @@ const AdminInsert = () => {
       setClass9EnglishResult({ success: false, error });
     } finally {
       setIsInsertingClass9English(false);
+    }
+  };
+
+  const handleInsertClass9SocialScience = async () => {
+    setIsInsertingClass9SocialScience(true);
+    setClass9SocialScienceResult(null);
+    
+    try {
+      const insertResult = await insertClass9SocialScienceNCERT();
+      setClass9SocialScienceResult(insertResult);
+      
+      if (insertResult.success) {
+        toast.success(`✅ Successfully inserted ${insertResult.successCount} Class 9 Social Science solutions!`);
+      } else {
+        toast.error(`❌ Failed to insert Class 9 Social Science solutions`);
+      }
+    } catch (error) {
+      console.error("Error during insertion:", error);
+      toast.error("Failed to insert Class 9 Social Science solutions");
+      setClass9SocialScienceResult({ success: false, error });
+    } finally {
+      setIsInsertingClass9SocialScience(false);
     }
   };
 
@@ -426,6 +451,34 @@ const AdminInsert = () => {
                 <p>Status: {class9EnglishResult.success ? "✅ Success" : "❌ Failed"}</p>
                 <p>Total Questions: {class9EnglishResult.total}</p>
                 <p>Successfully Inserted: {class9EnglishResult.successCount}</p>
+              </div>
+            </div>
+          )}
+        </Card>
+
+        {/* Class 9 Social Science NCERT Solutions */}
+        <Card className="p-6 border-2 border-purple-500">
+          <h2 className="text-xl font-semibold mb-4">🆕 Class 9 Social Science NCERT</h2>
+          <p className="text-muted-foreground mb-4">
+            Insert 80+ comprehensive NCERT solutions for Class 9 Social Science (History + Geography + Political Science + Economics)
+          </p>
+          
+          <Button 
+            onClick={handleInsertClass9SocialScience}
+            disabled={isInsertingClass9SocialScience}
+            size="lg"
+            className="bg-purple-600 hover:bg-purple-700"
+          >
+            {isInsertingClass9SocialScience ? "Inserting..." : "Insert Class 9 Social Science"}
+          </Button>
+
+          {class9SocialScienceResult && (
+            <div className="mt-4 p-4 bg-muted rounded-lg">
+              <h3 className="text-lg font-semibold mb-3">Class 9 Social Science Result:</h3>
+              <div className="space-y-2">
+                <p>Status: {class9SocialScienceResult.success ? "✅ Success" : "❌ Failed"}</p>
+                <p>Total Questions: {class9SocialScienceResult.total}</p>
+                <p>Successfully Inserted: {class9SocialScienceResult.successCount}</p>
               </div>
             </div>
           )}
