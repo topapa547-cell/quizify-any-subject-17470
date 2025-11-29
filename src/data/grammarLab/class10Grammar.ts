@@ -1117,5 +1117,1416 @@ export const class10GrammarTopics: GrammarTopic[] = [
         marks: 1
       }
     ]
+  },
+  {
+    id: 'modals-advanced-10',
+    topic_name: 'Modals (Advanced)',
+    topic_name_hindi: 'सहायक क्रियाएं (उन्नत)',
+    class_level: 10,
+    difficulty: 'advanced',
+    exam_weightage: 'high',
+    estimated_study_time: 45,
+    related_topics: ['conditionals-10', 'tenses-revision-10'],
+    identification_marks: {
+      signal_words: ['can', 'could', 'may', 'might', 'must', 'shall', 'should', 'will', 'would', 'ought to', 'need', 'dare', 'used to'],
+      signal_words_hindi: ['सकता है', 'चाहिए', 'होगा', 'करता था', 'हिम्मत करना'],
+      sentence_endings: ['Modal + V1', 'Modal + have + V3', 'Modal + be + V4'],
+      sentence_endings_hindi: ['सकता/सकती है', 'चाहिए था', 'होना चाहिए']
+    },
+    explanation: {
+      definition: 'Modals are auxiliary verbs that express ability, possibility, permission, obligation, advice, or necessity. They are followed by the base form of the main verb.',
+      definition_hindi: 'मोडल्स सहायक क्रियाएं हैं जो क्षमता, संभावना, अनुमति, दायित्व, सलाह या आवश्यकता व्यक्त करती हैं।',
+      key_points: [
+        'Modals do not change form (no -s, -ed, -ing)',
+        'Modal + V1 for present/future',
+        'Modal + have + V3 for past',
+        'Each modal has multiple meanings based on context',
+        'Semi-modals: ought to, need to, dare to, used to'
+      ],
+      key_points_hindi: [
+        'मोडल्स का रूप नहीं बदलता',
+        'Modal + V1 वर्तमान/भविष्य के लिए',
+        'Modal + have + V3 भूत के लिए',
+        'प्रत्येक मोडल के संदर्भ के अनुसार कई अर्थ होते हैं',
+        'अर्ध-मोडल: ought to, need to, dare to, used to'
+      ],
+      rules: [
+        'Can: ability, permission, possibility',
+        'Could: past ability, polite request',
+        'May: permission (formal), possibility',
+        'Might: weak possibility',
+        'Must: strong obligation, logical certainty',
+        'Should/Ought to: advice, expectation',
+        'Will: future, determination',
+        'Would: polite request, past habit'
+      ],
+      rules_hindi: [
+        'Can: क्षमता, अनुमति, संभावना',
+        'Could: भूत क्षमता, विनम्र अनुरोध',
+        'May: अनुमति (औपचारिक), संभावना',
+        'Might: कमजोर संभावना',
+        'Must: कड़ा दायित्व, तार्किक निश्चितता',
+        'Should/Ought to: सलाह, अपेक्षा',
+        'Will: भविष्य, दृढ़ संकल्प',
+        'Would: विनम्र अनुरोध, भूत आदत'
+      ],
+      examples: [
+        {
+          sentence: 'You must complete the work today.',
+          sentence_hindi: 'तुम्हें आज काम पूरा करना होगा।',
+          explanation: '"Must" expresses strong obligation.',
+          explanation_hindi: '"Must" कड़ा दायित्व व्यक्त करता है।'
+        },
+        {
+          sentence: 'You should have studied harder.',
+          sentence_hindi: 'तुम्हें और मेहनत से पढ़ना चाहिए था।',
+          explanation: '"Should have + V3" for past advice.',
+          explanation_hindi: '"Should have + V3" भूत सलाह के लिए।'
+        }
+      ],
+      common_mistakes: [
+        {
+          wrong: 'He must to go now.',
+          correct: 'He must go now.',
+          reason: 'Do not use "to" after modals.',
+          reason_hindi: 'मोडल्स के बाद "to" न लगाएं।'
+        }
+      ]
+    },
+    practice_questions: [
+      {
+        id: 'ma10-q1',
+        question_type: 'mcq',
+        question_text: 'Fill in: You _____ see a doctor. (strong advice)',
+        question_text_hindi: 'भरें: तुम्हें डॉक्टर को _____ (कड़ी सलाह)',
+        options: ['should', 'might', 'can', 'would'],
+        correct_answer: 'should',
+        explanation: '"Should" is used for strong advice.',
+        explanation_hindi: '"Should" कड़ी सलाह के लिए प्रयोग होता है।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ma10-q2',
+        question_type: 'mcq',
+        question_text: 'Fill in: He _____ be at home now. He always arrives by 6 PM. (logical certainty)',
+        question_text_hindi: 'भरें: वह अभी घर पर _____ (तार्किक निश्चितता)',
+        options: ['must', 'may', 'can', 'should'],
+        correct_answer: 'must',
+        explanation: '"Must" expresses logical certainty.',
+        explanation_hindi: '"Must" तार्किक निश्चितता व्यक्त करता है।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ma10-q3',
+        question_type: 'fill_blank',
+        question_text: 'She _____ (play) piano when she was five. (past ability)',
+        question_text_hindi: 'वह पाँच साल की थी तब पियानो _____ (भूत क्षमता)',
+        correct_answer: 'could',
+        explanation: '"Could" is used for past ability.',
+        explanation_hindi: '"Could" भूत क्षमता के लिए प्रयोग होता है।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ma10-q4',
+        question_type: 'fill_blank',
+        question_text: 'You _____ have called me earlier. (past criticism)',
+        question_text_hindi: 'तुम्हें मुझे पहले _____ (भूत आलोचना)',
+        correct_answer: 'should',
+        explanation: '"Should have + V3" for criticism about past.',
+        explanation_hindi: '"Should have + V3" भूत आलोचना के लिए।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ma10-q5',
+        question_type: 'error_correction',
+        question_text: 'He must to finish his homework.',
+        question_text_hindi: 'He must to finish his homework.',
+        correct_answer: 'He must finish his homework.',
+        explanation: 'Do not use "to" after must.',
+        explanation_hindi: 'must के बाद "to" प्रयोग न करें।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ma10-q6',
+        question_type: 'error_correction',
+        question_text: 'She cans swim very well.',
+        question_text_hindi: 'She cans swim very well.',
+        correct_answer: 'She can swim very well.',
+        explanation: 'Modals do not change form.',
+        explanation_hindi: 'मोडल्स का रूप नहीं बदलता।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ma10-q7',
+        question_type: 'transformation',
+        question_text: 'Rewrite expressing obligation: "It is necessary for you to attend."',
+        question_text_hindi: 'दायित्व व्यक्त करते हुए लिखें',
+        correct_answer: 'You must attend.',
+        explanation: '"Must" expresses necessity/obligation.',
+        explanation_hindi: '"Must" आवश्यकता/दायित्व व्यक्त करता है।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ma10-q8',
+        question_type: 'mcq',
+        question_text: '"You needn\'t come tomorrow" means:',
+        question_text_hindi: '"You needn\'t come tomorrow" का अर्थ है:',
+        options: ['It is not necessary for you to come.', 'You are not allowed to come.', 'You must come.', 'You should come.'],
+        correct_answer: 'It is not necessary for you to come.',
+        explanation: '"Needn\'t" means no necessity.',
+        explanation_hindi: '"Needn\'t" का अर्थ है कोई आवश्यकता नहीं।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ma10-q9',
+        question_type: 'mcq',
+        question_text: '_____ you please pass the salt? (polite request)',
+        question_text_hindi: '_____ आप नमक दे सकते हैं? (विनम्र अनुरोध)',
+        options: ['Could', 'Must', 'Need', 'Shall'],
+        correct_answer: 'Could',
+        explanation: '"Could" is used for polite requests.',
+        explanation_hindi: '"Could" विनम्र अनुरोधों के लिए।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ma10-q10',
+        question_type: 'fill_blank',
+        question_text: 'He _____ be the thief. He was with me. (impossibility)',
+        question_text_hindi: 'वह चोर _____ है। वह मेरे साथ था। (असंभवता)',
+        correct_answer: "can't",
+        explanation: '"Can\'t" expresses impossibility.',
+        explanation_hindi: '"Can\'t" असंभवता व्यक्त करता है।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ma10-q11',
+        question_type: 'error_correction',
+        question_text: 'We used to playing cricket every evening.',
+        question_text_hindi: 'We used to playing cricket every evening.',
+        correct_answer: 'We used to play cricket every evening.',
+        explanation: '"Used to" is followed by V1.',
+        explanation_hindi: '"Used to" के बाद V1 आता है।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ma10-q12',
+        question_type: 'mcq',
+        question_text: '"May I come in?" expresses:',
+        question_text_hindi: '"May I come in?" व्यक्त करता है:',
+        options: ['Permission (formal)', 'Ability', 'Obligation', 'Possibility'],
+        correct_answer: 'Permission (formal)',
+        explanation: '"May I...?" asks formal permission.',
+        explanation_hindi: '"May I...?" औपचारिक अनुमति।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ma10-q13',
+        question_type: 'transformation',
+        question_text: 'Express past regret: "I didn\'t help him."',
+        question_text_hindi: 'भूत का पछतावा व्यक्त करें',
+        correct_answer: 'I should have helped him.',
+        explanation: '"Should have + V3" for regret.',
+        explanation_hindi: '"Should have + V3" पछतावे के लिए।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ma10-q14',
+        question_type: 'fill_blank',
+        question_text: 'You _____ to respect your elders. (moral obligation)',
+        question_text_hindi: 'तुम्हें बड़ों का सम्मान _____ (नैतिक दायित्व)',
+        correct_answer: 'ought',
+        explanation: '"Ought to" for moral obligation.',
+        explanation_hindi: '"Ought to" नैतिक दायित्व के लिए।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ma10-q15',
+        question_type: 'mcq',
+        question_text: 'She _____ speak three languages. (ability)',
+        question_text_hindi: 'वह तीन भाषाएं _____ है। (क्षमता)',
+        options: ['can', 'must', 'should', 'may'],
+        correct_answer: 'can',
+        explanation: '"Can" expresses ability.',
+        explanation_hindi: '"Can" क्षमता व्यक्त करता है।',
+        difficulty: 'easy',
+        marks: 1
+      }
+    ]
+  },
+  {
+    id: 'clauses-10',
+    topic_name: 'Clauses (Noun, Adjective, Adverb)',
+    topic_name_hindi: 'उपवाक्य (संज्ञा, विशेषण, क्रिया विशेषण)',
+    class_level: 10,
+    difficulty: 'advanced',
+    exam_weightage: 'high',
+    estimated_study_time: 50,
+    related_topics: ['reported-speech-10', 'conditionals-10'],
+    identification_marks: {
+      signal_words: ['that', 'which', 'who', 'whom', 'whose', 'where', 'when', 'why', 'if', 'whether', 'because', 'although'],
+      signal_words_hindi: ['जो', 'कि', 'जहाँ', 'जब', 'क्योंकि', 'हालांकि'],
+      sentence_endings: ['Subject + Verb in clause', 'relative pronoun + clause'],
+      sentence_endings_hindi: ['कर्ता + क्रिया उपवाक्य में']
+    },
+    explanation: {
+      definition: 'A clause is a group of words with a subject and verb. Three types: Noun clauses (act as nouns), Adjective/Relative clauses (modify nouns), and Adverb clauses (modify verbs).',
+      definition_hindi: 'उपवाक्य शब्दों का समूह है जिसमें कर्ता और क्रिया होती है। तीन प्रकार: संज्ञा, विशेषण और क्रिया विशेषण उपवाक्य।',
+      key_points: [
+        'Noun Clause: Functions as subject, object, or complement',
+        'Adjective Clause: Begins with who, which, that, whose',
+        'Adverb Clause: Shows time, place, reason, condition',
+        'Defining clause: Essential information, no commas',
+        'Non-defining clause: Extra information, uses commas'
+      ],
+      key_points_hindi: [
+        'संज्ञा उपवाक्य: कर्ता, कर्म या पूरक के रूप में',
+        'विशेषण उपवाक्य: who, which, that, whose से शुरू',
+        'क्रिया विशेषण उपवाक्य: समय, स्थान, कारण, शर्त दर्शाता है',
+        'परिभाषित उपवाक्य: आवश्यक जानकारी, अल्पविराम नहीं',
+        'गैर-परिभाषित उपवाक्य: अतिरिक्त जानकारी, अल्पविराम के साथ'
+      ],
+      rules: [
+        'Noun Clause starters: that, what, whether, if, how, why',
+        'Adjective Clause for people: who, whom, whose',
+        'Adjective Clause for things: which, that',
+        'Adverb Clause of time: when, while, after, before',
+        'Adverb Clause of reason: because, since, as',
+        'Adverb Clause of condition: if, unless'
+      ],
+      rules_hindi: [
+        'संज्ञा उपवाक्य शुरुआत: that, what, whether, if, how, why',
+        'व्यक्तियों के लिए: who, whom, whose',
+        'वस्तुओं के लिए: which, that',
+        'समय का: when, while, after, before',
+        'कारण का: because, since, as',
+        'शर्त का: if, unless'
+      ],
+      examples: [
+        {
+          sentence: 'I know that he is honest. (Noun clause)',
+          sentence_hindi: 'मुझे पता है कि वह ईमानदार है।',
+          explanation: '"that he is honest" is object of "know".',
+          explanation_hindi: '"that he is honest" "know" का कर्म है।'
+        },
+        {
+          sentence: 'The book which I bought is interesting. (Adjective clause)',
+          sentence_hindi: 'जो किताब मैंने खरीदी वह रोचक है।',
+          explanation: '"which I bought" modifies "book".',
+          explanation_hindi: '"which I bought" "book" को विशेषित करता है।'
+        }
+      ],
+      common_mistakes: [
+        {
+          wrong: 'The man which came is my uncle.',
+          correct: 'The man who came is my uncle.',
+          reason: 'Use "who" for people, "which" for things.',
+          reason_hindi: 'व्यक्तियों के लिए "who", वस्तुओं के लिए "which"।'
+        }
+      ]
+    },
+    practice_questions: [
+      {
+        id: 'cl10-q1',
+        question_type: 'mcq',
+        question_text: 'Identify: "What he said was true."',
+        question_text_hindi: 'पहचानें: "What he said was true."',
+        options: ['Noun Clause', 'Adjective Clause', 'Adverb Clause', 'Independent Clause'],
+        correct_answer: 'Noun Clause',
+        explanation: '"What he said" acts as subject.',
+        explanation_hindi: '"What he said" कर्ता के रूप में।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'cl10-q2',
+        question_type: 'mcq',
+        question_text: 'Identify: "The girl who won is my sister."',
+        question_text_hindi: 'पहचानें: "The girl who won is my sister."',
+        options: ['Adjective Clause', 'Noun Clause', 'Adverb Clause', 'Independent Clause'],
+        correct_answer: 'Adjective Clause',
+        explanation: '"who won" modifies "girl".',
+        explanation_hindi: '"who won" "girl" को विशेषित करता है।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'cl10-q3',
+        question_type: 'fill_blank',
+        question_text: 'This is the house _____ I was born.',
+        question_text_hindi: 'यह वह घर है _____ मैं पैदा हुआ था।',
+        correct_answer: 'where',
+        explanation: '"Where" for place in adjective clauses.',
+        explanation_hindi: 'स्थान के लिए "where"।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'cl10-q4',
+        question_type: 'fill_blank',
+        question_text: 'I don\'t know _____ she will come.',
+        question_text_hindi: 'मुझे नहीं पता _____ वह आएगी।',
+        correct_answer: 'whether/if',
+        explanation: '"Whether/if" for doubt in noun clauses.',
+        explanation_hindi: '"Whether/if" संदेह के लिए।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'cl10-q5',
+        question_type: 'error_correction',
+        question_text: 'The man which is standing is my father.',
+        question_text_hindi: 'The man which is standing is my father.',
+        correct_answer: 'The man who is standing is my father.',
+        explanation: 'Use "who" for people.',
+        explanation_hindi: 'व्यक्तियों के लिए "who"।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'cl10-q6',
+        question_type: 'error_correction',
+        question_text: 'Tell me where does he work.',
+        question_text_hindi: 'Tell me where does he work.',
+        correct_answer: 'Tell me where he works.',
+        explanation: 'Noun clauses use normal word order.',
+        explanation_hindi: 'संज्ञा उपवाक्यों में सामान्य शब्द क्रम।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'cl10-q7',
+        question_type: 'transformation',
+        question_text: 'Combine: "I met a man. His son is a doctor."',
+        question_text_hindi: 'जोड़ें: "I met a man. His son is a doctor."',
+        correct_answer: 'I met a man whose son is a doctor.',
+        explanation: '"Whose" shows possession.',
+        explanation_hindi: '"Whose" संबंध दर्शाता है।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'cl10-q8',
+        question_type: 'transformation',
+        question_text: 'Combine using adverb clause: "She studied hard. She wanted to pass."',
+        question_text_hindi: 'जोड़ें: "She studied hard. She wanted to pass."',
+        correct_answer: 'She studied hard because she wanted to pass.',
+        explanation: '"Because" introduces reason clause.',
+        explanation_hindi: '"Because" कारण उपवाक्य।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'cl10-q9',
+        question_type: 'mcq',
+        question_text: '"Although he was tired, he continued." - Type of adverb clause:',
+        question_text_hindi: 'क्रिया विशेषण उपवाक्य का प्रकार:',
+        options: ['Clause of contrast', 'Clause of time', 'Clause of reason', 'Clause of condition'],
+        correct_answer: 'Clause of contrast',
+        explanation: '"Although" shows contrast.',
+        explanation_hindi: '"Although" विपरीत दर्शाता है।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'cl10-q10',
+        question_type: 'mcq',
+        question_text: 'Fill in: "_____ he comes, tell him to wait."',
+        question_text_hindi: 'भरें: "_____ वह आए, उसे इंतजार करने को कहो।"',
+        options: ['When', 'Which', 'Who', 'Whose'],
+        correct_answer: 'When',
+        explanation: '"When" introduces time clause.',
+        explanation_hindi: '"When" समय उपवाक्य।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'cl10-q11',
+        question_type: 'fill_blank',
+        question_text: 'I believe _____ honesty is the best policy.',
+        question_text_hindi: 'मुझे विश्वास है _____ ईमानदारी सर्वोत्तम है।',
+        correct_answer: 'that',
+        explanation: '"That" introduces noun clause.',
+        explanation_hindi: '"That" संज्ञा उपवाक्य।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'cl10-q12',
+        question_type: 'error_correction',
+        question_text: 'The book whom I read was interesting.',
+        question_text_hindi: 'The book whom I read was interesting.',
+        correct_answer: 'The book which I read was interesting.',
+        explanation: '"Which" for things, "whom" for people.',
+        explanation_hindi: 'वस्तुओं के लिए "which"।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'cl10-q13',
+        question_type: 'transformation',
+        question_text: 'Combine: "He is a teacher. He teaches math."',
+        question_text_hindi: 'जोड़ें: "He is a teacher. He teaches math."',
+        correct_answer: 'He is a teacher who teaches math.',
+        explanation: '"Who" for people in adjective clause.',
+        explanation_hindi: '"Who" व्यक्तियों के लिए।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'cl10-q14',
+        question_type: 'mcq',
+        question_text: '"I don\'t know why he left" - The underlined is:',
+        question_text_hindi: 'रेखांकित उपवाक्य है:',
+        options: ['Noun Clause', 'Adjective Clause', 'Adverb Clause', 'Independent Clause'],
+        correct_answer: 'Noun Clause',
+        explanation: '"why he left" is object of "know".',
+        explanation_hindi: '"why he left" "know" का कर्म।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'cl10-q15',
+        question_type: 'fill_blank',
+        question_text: '_____ you work hard, you will succeed. (condition)',
+        question_text_hindi: '_____ तुम मेहनत करोगे, सफल होगे। (शर्त)',
+        correct_answer: 'If',
+        explanation: '"If" introduces condition clause.',
+        explanation_hindi: '"If" शर्त उपवाक्य।',
+        difficulty: 'easy',
+        marks: 1
+      }
+    ]
+  },
+  {
+    id: 'error-correction-10',
+    topic_name: 'Error Correction / Editing',
+    topic_name_hindi: 'त्रुटि सुधार / संपादन',
+    class_level: 10,
+    difficulty: 'advanced',
+    exam_weightage: 'high',
+    estimated_study_time: 40,
+    related_topics: ['tenses-revision-10', 'active-passive-10'],
+    identification_marks: {
+      signal_words: ['incorrect word', 'wrong form', 'missing word', 'extra word'],
+      signal_words_hindi: ['गलत शब्द', 'गलत रूप', 'लुप्त शब्द', 'अतिरिक्त शब्द'],
+      sentence_endings: ['Check verb forms', 'Check articles', 'Check prepositions'],
+      sentence_endings_hindi: ['क्रिया रूप जांचें', 'आर्टिकल्स जांचें', 'पूर्वसर्ग जांचें']
+    },
+    explanation: {
+      definition: 'Error correction involves identifying and fixing grammatical, spelling, or usage errors in sentences.',
+      definition_hindi: 'त्रुटि सुधार में वाक्यों में व्याकरणिक, वर्तनी या प्रयोग की त्रुटियों को पहचानना और ठीक करना शामिल है।',
+      key_points: [
+        'Common errors: verb forms, articles, prepositions, pronouns',
+        'Check tense consistency',
+        'Look for missing or extra words',
+        'Verify subject-verb agreement',
+        'Check proper noun/pronoun agreement'
+      ],
+      key_points_hindi: [
+        'सामान्य त्रुटियां: क्रिया रूप, आर्टिकल्स, पूर्वसर्ग, सर्वनाम',
+        'काल संगति जांचें',
+        'लुप्त या अतिरिक्त शब्द खोजें',
+        'कर्ता-क्रिया सहमति सत्यापित करें',
+        'संज्ञा/सर्वनाम सहमति जांचें'
+      ],
+      rules: [
+        'Articles: a (consonant sounds), an (vowel sounds), the (specific)',
+        'Subject-verb agreement: Singular subject = singular verb',
+        'Tense consistency: Maintain same tense unless time changes',
+        'Preposition usage: at (time/place), in (enclosed), on (surfaces)'
+      ],
+      rules_hindi: [
+        'आर्टिकल्स: a (व्यंजन), an (स्वर), the (विशिष्ट)',
+        'कर्ता-क्रिया सहमति: एकवचन कर्ता = एकवचन क्रिया',
+        'काल संगति: समय न बदले तो काल समान रखें',
+        'पूर्वसर्ग: at (समय/स्थान), in (बंद), on (सतह)'
+      ],
+      examples: [
+        {
+          sentence: 'Error: He go to school everyday. Correct: He goes to school every day.',
+          sentence_hindi: 'त्रुटि: He go to school everyday. सही: He goes to school every day.',
+          explanation: 'Third person singular needs "goes".',
+          explanation_hindi: 'तीसरे पुरुष एकवचन के लिए "goes"।'
+        }
+      ],
+      common_mistakes: [
+        {
+          wrong: 'Each of the boys have finished.',
+          correct: 'Each of the boys has finished.',
+          reason: '"Each" is singular.',
+          reason_hindi: '"Each" एकवचन है।'
+        }
+      ]
+    },
+    practice_questions: [
+      {
+        id: 'ec10-q1',
+        question_type: 'error_correction',
+        question_text: 'The news are very shocking today.',
+        question_text_hindi: 'The news are very shocking today.',
+        correct_answer: 'The news is very shocking today.',
+        explanation: '"News" is uncountable - singular verb.',
+        explanation_hindi: '"News" अगणनीय - एकवचन क्रिया।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ec10-q2',
+        question_type: 'error_correction',
+        question_text: 'Neither of the students were present.',
+        question_text_hindi: 'Neither of the students were present.',
+        correct_answer: 'Neither of the students was present.',
+        explanation: '"Neither" is singular.',
+        explanation_hindi: '"Neither" एकवचन है।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ec10-q3',
+        question_type: 'error_correction',
+        question_text: 'I have been living here since five years.',
+        question_text_hindi: 'I have been living here since five years.',
+        correct_answer: 'I have been living here for five years.',
+        explanation: 'Use "for" with duration.',
+        explanation_hindi: 'अवधि के साथ "for"।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ec10-q4',
+        question_type: 'error_correction',
+        question_text: 'He gave me a useful advice.',
+        question_text_hindi: 'He gave me a useful advice.',
+        correct_answer: 'He gave me useful advice.',
+        explanation: '"Advice" is uncountable.',
+        explanation_hindi: '"Advice" अगणनीय है।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ec10-q5',
+        question_type: 'error_correction',
+        question_text: 'She is more smarter than her brother.',
+        question_text_hindi: 'She is more smarter than her brother.',
+        correct_answer: 'She is smarter than her brother.',
+        explanation: 'Don\'t use "more" with -er forms.',
+        explanation_hindi: '-er रूपों के साथ "more" नहीं।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ec10-q6',
+        question_type: 'error_correction',
+        question_text: 'The furnitures in this room is new.',
+        question_text_hindi: 'The furnitures in this room is new.',
+        correct_answer: 'The furniture in this room is new.',
+        explanation: '"Furniture" has no plural.',
+        explanation_hindi: '"Furniture" का बहुवचन नहीं।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ec10-q7',
+        question_type: 'error_correction',
+        question_text: 'One of my friend is a doctor.',
+        question_text_hindi: 'One of my friend is a doctor.',
+        correct_answer: 'One of my friends is a doctor.',
+        explanation: '"One of" + plural noun.',
+        explanation_hindi: '"One of" + बहुवचन संज्ञा।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ec10-q8',
+        question_type: 'error_correction',
+        question_text: 'I prefer tea than coffee.',
+        question_text_hindi: 'I prefer tea than coffee.',
+        correct_answer: 'I prefer tea to coffee.',
+        explanation: '"Prefer" uses "to", not "than".',
+        explanation_hindi: '"Prefer" के साथ "to"।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ec10-q9',
+        question_type: 'error_correction',
+        question_text: 'He is suffering from fever since Monday.',
+        question_text_hindi: 'He is suffering from fever since Monday.',
+        correct_answer: 'He has been suffering from fever since Monday.',
+        explanation: '"Since" needs Present Perfect Continuous.',
+        explanation_hindi: '"Since" के साथ वर्तमान पूर्ण अपूर्ण।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ec10-q10',
+        question_type: 'error_correction',
+        question_text: 'The teacher along with students were present.',
+        question_text_hindi: 'The teacher along with students were present.',
+        correct_answer: 'The teacher along with students was present.',
+        explanation: 'Verb agrees with "teacher".',
+        explanation_hindi: 'क्रिया "teacher" से मिलती है।',
+        difficulty: 'hard',
+        marks: 1
+      },
+      {
+        id: 'ec10-q11',
+        question_type: 'error_correction',
+        question_text: 'I am agree with you.',
+        question_text_hindi: 'I am agree with you.',
+        correct_answer: 'I agree with you.',
+        explanation: '"Agree" is a verb, not adjective.',
+        explanation_hindi: '"Agree" क्रिया है।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ec10-q12',
+        question_type: 'error_correction',
+        question_text: 'She is elder than me.',
+        question_text_hindi: 'She is elder than me.',
+        correct_answer: 'She is elder to me.',
+        explanation: '"Elder" uses "to".',
+        explanation_hindi: '"Elder" के साथ "to"।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ec10-q13',
+        question_type: 'error_correction',
+        question_text: 'Mathematics are my favourite subject.',
+        question_text_hindi: 'Mathematics are my favourite subject.',
+        correct_answer: 'Mathematics is my favourite subject.',
+        explanation: 'Subject names in -ics are singular.',
+        explanation_hindi: '-ics वाले विषय एकवचन।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ec10-q14',
+        question_type: 'error_correction',
+        question_text: 'I reached at the station on time.',
+        question_text_hindi: 'I reached at the station on time.',
+        correct_answer: 'I reached the station on time.',
+        explanation: '"Reach" doesn\'t need preposition.',
+        explanation_hindi: '"Reach" के साथ पूर्वसर्ग नहीं।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ec10-q15',
+        question_type: 'error_correction',
+        question_text: 'She is a honest girl.',
+        question_text_hindi: 'She is a honest girl.',
+        correct_answer: 'She is an honest girl.',
+        explanation: '"Honest" has silent h - vowel sound.',
+        explanation_hindi: '"Honest" में मूक h - स्वर ध्वनि।',
+        difficulty: 'easy',
+        marks: 1
+      }
+    ]
+  },
+  {
+    id: 'sentence-rearrangement-10',
+    topic_name: 'Sentence Rearrangement',
+    topic_name_hindi: 'वाक्य पुनर्व्यवस्था',
+    class_level: 10,
+    difficulty: 'intermediate',
+    exam_weightage: 'high',
+    estimated_study_time: 35,
+    related_topics: ['clauses-10'],
+    identification_marks: {
+      signal_words: ['First', 'Then', 'Next', 'After', 'Finally', 'However', 'Therefore'],
+      signal_words_hindi: ['पहले', 'फिर', 'उसके बाद', 'अंत में', 'हालांकि', 'इसलिए'],
+      sentence_endings: ['Logical sequence', 'Time order', 'Cause-effect'],
+      sentence_endings_hindi: ['तार्किक क्रम', 'समय क्रम', 'कारण-प्रभाव']
+    },
+    explanation: {
+      definition: 'Sentence rearrangement involves arranging jumbled sentences in logical order to form a meaningful passage.',
+      definition_hindi: 'वाक्य पुनर्व्यवस्था में उलटे-पुलटे वाक्यों को तार्किक क्रम में व्यवस्थित करना शामिल है।',
+      key_points: [
+        'Find opening sentence (topic introduction)',
+        'Look for connecting words and pronouns',
+        'Identify chronological sequence',
+        'Find concluding sentence',
+        'Check pronoun references'
+      ],
+      key_points_hindi: [
+        'आरंभिक वाक्य खोजें (विषय परिचय)',
+        'जोड़ने वाले शब्द और सर्वनाम खोजें',
+        'कालानुक्रमिक क्रम पहचानें',
+        'समापन वाक्य खोजें',
+        'सर्वनाम संदर्भ जांचें'
+      ],
+      rules: [
+        'Introduction first: Name/topic mentioned first',
+        'Pronouns after nouns: "He" after person named',
+        'Cause before effect',
+        'General to specific',
+        'Earlier events before later'
+      ],
+      rules_hindi: [
+        'परिचय पहले: नाम/विषय पहले',
+        'संज्ञा के बाद सर्वनाम',
+        'प्रभाव से पहले कारण',
+        'सामान्य से विशिष्ट',
+        'बाद की से पहले पहले की घटनाएं'
+      ],
+      examples: [
+        {
+          sentence: 'P: He was a great leader. Q: Mahatma Gandhi was born in 1869. R: He led India to freedom. → QPRS',
+          sentence_hindi: 'Q (परिचय) → P (वर्णन) → R (क्रिया)',
+          explanation: 'Q introduces, P describes, R gives action.',
+          explanation_hindi: 'Q परिचय, P वर्णन, R क्रिया।'
+        }
+      ],
+      common_mistakes: [
+        {
+          wrong: 'Starting with "He" when person not introduced.',
+          correct: 'First introduce person by name.',
+          reason: 'Pronouns need antecedents.',
+          reason_hindi: 'सर्वनाम को पूर्ववर्ती चाहिए।'
+        }
+      ]
+    },
+    practice_questions: [
+      {
+        id: 'sr10-q1',
+        question_type: 'reordering',
+        question_text: 'P-He is known for relativity. Q-Albert Einstein was a genius. R-He won Nobel Prize. S-He was born in Germany.',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'QSPR',
+        explanation: 'Q (intro) → S (birth) → P (famous) → R (achievement).',
+        explanation_hindi: 'Q (परिचय) → S (जन्म) → P (प्रसिद्धि) → R (उपलब्धि)।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'sr10-q2',
+        question_type: 'reordering',
+        question_text: 'P-Finally, they reached summit. Q-The climbers started early. R-They faced difficulties. S-But they didn\'t give up.',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'QRSP',
+        explanation: 'Q (start) → R (problems) → S (perseverance) → P (conclusion).',
+        explanation_hindi: 'Q (शुरुआत) → R (समस्या) → S (दृढ़ता) → P (निष्कर्ष)।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'sr10-q3',
+        question_type: 'reordering',
+        question_text: 'P-This leads to health problems. Q-People eat junk food. R-Therefore, eat healthy. S-Junk food has harmful substances.',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'QSPR',
+        explanation: 'Q (topic) → S (reason) → P (effect) → R (conclusion).',
+        explanation_hindi: 'Q (विषय) → S (कारण) → P (प्रभाव) → R (निष्कर्ष)।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'sr10-q4',
+        question_type: 'reordering',
+        question_text: 'Rearrange words: playing / children / in / the / are / garden / the',
+        question_text_hindi: 'शब्द पुनर्व्यवस्थित करें',
+        correct_answer: 'The children are playing in the garden.',
+        explanation: 'Subject + verb + place.',
+        explanation_hindi: 'कर्ता + क्रिया + स्थान।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'sr10-q5',
+        question_type: 'reordering',
+        question_text: 'Rearrange: always / she / early / gets / up / morning / in / the',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'She always gets up early in the morning.',
+        explanation: 'Subject + adverb + verb + time.',
+        explanation_hindi: 'कर्ता + क्रिया विशेषण + क्रिया + समय।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'sr10-q6',
+        question_type: 'reordering',
+        question_text: 'P-He studied medicine. Q-Kalam was born in Rameswaram. R-Later he became scientist. S-His father was boat owner.',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'QSPR',
+        explanation: 'Q (birth) → S (family) → P (education) → R (career).',
+        explanation_hindi: 'Q (जन्म) → S (परिवार) → P (शिक्षा) → R (करियर)।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'sr10-q7',
+        question_type: 'reordering',
+        question_text: 'Rearrange: to / wants / be / she / a / doctor / when / grows / she / up',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'She wants to be a doctor when she grows up.',
+        explanation: 'Main clause + subordinate clause.',
+        explanation_hindi: 'मुख्य उपवाक्य + अधीन उपवाक्य।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'sr10-q8',
+        question_type: 'reordering',
+        question_text: 'P-We should conserve it. Q-Water is essential. R-But water is becoming scarce. S-Every drop counts.',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'QRPS',
+        explanation: 'Q (truth) → R (problem) → P (solution) → S (conclusion).',
+        explanation_hindi: 'Q (सत्य) → R (समस्या) → P (समाधान) → S (निष्कर्ष)।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'sr10-q9',
+        question_type: 'reordering',
+        question_text: 'Rearrange: interesting / book / I / an / yesterday / read',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'I read an interesting book yesterday.',
+        explanation: 'Subject + verb + object + time.',
+        explanation_hindi: 'कर्ता + क्रिया + कर्म + समय।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'sr10-q10',
+        question_type: 'reordering',
+        question_text: 'P-This made him famous. Q-Newton saw apple fall. R-He discovered gravity. S-He wondered why it fell.',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'QSRP',
+        explanation: 'Q (observation) → S (question) → R (discovery) → P (result).',
+        explanation_hindi: 'Q (अवलोकन) → S (प्रश्न) → R (खोज) → P (परिणाम)।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'sr10-q11',
+        question_type: 'reordering',
+        question_text: 'Rearrange: for / waiting / I / been / have / hour / an / you',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'I have been waiting for you for an hour.',
+        explanation: 'Subject + has/have been + V4 + object + duration.',
+        explanation_hindi: 'कर्ता + has/have been + V4 + कर्म + अवधि।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'sr10-q12',
+        question_type: 'reordering',
+        question_text: 'P-Hence, plant more trees. Q-Trees give oxygen. R-They provide shade too. S-But trees are cut.',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'QRSP',
+        explanation: 'Q (benefit) → R (more) → S (problem) → P (conclusion).',
+        explanation_hindi: 'Q (लाभ) → R (अधिक) → S (समस्या) → P (निष्कर्ष)।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'sr10-q13',
+        question_type: 'reordering',
+        question_text: 'Rearrange: beautiful / how / is / rose / this / red',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'How beautiful this red rose is!',
+        explanation: 'Exclamatory: How + adjective + subject + verb!',
+        explanation_hindi: 'विस्मयादिबोधक: How + विशेषण + कर्ता + क्रिया!',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'sr10-q14',
+        question_type: 'reordering',
+        question_text: 'P-She taught herself languages. Q-Helen Keller was blind. R-She became inspiration. S-But she never gave up.',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'QSPR',
+        explanation: 'Q (challenge) → S (overcoming) → P (achievement) → R (result).',
+        explanation_hindi: 'Q (चुनौती) → S (जीत) → P (उपलब्धि) → R (परिणाम)।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'sr10-q15',
+        question_type: 'reordering',
+        question_text: 'Rearrange: teacher / the / explaining / is / lesson / the / students / to / the',
+        question_text_hindi: 'पुनर्व्यवस्थित करें',
+        correct_answer: 'The teacher is explaining the lesson to the students.',
+        explanation: 'Subject + is + V4 + object + to + indirect object.',
+        explanation_hindi: 'कर्ता + is + V4 + कर्म + to + अप्रत्यक्ष कर्म।',
+        difficulty: 'easy',
+        marks: 1
+      }
+    ]
+  },
+  {
+    id: 'gap-filling-10',
+    topic_name: 'Gap Filling (Integrated Grammar)',
+    topic_name_hindi: 'रिक्त स्थान भरें (एकीकृत व्याकरण)',
+    class_level: 10,
+    difficulty: 'intermediate',
+    exam_weightage: 'high',
+    estimated_study_time: 35,
+    related_topics: ['tenses-revision-10', 'modals-advanced-10'],
+    identification_marks: {
+      signal_words: ['context clues', 'verb forms', 'articles', 'prepositions'],
+      signal_words_hindi: ['संदर्भ संकेत', 'क्रिया रूप', 'आर्टिकल्स', 'पूर्वसर्ग'],
+      sentence_endings: ['Blank with options', 'Blank with hints'],
+      sentence_endings_hindi: ['विकल्पों के साथ रिक्त', 'संकेत के साथ रिक्त']
+    },
+    explanation: {
+      definition: 'Gap filling tests grammar knowledge by requiring students to fill blanks with appropriate words based on context.',
+      definition_hindi: 'रिक्त स्थान भरना व्याकरण ज्ञान का परीक्षण करता है।',
+      key_points: [
+        'Read entire sentence for context',
+        'Identify word type needed',
+        'Check subject-verb agreement',
+        'Look for time expressions for tense',
+        'Consider collocations'
+      ],
+      key_points_hindi: [
+        'संदर्भ के लिए पूरा वाक्य पढ़ें',
+        'आवश्यक शब्द प्रकार पहचानें',
+        'कर्ता-क्रिया सहमति जांचें',
+        'काल के लिए समय अभिव्यक्तियां देखें',
+        'संयोजनों पर विचार करें'
+      ],
+      rules: [
+        'Articles: a/an (indefinite), the (definite)',
+        'Prepositions: at (point), in (enclosed), on (surface)',
+        'Conjunctions: and (addition), but (contrast), because (reason)',
+        'Verb forms: Match tense with time expressions'
+      ],
+      rules_hindi: [
+        'आर्टिकल्स: a/an (अनिश्चित), the (निश्चित)',
+        'पूर्वसर्ग: at (बिंदु), in (बंद), on (सतह)',
+        'संयोजक: and (जोड़), but (विपरीत), because (कारण)',
+        'क्रिया रूप: समय के साथ काल मिलाएं'
+      ],
+      examples: [
+        {
+          sentence: 'I have been waiting _____ you _____ two hours. (for, for)',
+          sentence_hindi: 'मैं दो घंटे _____ तुम्हारा इंतजार कर रहा हूं।',
+          explanation: '"for" before object, "for" before duration.',
+          explanation_hindi: 'कर्म से पहले "for", अवधि से पहले "for"।'
+        }
+      ],
+      common_mistakes: [
+        {
+          wrong: 'I went to market in Sunday.',
+          correct: 'I went to market on Sunday.',
+          reason: 'Use "on" with days.',
+          reason_hindi: 'दिनों के साथ "on"।'
+        }
+      ]
+    },
+    practice_questions: [
+      {
+        id: 'gf10-q1',
+        question_type: 'fill_blank',
+        question_text: 'She is _____ best student in class.',
+        question_text_hindi: 'वह कक्षा में _____ सबसे अच्छी छात्रा है।',
+        correct_answer: 'the',
+        explanation: 'Superlatives take "the".',
+        explanation_hindi: 'उच्चतम से पहले "the"।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'gf10-q2',
+        question_type: 'fill_blank',
+        question_text: 'I have been living here _____ 2010.',
+        question_text_hindi: 'मैं 2010 _____ यहाँ रह रहा हूं।',
+        correct_answer: 'since',
+        explanation: '"Since" with point of time.',
+        explanation_hindi: 'समय बिंदु के साथ "since"।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'gf10-q3',
+        question_type: 'fill_blank',
+        question_text: 'He works _____ a bank.',
+        question_text_hindi: 'वह _____ बैंक में काम करता है।',
+        correct_answer: 'in',
+        explanation: '"In" for enclosed spaces.',
+        explanation_hindi: '"In" बंद स्थानों के लिए।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'gf10-q4',
+        question_type: 'fill_blank',
+        question_text: 'My father is _____ engineer.',
+        question_text_hindi: 'मेरे पिता _____ इंजीनियर हैं।',
+        correct_answer: 'an',
+        explanation: 'Vowel sound - "an".',
+        explanation_hindi: 'स्वर ध्वनि - "an"।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'gf10-q5',
+        question_type: 'fill_blank',
+        question_text: 'She goes to school _____ bus.',
+        question_text_hindi: 'वह _____ बस से स्कूल जाती है।',
+        correct_answer: 'by',
+        explanation: '"By" with transport.',
+        explanation_hindi: 'परिवहन के साथ "by"।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'gf10-q6',
+        question_type: 'fill_blank',
+        question_text: 'He _____ (go) to school yesterday.',
+        question_text_hindi: 'वह कल स्कूल _____ (जाना)।',
+        correct_answer: 'went',
+        explanation: '"Yesterday" = Simple Past.',
+        explanation_hindi: '"Yesterday" = सामान्य भूत।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'gf10-q7',
+        question_type: 'fill_blank',
+        question_text: 'There isn\'t _____ milk in the fridge.',
+        question_text_hindi: 'फ्रिज में _____ दूध नहीं है।',
+        correct_answer: 'any',
+        explanation: '"Any" in negative sentences.',
+        explanation_hindi: 'नकारात्मक में "any"।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'gf10-q8',
+        question_type: 'fill_blank',
+        question_text: 'He is interested _____ music.',
+        question_text_hindi: 'उसे संगीत _____ रुचि है।',
+        correct_answer: 'in',
+        explanation: '"Interested in".',
+        explanation_hindi: '"Interested in"।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'gf10-q9',
+        question_type: 'fill_blank',
+        question_text: 'She has been waiting _____ two hours.',
+        question_text_hindi: 'वह दो घंटे _____ इंतजार कर रही है।',
+        correct_answer: 'for',
+        explanation: '"For" with duration.',
+        explanation_hindi: 'अवधि के साथ "for"।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'gf10-q10',
+        question_type: 'fill_blank',
+        question_text: 'I met him _____ Monday.',
+        question_text_hindi: 'मैं उससे _____ सोमवार को मिला।',
+        correct_answer: 'on',
+        explanation: '"On" with days.',
+        explanation_hindi: 'दिनों के साथ "on"।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'gf10-q11',
+        question_type: 'fill_blank',
+        question_text: 'She is good _____ mathematics.',
+        question_text_hindi: 'वह गणित _____ अच्छी है।',
+        correct_answer: 'at',
+        explanation: '"Good at" for skills.',
+        explanation_hindi: 'कौशल के लिए "Good at"।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'gf10-q12',
+        question_type: 'fill_blank',
+        question_text: '_____ you help me? (polite request)',
+        question_text_hindi: '_____ आप मेरी मदद कर सकते हैं?',
+        correct_answer: 'Could',
+        explanation: '"Could" for polite requests.',
+        explanation_hindi: '"Could" विनम्र अनुरोध।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'gf10-q13',
+        question_type: 'fill_blank',
+        question_text: 'He apologized _____ being late.',
+        question_text_hindi: 'उसने देर से आने _____ माफी मांगी।',
+        correct_answer: 'for',
+        explanation: '"Apologize for".',
+        explanation_hindi: '"Apologize for"।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'gf10-q14',
+        question_type: 'fill_blank',
+        question_text: 'I have _____ friends in this city.',
+        question_text_hindi: 'इस शहर में मेरे _____ दोस्त हैं।',
+        correct_answer: 'few/some/many',
+        explanation: 'Countable plural nouns.',
+        explanation_hindi: 'गणनीय बहुवचन संज्ञा।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'gf10-q15',
+        question_type: 'fill_blank',
+        question_text: 'The train arrives _____ 9:00 AM.',
+        question_text_hindi: 'ट्रेन _____ 9:00 बजे आती है।',
+        correct_answer: 'at',
+        explanation: '"At" with specific time.',
+        explanation_hindi: 'विशिष्ट समय के साथ "at"।',
+        difficulty: 'easy',
+        marks: 1
+      }
+    ]
+  },
+  {
+    id: 'transformation-sentences-10',
+    topic_name: 'Transformation of Sentences',
+    topic_name_hindi: 'वाक्य परिवर्तन',
+    class_level: 10,
+    difficulty: 'advanced',
+    exam_weightage: 'high',
+    estimated_study_time: 45,
+    related_topics: ['active-passive-10', 'reported-speech-10'],
+    identification_marks: {
+      signal_words: ['change to', 'transform', 'rewrite', 'convert'],
+      signal_words_hindi: ['बदलें', 'परिवर्तित करें', 'फिर से लिखें'],
+      sentence_endings: ['Different sentence types', 'Voice change', 'Degree change'],
+      sentence_endings_hindi: ['विभिन्न वाक्य प्रकार', 'वाच्य परिवर्तन', 'डिग्री परिवर्तन']
+    },
+    explanation: {
+      definition: 'Sentence transformation involves changing a sentence form while keeping meaning intact.',
+      definition_hindi: 'वाक्य परिवर्तन में अर्थ बनाए रखते हुए वाक्य का रूप बदलना शामिल है।',
+      key_points: [
+        'Affirmative ↔ Negative',
+        'Assertive ↔ Interrogative ↔ Exclamatory',
+        'Simple ↔ Compound ↔ Complex',
+        'Positive ↔ Comparative ↔ Superlative',
+        'Active ↔ Passive'
+      ],
+      key_points_hindi: [
+        'सकारात्मक ↔ नकारात्मक',
+        'कथनात्मक ↔ प्रश्नवाचक ↔ विस्मयादिबोधक',
+        'सरल ↔ संयुक्त ↔ मिश्र',
+        'सकारात्मक ↔ तुलनात्मक ↔ उच्चतम',
+        'कर्तृवाच्य ↔ कर्मवाच्य'
+      ],
+      rules: [
+        'Affirmative to Negative: Add "not" or negative words',
+        'Assertive to Exclamatory: What/How + adjective!',
+        'Positive to Comparative: "No other...as" → "...er than any"',
+        'Comparative to Superlative: "...er than any" → "the ...est"'
+      ],
+      rules_hindi: [
+        'सकारात्मक से नकारात्मक: "not" या नकारात्मक शब्द जोड़ें',
+        'कथनात्मक से विस्मयादिबोधक: What/How + विशेषण!',
+        'सकारात्मक से तुलनात्मक: "No other...as" → "...er than any"',
+        'तुलनात्मक से उच्चतम: "...er than any" → "the ...est"'
+      ],
+      examples: [
+        {
+          sentence: 'He is very intelligent. → How intelligent he is!',
+          sentence_hindi: 'वह बहुत बुद्धिमान है। → वह कितना बुद्धिमान है!',
+          explanation: 'Assertive to Exclamatory.',
+          explanation_hindi: 'कथनात्मक से विस्मयादिबोधक।'
+        }
+      ],
+      common_mistakes: [
+        {
+          wrong: 'He is intelligent. → He is not unintelligent.',
+          correct: 'He is intelligent. → He is not foolish.',
+          reason: 'Avoid double negatives.',
+          reason_hindi: 'दोहरे नकारात्मक से बचें।'
+        }
+      ]
+    },
+    practice_questions: [
+      {
+        id: 'ts10-q1',
+        question_type: 'transformation',
+        question_text: 'Change to Negative: "Everyone praised her."',
+        question_text_hindi: 'नकारात्मक में बदलें',
+        correct_answer: 'No one criticized her.',
+        explanation: 'Negative word + positive meaning.',
+        explanation_hindi: 'नकारात्मक शब्द + सकारात्मक अर्थ।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ts10-q2',
+        question_type: 'transformation',
+        question_text: 'Change to Exclamatory: "She is a very beautiful girl."',
+        question_text_hindi: 'विस्मयादिबोधक में बदलें',
+        correct_answer: 'What a beautiful girl she is!',
+        explanation: 'What + a/an + adjective + noun!',
+        explanation_hindi: 'What + a/an + विशेषण + संज्ञा!',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ts10-q3',
+        question_type: 'transformation',
+        question_text: 'Change to Interrogative: "He can speak English."',
+        question_text_hindi: 'प्रश्नवाचक में बदलें',
+        correct_answer: "Can't he speak English?",
+        explanation: 'Move modal before subject.',
+        explanation_hindi: 'मोडल कर्ता से पहले।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ts10-q4',
+        question_type: 'transformation',
+        question_text: 'Change to Superlative: "No other city is as big as Mumbai."',
+        question_text_hindi: 'उच्चतम में बदलें',
+        correct_answer: 'Mumbai is the biggest city.',
+        explanation: '"No other X as...as Y" → "Y is the ...est X"',
+        explanation_hindi: '"No other X as...as Y" → "Y is the ...est X"',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ts10-q5',
+        question_type: 'transformation',
+        question_text: 'Change to Comparative: "Sachin is the greatest batsman."',
+        question_text_hindi: 'तुलनात्मक में बदलें',
+        correct_answer: 'Sachin is greater than any other batsman.',
+        explanation: '"the ...est" → "...er than any other"',
+        explanation_hindi: '"the ...est" → "...er than any other"',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ts10-q6',
+        question_type: 'transformation',
+        question_text: 'Change to Complex: "Being tired, he went to bed."',
+        question_text_hindi: 'मिश्र में बदलें',
+        correct_answer: 'As he was tired, he went to bed.',
+        explanation: 'Simple (participle) → Complex (clause).',
+        explanation_hindi: 'सरल (कृदंत) → मिश्र (उपवाक्य)।',
+        difficulty: 'hard',
+        marks: 1
+      },
+      {
+        id: 'ts10-q7',
+        question_type: 'transformation',
+        question_text: 'Change to Affirmative: "Nobody can deny this."',
+        question_text_hindi: 'सकारात्मक में बदलें',
+        correct_answer: 'Everybody must accept this.',
+        explanation: '"Nobody can deny" → "Everybody must accept"',
+        explanation_hindi: '"Nobody can deny" → "Everybody must accept"',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ts10-q8',
+        question_type: 'transformation',
+        question_text: 'Change to Positive: "Akbar was greater than most emperors."',
+        question_text_hindi: 'सकारात्मक में बदलें',
+        correct_answer: 'Very few emperors were as great as Akbar.',
+        explanation: '"...er than most" → "Very few...as...as"',
+        explanation_hindi: '"...er than most" → "Very few...as...as"',
+        difficulty: 'hard',
+        marks: 1
+      },
+      {
+        id: 'ts10-q9',
+        question_type: 'transformation',
+        question_text: 'Change to Compound: "Though poor, he is honest."',
+        question_text_hindi: 'संयुक्त में बदलें',
+        correct_answer: 'He is poor but honest.',
+        explanation: 'Complex (though) → Compound (but).',
+        explanation_hindi: 'मिश्र (though) → संयुक्त (but)।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ts10-q10',
+        question_type: 'transformation',
+        question_text: 'Change to Assertive: "How beautiful the sunset is!"',
+        question_text_hindi: 'कथनात्मक में बदलें',
+        correct_answer: 'The sunset is very beautiful.',
+        explanation: 'Remove "How", add "very".',
+        explanation_hindi: '"How" हटाएं, "very" जोड़ें।',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ts10-q11',
+        question_type: 'transformation',
+        question_text: 'Change to Negative: "He always comes on time."',
+        question_text_hindi: 'नकारात्मक में बदलें',
+        correct_answer: 'He never comes late.',
+        explanation: '"always" → "never" with opposite meaning.',
+        explanation_hindi: '"always" → "never" विपरीत अर्थ के साथ।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ts10-q12',
+        question_type: 'transformation',
+        question_text: 'Change to Interrogative: "Nothing can stop him."',
+        question_text_hindi: 'प्रश्नवाचक में बदलें',
+        correct_answer: 'Can anything stop him?',
+        explanation: 'Negative → Interrogative positive.',
+        explanation_hindi: 'नकारात्मक → प्रश्नवाचक सकारात्मक।',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ts10-q13',
+        question_type: 'transformation',
+        question_text: 'Change: "He is too weak to walk." (to Complex)',
+        question_text_hindi: 'मिश्र में बदलें',
+        correct_answer: 'He is so weak that he cannot walk.',
+        explanation: '"too...to" → "so...that cannot"',
+        explanation_hindi: '"too...to" → "so...that cannot"',
+        difficulty: 'medium',
+        marks: 1
+      },
+      {
+        id: 'ts10-q14',
+        question_type: 'transformation',
+        question_text: 'Change degree: "Iron is more useful than any other metal." (Superlative)',
+        question_text_hindi: 'डिग्री बदलें (उच्चतम)',
+        correct_answer: 'Iron is the most useful metal.',
+        explanation: '"more...than any" → "the most..."',
+        explanation_hindi: '"more...than any" → "the most..."',
+        difficulty: 'easy',
+        marks: 1
+      },
+      {
+        id: 'ts10-q15',
+        question_type: 'transformation',
+        question_text: 'Change to Simple: "If you work hard, you will succeed."',
+        question_text_hindi: 'सरल में बदलें',
+        correct_answer: 'Working hard leads to success.',
+        explanation: 'Complex (if-clause) → Simple (gerund).',
+        explanation_hindi: 'मिश्र (if-उपवाक्य) → सरल (क्रियावाचक संज्ञा)।',
+        difficulty: 'hard',
+        marks: 1
+      }
+    ]
   }
 ];
