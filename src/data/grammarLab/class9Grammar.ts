@@ -30,6 +30,12 @@ export interface GrammarTopic {
   topic_name: string;
   topic_name_hindi: string;
   class_level: 9 | 10;
+  identification_marks?: {
+    signal_words: string[];
+    signal_words_hindi: string[];
+    sentence_endings: string[];
+    sentence_endings_hindi: string[];
+  };
   explanation: {
     definition: string;
     definition_hindi: string;
@@ -57,6 +63,12 @@ export const class9GrammarTopics: GrammarTopic[] = [
     exam_weightage: 'high',
     estimated_study_time: 45,
     related_topics: ['Past Tenses', 'Future Tenses', 'Subject-Verb Agreement'],
+    identification_marks: {
+      signal_words: ['always', 'usually', 'often', 'sometimes', 'never', 'every day', 'daily', 'now', 'at present', 'currently', 'at this moment', 'look!', 'listen!', 'already', 'just', 'yet', 'ever', 'since', 'for'],
+      signal_words_hindi: ['हमेशा', 'आमतौर पर', 'अक्सर', 'कभी-कभी', 'कभी नहीं', 'प्रतिदिन', 'अभी', 'इस समय', 'देखो!', 'सुनो!', 'पहले से', 'अभी-अभी'],
+      sentence_endings: ['V1/V1+s/es (Simple)', 'is/am/are + V1+ing (Continuous)', 'has/have + V3 (Perfect)', 'has/have been + V1+ing (Perfect Continuous)'],
+      sentence_endings_hindi: ['ता है, ती है, ते हैं (Simple)', 'रहा है, रही है, रहे हैं (Continuous)', 'चुका है, चुकी है, चुके हैं (Perfect)', 'रहा है + समय से (Perfect Continuous)']
+    },
     explanation: {
       definition: 'Present tenses are used to describe actions happening now, habitual actions, or general truths.',
       definition_hindi: 'वर्तमान काल का उपयोग वर्तमान में हो रही क्रियाओं, आदतन क्रियाओं या सामान्य सत्य को व्यक्त करने के लिए किया जाता है।',
@@ -358,6 +370,12 @@ export const class9GrammarTopics: GrammarTopic[] = [
     exam_weightage: 'high',
     estimated_study_time: 40,
     related_topics: ['Present Tenses', 'Future Tenses'],
+    identification_marks: {
+      signal_words: ['can', 'could', 'may', 'might', 'will', 'would', 'shall', 'should', 'must', 'ought to', 'need', 'dare', 'used to'],
+      signal_words_hindi: ['सकता है', 'सकता था', 'शायद', 'चाहिए', 'होगा', 'होना चाहिए', 'ज़रूर'],
+      sentence_endings: ['Modal + V1 (base form)', 'Modal + be + V3 (passive)', 'Modal + have + V3 (past possibility)'],
+      sentence_endings_hindi: ['सकता है/सकती है (ability)', 'चाहिए (advice)', 'होगा/होगी (future)', 'ज़रूर होना चाहिए (obligation)']
+    },
     explanation: {
       definition: 'Modal verbs are auxiliary verbs used to express ability, possibility, permission, obligation, etc.',
       definition_hindi: 'Modals क्षमता, संभावना, अनुमति, कर्तव्य आदि व्यक्त करने के लिए प्रयोग की जाने वाली सहायक क्रियाएं हैं।',

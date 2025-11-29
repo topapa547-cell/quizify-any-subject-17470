@@ -213,6 +213,55 @@ const GrammarLab = () => {
                 {language === 'hindi' ? selectedTopic.explanation.definition_hindi : selectedTopic.explanation.definition}
               </p>
 
+              {/* Identification Marks Section */}
+              {selectedTopic.identification_marks && (
+                <div className="bg-amber-50 dark:bg-amber-950/30 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-4">
+                  <h3 className="font-bold text-lg mb-3 text-amber-800 dark:text-amber-300 flex items-center gap-2">
+                    🔍 {language === 'hindi' ? 'पहचान के संकेत (Signal Words)' : 'Identification Marks (Signal Words)'}
+                  </h3>
+                  
+                  <div className="space-y-4">
+                    {/* Signal Words */}
+                    <div>
+                      <p className="text-sm font-semibold text-amber-700 dark:text-amber-400 mb-2">
+                        {language === 'hindi' ? '📌 पहचान शब्द:' : '📌 Signal Words:'}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {(language === 'hindi' 
+                          ? selectedTopic.identification_marks.signal_words_hindi 
+                          : selectedTopic.identification_marks.signal_words
+                        ).map((word, idx) => (
+                          <span 
+                            key={idx} 
+                            className="px-3 py-1 bg-amber-200 dark:bg-amber-800 text-amber-900 dark:text-amber-100 rounded-full text-sm font-medium"
+                          >
+                            {word}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Sentence Endings */}
+                    <div className="bg-orange-100 dark:bg-orange-900/30 rounded-lg p-3 border border-orange-300 dark:border-orange-700">
+                      <p className="text-sm font-semibold text-orange-700 dark:text-orange-400 mb-2">
+                        {language === 'hindi' ? '✏️ वाक्य की पहचान (Hindi Endings):' : '✏️ Sentence Structure:'}
+                      </p>
+                      <ul className="space-y-1">
+                        {(language === 'hindi' 
+                          ? selectedTopic.identification_marks.sentence_endings_hindi 
+                          : selectedTopic.identification_marks.sentence_endings
+                        ).map((ending, idx) => (
+                          <li key={idx} className="text-sm text-orange-800 dark:text-orange-200 flex items-start gap-2">
+                            <span className="text-orange-500">•</span>
+                            <span className="font-mono">{ending}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div>
                 <h3 className="font-semibold text-lg mb-3">
                   {language === 'hindi' ? '🔑 मुख्य बिंदु' : '🔑 Key Points'}

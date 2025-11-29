@@ -10,6 +10,12 @@ export const class10GrammarTopics: GrammarTopic[] = [
     exam_weightage: 'high',
     estimated_study_time: 50,
     related_topics: ['tenses-revision-10', 'modals-10'],
+    identification_marks: {
+      signal_words: ['by', 'by whom', 'was/were', 'is/am/are', 'has been', 'had been', 'will be', 'being', 'been'],
+      signal_words_hindi: ['द्वारा', 'के द्वारा', 'से', 'किसके द्वारा'],
+      sentence_endings: ['is/am/are + V3 (Present)', 'was/were + V3 (Past)', 'will be + V3 (Future)', 'has/have been + V3 (Perfect)'],
+      sentence_endings_hindi: ['जाता है, जाती है (Present)', 'गया था, गई थी (Past)', 'जाएगा, जाएगी (Future)', 'गया है, गई है (Perfect)']
+    },
     explanation: {
       definition: 'Active voice focuses on the doer of the action, while passive voice focuses on the action itself or the receiver of the action.',
       definition_hindi: 'कर्तृवाच्य में क्रिया करने वाले पर ध्यान होता है, जबकि कर्मवाच्य में क्रिया या क्रिया के प्राप्तकर्ता पर ध्यान होता है।',
@@ -163,6 +169,12 @@ export const class10GrammarTopics: GrammarTopic[] = [
     exam_weightage: 'high',
     estimated_study_time: 55,
     related_topics: ['modals-10', 'tenses-revision-10'],
+    identification_marks: {
+      signal_words: ['said', 'told', 'asked', 'replied', 'answered', 'exclaimed', 'ordered', 'requested', 'advised', 'suggested', 'wondered', 'enquired'],
+      signal_words_hindi: ['कहा कि', 'बताया कि', 'पूछा कि', 'उत्तर दिया कि', 'आदेश दिया कि', 'अनुरोध किया कि'],
+      sentence_endings: ['that + clause (statements)', 'if/whether + clause (yes/no questions)', 'wh-word + clause (wh-questions)', 'to + V1 (commands)'],
+      sentence_endings_hindi: ['कि + वाक्य (कथन)', 'कि क्या + वाक्य (हाँ/नहीं प्रश्न)', 'कहाँ/क्या/कब + वाक्य (प्रश्न)', 'को + V1 (आदेश)']
+    },
     explanation: {
       definition: 'Reported speech (indirect speech) is used to report what someone said without using their exact words.',
       definition_hindi: 'अप्रत्यक्ष कथन का उपयोग किसी के कहे गए शब्दों को उनके सटीक शब्दों के बिना रिपोर्ट करने के लिए किया जाता है।',
@@ -316,6 +328,12 @@ export const class10GrammarTopics: GrammarTopic[] = [
     exam_weightage: 'high',
     estimated_study_time: 90,
     related_topics: ['active-passive-10', 'reported-speech-10'],
+    identification_marks: {
+      signal_words: ['always', 'usually', 'now', 'at present', 'yesterday', 'ago', 'last', 'already', 'just', 'yet', 'since', 'for', 'tomorrow', 'next', 'by', 'before', 'while', 'when'],
+      signal_words_hindi: ['हमेशा', 'आमतौर पर', 'अभी', 'कल', 'पिछले', 'पहले से', 'अभी तक', 'से (since)', 'के लिए (for)', 'कल (future)', 'अगले'],
+      sentence_endings: ['V1/V1+s (Simple Present)', 'V2 (Simple Past)', 'will+V1 (Simple Future)', 'is/am/are+V-ing (Present Continuous)', 'was/were+V-ing (Past Continuous)', 'has/have+V3 (Present Perfect)', 'had+V3 (Past Perfect)'],
+      sentence_endings_hindi: ['ता है, ते हैं (Present)', 'या, ई, ए (Past Simple)', 'गा, गी, गे (Future)', 'रहा है (Continuous)', 'रहा था (Past Continuous)', 'चुका है (Perfect)', 'चुका था (Past Perfect)']
+    },
     explanation: {
       definition: 'Tenses indicate the time of action or state. English has 12 tenses divided into Present, Past, and Future categories.',
       definition_hindi: 'काल क्रिया या स्थिति के समय को दर्शाते हैं। अंग्रेजी में 12 काल हैं जो वर्तमान, भूत और भविष्य में विभाजित हैं।',
@@ -753,6 +771,12 @@ export const class10GrammarTopics: GrammarTopic[] = [
     exam_weightage: 'high',
     estimated_study_time: 60,
     related_topics: ['tenses-revision-10', 'modals-10'],
+    identification_marks: {
+      signal_words: ['if', 'unless', 'provided that', 'as long as', 'in case', 'suppose', 'what if', 'even if', 'only if', 'whether or not'],
+      signal_words_hindi: ['अगर', 'यदि', 'जब तक नहीं (unless)', 'बशर्ते कि', 'जब तक', 'मान लो कि'],
+      sentence_endings: ['If + Present, Present (Zero)', 'If + Present, will (First)', 'If + Past, would (Second)', 'If + had V3, would have V3 (Third)'],
+      sentence_endings_hindi: ['अगर...तो...है (Zero)', 'अगर...होगा तो...गा (First)', 'अगर...होता तो...ता (Second)', 'अगर...होता तो...होता (Third)']
+    },
     explanation: {
       definition: 'Conditionals express hypothetical situations and their consequences. They describe what happens, will happen, or would happen under certain conditions.',
       definition_hindi: 'शर्तवाचक वाक्य काल्पनिक स्थितियों और उनके परिणामों को व्यक्त करते हैं। ये बताते हैं कि कुछ शर्तों के तहत क्या होता है, होगा या होता।',
