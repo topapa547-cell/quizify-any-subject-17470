@@ -46,6 +46,8 @@ import { socialScienceQuestions } from './questions/socialScienceQuestions';
 import { englishQuestions } from './questions/englishQuestions';
 import { hindiQuestions } from './questions/hindiQuestions';
 import { itItesQuestions } from './questions/itItesQuestions';
+import { mathQuestionsGHS } from './questions/mathQuestionsGHS';
+import { scienceQuestionsGHS } from './questions/scienceQuestionsGHS';
 
 export const questionBank: QuizQuestion[] = [
   ...mathQuestions,
@@ -53,13 +55,15 @@ export const questionBank: QuizQuestion[] = [
   ...socialScienceQuestions,
   ...englishQuestions,
   ...hindiQuestions,
-  ...itItesQuestions
+  ...itItesQuestions,
+  ...mathQuestionsGHS,
+  ...scienceQuestionsGHS
 ];
 
 export const questionsBySubject: Record<string, QuizQuestion[]> = {
   all: questionBank,
-  math: mathQuestions,
-  science: scienceQuestions,
+  math: [...mathQuestions, ...mathQuestionsGHS],
+  science: [...scienceQuestions, ...scienceQuestionsGHS],
   social: socialScienceQuestions,
   english: englishQuestions,
   hindi: hindiQuestions,
