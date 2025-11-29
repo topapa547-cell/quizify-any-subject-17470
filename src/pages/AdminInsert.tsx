@@ -10,6 +10,7 @@ import { insertClass9MathNCERT } from "@/data/ncertSolutions/insertAllClass9Math
 import { insertClass9ScienceNCERT } from "@/data/ncertSolutions/insertAllClass9Science";
 import { insertClass9EnglishNCERT } from "@/data/ncertSolutions/insertAllClass9English";
 import { insertClass9SocialScienceNCERT } from "@/data/ncertSolutions/insertAllClass9SocialScience";
+import { insertClass9HindiNCERT } from "@/data/ncertSolutions/insertAllClass9Hindi";
 import { toast } from "sonner";
 
 const AdminInsert = () => {
