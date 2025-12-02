@@ -15,6 +15,7 @@ import LongQuestions from "./pages/LongQuestions";
 import NCERTSolutions from "./pages/NCERTSolutions";
 import PreviousYearPapers from "./pages/PreviousYearPapers";
 import Downloads from "./pages/Downloads";
+import KeyPoints from "./pages/KeyPoints";
 import Help from "./pages/Help";
 import SetupProfile from "./pages/SetupProfile";
 import Motivations from "./pages/Motivations";
@@ -54,6 +55,7 @@ const App = () => (
           <Route path="/study-notes" element={<ProtectedRoute><StudyNotes /></ProtectedRoute>} />
           <Route path="/study-materials" element={<ProtectedRoute><StudyMaterials /></ProtectedRoute>} />
           <Route path="/downloads" element={<ProtectedRoute><Downloads /></ProtectedRoute>} />
+          <Route path="/key-points" element={<ProtectedRoute><KeyPoints /></ProtectedRoute>} />
           <Route path="/help" element={<ProtectedRoute><Help /></ProtectedRoute>} />
           <Route path="/admin-insert" element={<AdminInsert />} />
           <Route path="/games/match-pair" element={<ProtectedRoute><MatchThePair /></ProtectedRoute>} />
