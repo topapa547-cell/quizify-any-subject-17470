@@ -130,6 +130,66 @@ export const matchingPairsData: MatchingSet[] = [
       { id: "6", left: "जलियांवाला बाग", right: "1919" },
     ]
   },
+  // Geography - Transport (from PDF)
+  {
+    id: "social-geo-transport",
+    subject: "social",
+    class_level: 10,
+    topic: "परिवहन के साधन",
+    pairs: [
+      { id: "1", left: "राष्ट्रीय राजमार्ग", right: "केंद्रीय लोक निर्माण विभाग" },
+      { id: "2", left: "राज्य राजमार्ग", right: "सार्वजनिक निर्माण विभाग" },
+      { id: "3", left: "सीमा सड़क संगठन", right: "सीमावर्ती क्षेत्र" },
+      { id: "4", left: "पवनहंस", right: "हेलीकॉप्टर सेवा" },
+      { id: "5", left: "कोलकाता", right: "अंतःस्थलीय नदी पत्तन" },
+      { id: "6", left: "मुंबई", right: "सबसे बड़ा पत्तन" },
+    ]
+  },
+  // Economics - Sectors
+  {
+    id: "social-eco-sectors",
+    subject: "social",
+    class_level: 10,
+    topic: "अर्थव्यवस्था के क्षेत्रक",
+    pairs: [
+      { id: "1", left: "प्राथमिक क्षेत्रक", right: "कृषि" },
+      { id: "2", left: "द्वितीयक क्षेत्रक", right: "विनिर्माण" },
+      { id: "3", left: "तृतीयक क्षेत्रक", right: "सेवाएं" },
+      { id: "4", left: "GDP", right: "सकल घरेलू उत्पाद" },
+      { id: "5", left: "HDI", right: "मानव विकास सूचकांक" },
+      { id: "6", left: "MGNREGA", right: "100 दिन रोजगार" },
+    ]
+  },
+  // Political Science - Federalism
+  {
+    id: "social-pol-federalism",
+    subject: "social",
+    class_level: 10,
+    topic: "संघवाद",
+    pairs: [
+      { id: "1", left: "बेल्जियम", right: "सत्ता की साझेदारी" },
+      { id: "2", left: "श्रीलंका", right: "बहुसंख्यकवाद" },
+      { id: "3", left: "ग्राम पंचायत", right: "स्थानीय स्वशासन" },
+      { id: "4", left: "संघ सूची", right: "केंद्र सरकार" },
+      { id: "5", left: "राज्य सूची", right: "राज्य सरकार" },
+      { id: "6", left: "समवर्ती सूची", right: "दोनों सरकारें" },
+    ]
+  },
+  // History - European Nationalism
+  {
+    id: "social-his-europe",
+    subject: "social",
+    class_level: 10,
+    topic: "यूरोप में राष्ट्रवाद",
+    pairs: [
+      { id: "1", left: "1789", right: "फ्रांसीसी क्रांति" },
+      { id: "2", left: "1815", right: "वियना कांग्रेस" },
+      { id: "3", left: "1848", right: "यूरोप में क्रांतियाँ" },
+      { id: "4", left: "1871", right: "जर्मनी का एकीकरण" },
+      { id: "5", left: "बिस्मार्क", right: "जर्मनी" },
+      { id: "6", left: "मेजिनी", right: "इटली" },
+    ]
+  },
 ];
 
 export const getMatchingPairsBySubject = (subject: string, classLevel: number) => {
