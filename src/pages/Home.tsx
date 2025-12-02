@@ -2,15 +2,16 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, Flame, Trophy, Target, TrendingUp, Sparkles, ChevronRight } from "lucide-react";
+import { Flame, Trophy, Target, Sparkles, ChevronRight, Gamepad2, GraduationCap, TrendingUp } from "lucide-react";
 import { subjects } from "@/data/quizData";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { getLeagueIcon, getLeagueName } from "@/utils/pointsCalculator";
+import { getLeagueIcon } from "@/utils/pointsCalculator";
 import BottomNav from "@/components/BottomNav";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import UserAvatar from "@/components/UserAvatar";
 import { DailyChallengeDialog } from "@/components/DailyChallengeDialog";
+import GameCard from "@/components/GameCard";
 import {
   Dialog,
   DialogContent,
@@ -132,6 +133,13 @@ const Home = () => {
     it_ites: '💻',
   };
 
+  const games = [
+    { id: "match-pair", name: "सही जोड़ी मिलाओ", emoji: "🔗", gradient: "bg-gradient-to-br from-[hsl(217,91%,60%)] to-[hsl(217,91%,45%)]", route: "/games/match-pair", players: 150 },
+    { id: "quick-fire", name: "Quick Fire", emoji: "⚡", gradient: "bg-gradient-to-br from-[hsl(25,95%,53%)] to-[hsl(25,95%,40%)]", route: "/games/quick-fire", players: 200 },
+    { id: "memory-cards", name: "Memory Cards", emoji: "🧠", gradient: "bg-gradient-to-br from-[hsl(271,81%,56%)] to-[hsl(271,81%,40%)]", route: "/games/memory-cards", players: 120 },
+    { id: "true-false", name: "सही या गलत", emoji: "✓✗", gradient: "bg-gradient-to-br from-[hsl(142,76%,36%)] to-[hsl(142,76%,25%)]", route: "/games/true-false", players: 180 },
+  ];
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -215,54 +223,46 @@ const Home = () => {
           </Card>
         )}
 
-        {/* Daily Mission Card */}
-        <Card className="border-secondary/30 bg-gradient-to-br from-secondary/10 to-secondary/5 hover:shadow-lg transition-all duration-300">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
-                  <Target className="w-5 h-5 text-secondary" />
-                  <h3 className="text-lg font-bold text-foreground">⭐ Daily Mission</h3>
-                </div>
-                <p className="text-sm text-muted-foreground mb-1">
-                  आज 10 प्रश्नों का अभ्यास पूरा करें
-                </p>
-                <p className="text-xs text-secondary font-semibold">
-                  ⚡ Reward: 50 bonus points
-                </p>
-              </div>
-              <Button 
-                onClick={() => navigate("/quiz", { state: { questionCount: 10, difficulty: 'all' } })}
-                className="bg-secondary hover:bg-secondary/90"
-              >
-                Start
-                <ChevronRight className="w-4 h-4 ml-1" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Games Section - WePlay Style */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">🎮 Games</h2>
+            <Button variant="ghost" size="sm" className="text-primary">
+              <Gamepad2 className="w-4 h-4 mr-1" />
+              Game Room
+            </Button>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {games.map((game) => (
+              <GameCard key={game.id} {...game} />
+            ))}
+          </div>
+        </div>
 
         {/* Subject Cards */}
         <div>
           <h2 className="text-xl font-bold text-foreground mb-4">📚 अपना विषय चुनें</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             {subjects.filter(s => s.id !== 'all').map((subject) => (
               <Card 
                 key={subject.id}
-                className="group cursor-pointer border-border/50 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                className="group cursor-pointer border-none overflow-hidden hover:shadow-xl hover:scale-105 transition-all duration-300"
                 onClick={() => handleSubjectClick(subject.id)}
               >
-                <CardContent className={`p-6 bg-gradient-to-br ${subjectGradients[subject.id]} relative`}>
-                  <div className="absolute inset-0 bg-background/10 group-hover:bg-background/0 transition-colors" />
-                  <div className="relative z-10">
-                    <div className="text-4xl mb-3">
+                <CardContent className={`p-4 bg-gradient-to-br ${subjectGradients[subject.id]} relative aspect-[4/3]`}>
+                  <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-white/10" />
+                  <div className="absolute -bottom-6 -left-6 w-20 h-20 rounded-full bg-white/10" />
+                  <div className="relative z-10 h-full flex flex-col justify-between">
+                    <div className="text-3xl">
                       {subjectEmojis[subject.id]}
                     </div>
-                    <h3 className="text-lg font-bold text-white mb-2">
-                      {subject.name}
-                    </h3>
-                    <div className="flex items-center justify-end text-white/90">
-                      <ChevronRight className="w-5 h-5" />
+                    <div>
+                      <h3 className="text-base font-bold text-white">
+                        {subject.name}
+                      </h3>
+                      <div className="flex items-center justify-end text-white/80 mt-1">
+                        <ChevronRight className="w-4 h-4" />
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -270,6 +270,32 @@ const Home = () => {
             ))}
           </div>
         </div>
+
+        {/* Daily Mission Card - Compact */}
+        <Card className="border-secondary/30 bg-gradient-to-r from-secondary/20 to-secondary/5 hover:shadow-lg transition-all duration-300">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center">
+                  <Target className="w-5 h-5 text-secondary" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-foreground">⭐ Daily Mission</h3>
+                  <p className="text-xs text-muted-foreground">
+                    +50 bonus points
+                  </p>
+                </div>
+              </div>
+              <Button 
+                size="sm"
+                onClick={() => navigate("/quiz", { state: { questionCount: 10, difficulty: 'all' } })}
+                className="bg-secondary hover:bg-secondary/90"
+              >
+                Start
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Today's Progress */}
         {todayStats.quizzes > 0 && (

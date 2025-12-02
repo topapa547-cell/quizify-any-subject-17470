@@ -37,6 +37,16 @@ const menuItems: MenuItem[] = [
     textColor: "text-blue-800 dark:text-blue-200",
   },
   {
+    icon: "📒",
+    labelHi: "Study Notes",
+    labelEn: "Study Notes",
+    subtitleHi: "Formulas & definitions",
+    subtitleEn: "Formulas & definitions",
+    path: "/study-notes",
+    gradient: "from-indigo-50 to-indigo-100 dark:from-indigo-950/40 dark:to-indigo-900/40",
+    textColor: "text-indigo-800 dark:text-indigo-200",
+  },
+  {
     icon: "📚",
     labelHi: "व्याकरण प्रयोगशाला",
     labelEn: "Grammar Lab",
