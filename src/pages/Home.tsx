@@ -138,6 +138,7 @@ const Home = () => {
     { id: "quick-fire", name: "Quick Fire", emoji: "⚡", gradient: "bg-gradient-to-br from-[hsl(25,95%,53%)] to-[hsl(25,95%,40%)]", route: "/games/quick-fire", players: 200 },
     { id: "memory-cards", name: "Memory Cards", emoji: "🧠", gradient: "bg-gradient-to-br from-[hsl(271,81%,56%)] to-[hsl(271,81%,40%)]", route: "/games/memory-cards", players: 120 },
     { id: "true-false", name: "सही या गलत", emoji: "✓✗", gradient: "bg-gradient-to-br from-[hsl(142,76%,36%)] to-[hsl(142,76%,25%)]", route: "/games/true-false", players: 180 },
+    { id: "fill-blanks", name: "खाली भरो", emoji: "📝", gradient: "bg-gradient-to-br from-[hsl(195,91%,60%)] to-[hsl(195,91%,45%)]", route: "/games/fill-blanks", players: 95 },
   ];
 
   if (loading) {

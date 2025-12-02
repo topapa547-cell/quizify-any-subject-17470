@@ -6,32 +6,26 @@ import { ArrowLeft, Trophy, Clock, Star, RefreshCw, Check, X } from "lucide-reac
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { trueFalseData as importedTrueFalseData } from "@/data/games/trueFalseData";
 
-interface TrueFalseQuestion {
+interface GameQuestion {
   id: string;
   statement: string;
   isTrue: boolean;
   explanation: string;
 }
 
-const trueFalseData: TrueFalseQuestion[] = [
-  { id: "1", statement: "पृथ्वी सूर्य के चारों ओर घूमती है", isTrue: true, explanation: "पृथ्वी 365 दिनों में सूर्य का एक चक्कर लगाती है" },
-  { id: "2", statement: "जल का रासायनिक सूत्र H₂O₂ है", isTrue: false, explanation: "जल का सूत्र H₂O है, H₂O₂ हाइड्रोजन पराक्साइड है" },
-  { id: "3", statement: "sin 90° का मान 1 है", isTrue: true, explanation: "sin 90° = 1" },
-  { id: "4", statement: "भारत की आजादी 1950 में मिली", isTrue: false, explanation: "भारत 15 अगस्त 1947 को आजाद हुआ" },
-  { id: "5", statement: "प्रकाश की चाल 3×10⁸ m/s है", isTrue: true, explanation: "प्रकाश की चाल लगभग 3 लाख किमी/सेकंड है" },
-  { id: "6", statement: "महात्मा गांधी को राष्ट्रपिता कहा जाता है", isTrue: true, explanation: "महात्मा गांधी को राष्ट्रपिता की उपाधि दी गई है" },
-  { id: "7", statement: "ऑक्सीजन एक अधातु है", isTrue: true, explanation: "ऑक्सीजन एक गैसीय अधातु है" },
-  { id: "8", statement: "cos 0° का मान 0 है", isTrue: false, explanation: "cos 0° = 1, sin 0° = 0" },
-  { id: "9", statement: "भारत का संविधान 26 जनवरी 1950 को लागू हुआ", isTrue: true, explanation: "इसीलिए 26 जनवरी को गणतंत्र दिवस मनाया जाता है" },
-  { id: "10", statement: "सोना एक अधातु है", isTrue: false, explanation: "सोना एक धातु है" },
-  { id: "11", statement: "√2 एक अपरिमेय संख्या है", isTrue: true, explanation: "√2 को p/q के रूप में नहीं लिखा जा सकता" },
-  { id: "12", statement: "प्रकाश संश्लेषण में CO₂ निकलती है", isTrue: false, explanation: "प्रकाश संश्लेषण में O₂ निकलती है और CO₂ ली जाती है" },
-];
+// Transform imported data to match component's expected format
+const trueFalseData: GameQuestion[] = importedTrueFalseData.map(q => ({
+  id: q.id,
+  statement: q.statement,
+  isTrue: q.answer,
+  explanation: q.explanation || (q.answer ? "यह कथन सही है" : "यह कथन गलत है")
+}));
 
 const TrueOrFalse = () => {
   const navigate = useNavigate();
-  const [questions, setQuestions] = useState<TrueFalseQuestion[]>([]);
+  const [questions, setQuestions] = useState<GameQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
