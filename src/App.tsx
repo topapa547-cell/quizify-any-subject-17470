@@ -22,6 +22,10 @@ import GrammarLab from "./pages/GrammarLab";
 import AdminInsert from "./pages/AdminInsert";
 import StudyNotes from "./pages/StudyNotes";
 import StudyMaterials from "./pages/StudyMaterials";
+import MatchThePair from "./pages/games/MatchThePair";
+import MemoryCards from "./pages/games/MemoryCards";
+import TrueOrFalse from "./pages/games/TrueOrFalse";
+import QuickFire from "./pages/games/QuickFire";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -51,6 +55,10 @@ const App = () => (
           <Route path="/downloads" element={<ProtectedRoute><Downloads /></ProtectedRoute>} />
           <Route path="/help" element={<ProtectedRoute><Help /></ProtectedRoute>} />
           <Route path="/admin-insert" element={<AdminInsert />} />
+          <Route path="/games/match-pair" element={<ProtectedRoute><MatchThePair /></ProtectedRoute>} />
+          <Route path="/games/memory-cards" element={<ProtectedRoute><MemoryCards /></ProtectedRoute>} />
+          <Route path="/games/true-false" element={<ProtectedRoute><TrueOrFalse /></ProtectedRoute>} />
+          <Route path="/games/quick-fire" element={<ProtectedRoute><QuickFire /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
