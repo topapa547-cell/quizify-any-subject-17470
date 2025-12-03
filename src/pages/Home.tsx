@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Flame, Trophy, Target, Sparkles, ChevronRight, Gamepad2, GraduationCap, TrendingUp } from "lucide-react";
+import { Flame, Trophy, Target, Sparkles, ChevronRight, Gamepad2, GraduationCap, TrendingUp, Languages } from "lucide-react";
 import { subjects } from "@/data/quizData";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -12,6 +12,7 @@ import HamburgerMenu from "@/components/HamburgerMenu";
 import UserAvatar from "@/components/UserAvatar";
 import { DailyChallengeDialog } from "@/components/DailyChallengeDialog";
 import GameCard from "@/components/GameCard";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Dialog,
   DialogContent,
@@ -23,6 +24,7 @@ import {
 
 const Home = () => {
   const navigate = useNavigate();
+  const { language, setLanguage, t } = useLanguage();
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [todayStats, setTodayStats] = useState({ quizzes: 0, accuracy: 0, points: 0 });
@@ -160,7 +162,19 @@ const Home = () => {
               Quiz App
             </h1>
           </div>
-          <HamburgerMenu />
+          <div className="flex items-center gap-2">
+            {/* Language Toggle Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setLanguage(language === 'hindi' ? 'english' : 'hindi')}
+              className="flex items-center gap-1 text-xs"
+            >
+              <Languages className="w-4 h-4" />
+              {language === 'hindi' ? 'EN' : 'हि'}
+            </Button>
+            <HamburgerMenu />
+          </div>
         </div>
 
         {/* Hero Card - User Stats */}

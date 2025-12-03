@@ -9,9 +9,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "@/hooks/use-toast";
 import { GraduationCap } from "lucide-react";
 import { SubscriptionDialog } from "@/components/SubscriptionDialog";
+import LanguageSelector from "@/components/LanguageSelector";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const SetupProfile = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [username, setUsername] = useState("");
   const [classLevel, setClassLevel] = useState<number>(10);
   const [loading, setLoading] = useState(false);
@@ -97,18 +100,20 @@ const SetupProfile = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/20 via-background to-accent/20 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-xl">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <div className="bg-primary/10 p-4 rounded-full">
-              <GraduationCap className="w-12 h-12 text-primary" />
+      <div className="w-full max-w-md space-y-4">
+        <LanguageSelector />
+        <Card className="shadow-xl">
+          <CardHeader className="text-center">
+            <div className="flex justify-center mb-4">
+              <div className="bg-primary/10 p-4 rounded-full">
+                <GraduationCap className="w-12 h-12 text-primary" />
+              </div>
             </div>
-          </div>
-          <CardTitle className="text-2xl">प्रोफाइल सेटअप करें</CardTitle>
-          <p className="text-muted-foreground mt-2">
-            शुरू करने के लिए अपनी जानकारी दर्ज करें
-          </p>
-        </CardHeader>
+            <CardTitle className="text-2xl">{t('प्रोफाइल सेटअप करें', 'Setup Profile')}</CardTitle>
+            <p className="text-muted-foreground mt-2">
+              {t('शुरू करने के लिए अपनी जानकारी दर्ज करें', 'Enter your information to get started')}
+            </p>
+          </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -143,11 +148,12 @@ const SetupProfile = () => {
             </div>
             
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "सहेजा जा रहा है..." : "जारी रखें"}
+              {loading ? t("सहेजा जा रहा है...", "Saving...") : t("जारी रखें", "Continue")}
             </Button>
           </form>
         </CardContent>
-      </Card>
+        </Card>
+      </div>
       <SubscriptionDialog 
         open={showSubscriptionDialog} 
         onClose={() => {

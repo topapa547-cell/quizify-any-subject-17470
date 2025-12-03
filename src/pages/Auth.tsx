@@ -12,9 +12,12 @@ import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { getRandomAvatarStyle } from "@/utils/avatarGenerator";
 import { SubscriptionDialog } from "@/components/SubscriptionDialog";
+import LanguageSelector from "@/components/LanguageSelector";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Auth = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -183,14 +186,16 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/20 via-background to-accent/20 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <GraduationCap className="w-12 h-12 text-primary" />
-          </div>
-          <CardTitle className="text-2xl">क्विज़ ऐप में आपका स्वागत है</CardTitle>
-          <CardDescription>अपनी प्रतिभा को परखें और leaderboard में top करें!</CardDescription>
-        </CardHeader>
+      <div className="w-full max-w-md space-y-4">
+        <LanguageSelector />
+        <Card>
+          <CardHeader className="text-center">
+            <div className="flex justify-center mb-4">
+              <GraduationCap className="w-12 h-12 text-primary" />
+            </div>
+            <CardTitle className="text-2xl">{t('क्विज़ ऐप में आपका स्वागत है', 'Welcome to Quiz App')}</CardTitle>
+            <CardDescription>{t('अपनी प्रतिभा को परखें और leaderboard में top करें!', 'Test your knowledge and top the leaderboard!')}</CardDescription>
+          </CardHeader>
         <CardContent>
           <Tabs defaultValue="signin" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
@@ -353,8 +358,9 @@ const Auth = () => {
             </TabsContent>
           </Tabs>
         </CardContent>
-      </Card>
-      <SubscriptionDialog 
+        </Card>
+      </div>
+      <SubscriptionDialog
         open={showSubscriptionDialog} 
         onClose={() => {
           setShowSubscriptionDialog(false);
