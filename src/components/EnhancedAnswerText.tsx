@@ -59,7 +59,7 @@ export const EnhancedAnswerText = ({
       parts.push(
         <span
           key={`${term}-${match.index}`}
-          className="text-primary font-semibold underline decoration-dotted decoration-primary/50 underline-offset-2 cursor-pointer hover:bg-primary/10 px-0.5 rounded transition-colors"
+          className="inline-flex items-center gap-0.5 text-primary font-semibold underline decoration-wavy decoration-primary/70 underline-offset-4 cursor-pointer hover:bg-primary/20 hover:scale-105 px-1 py-0.5 rounded-md transition-all duration-200 border border-transparent hover:border-primary/30"
           onClick={(e) => handleTermClick(term, e)}
           role="button"
           tabIndex={0}
@@ -68,9 +68,10 @@ export const EnhancedAnswerText = ({
               handleTermClick(term, e as unknown as React.MouseEvent);
             }
           }}
-          title={`Click to learn more about "${term}"`}
+          title={`🔍 "${term}" के बारे में जानें`}
         >
           {term}
+          <span className="text-xs opacity-70">✨</span>
         </span>
       );
 
@@ -108,7 +109,7 @@ export const EnhancedAnswerText = ({
       parts.push(
         <span
           key={`${term}-${match.index}`}
-          className="text-primary font-bold underline decoration-dotted decoration-primary/50 underline-offset-2 cursor-pointer hover:bg-primary/10 px-0.5 rounded transition-colors"
+          className="inline-flex items-center gap-0.5 text-primary font-bold underline decoration-wavy decoration-primary/70 underline-offset-4 cursor-pointer hover:bg-primary/20 hover:scale-105 px-1 py-0.5 rounded-md transition-all duration-200 border border-transparent hover:border-primary/30 animate-pulse"
           onClick={(e) => handleTermClick(term, e)}
           role="button"
           tabIndex={0}
@@ -117,9 +118,10 @@ export const EnhancedAnswerText = ({
               handleTermClick(term, e as unknown as React.MouseEvent);
             }
           }}
-          title={`Click to learn more about "${term}"`}
+          title={`🔍 "${term}" के बारे में जानें`}
         >
           {term}
+          <span className="text-xs opacity-70">✨</span>
         </span>
       );
 
