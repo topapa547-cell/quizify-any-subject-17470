@@ -7,10 +7,11 @@ import { useEffect, useState } from "react";
 import { QuizQuestion } from "@/data/quizData";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { checkAndAwardAchievements } from "@/utils/achievements";
+import { checkAndAwardAchievements, Achievement } from "@/utils/achievements";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import { calculateQuizPoints } from "@/utils/pointsCalculator";
 import { useLanguage } from "@/contexts/LanguageContext";
+import AchievementCelebration from "@/components/AchievementCelebration";
 
 interface LocationState {
   score: number;
@@ -29,7 +30,8 @@ const Results = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [saved, setSaved] = useState(false);
-  const [newAchievements, setNewAchievements] = useState<any[]>([]);
+  const [newAchievements, setNewAchievements] = useState<Achievement[]>([]);
+  const [showCelebration, setShowCelebration] = useState(false);
   const [currentStreak, setCurrentStreak] = useState(0);
   const { score, total, answered, answers, questions, timeElapsed, subject, difficulty, classLevel } = (location.state as LocationState) || {
     score: 0, 
@@ -112,16 +114,9 @@ const Results = () => {
           timeTaken: timeElapsed,
         });
 
-        setNewAchievements(achievements);
-
-        // Show achievement toast if any new achievements
         if (achievements.length > 0) {
-          achievements.forEach(achievement => {
-            toast({
-              title: "🎉 नई उपलब्धि!",
-              description: `${achievement.icon} ${achievement.name}: ${achievement.description}`,
-            });
-          });
+          setNewAchievements(achievements);
+          setShowCelebration(true);
         }
       } catch (error) {
         console.error('Error saving quiz:', error);
@@ -153,6 +148,15 @@ const Results = () => {
   };
 
   return (
+    <>
+      {/* Achievement Celebration Popup */}
+      {showCelebration && newAchievements.length > 0 && (
+        <AchievementCelebration 
+          achievements={newAchievements} 
+          onClose={() => setShowCelebration(false)} 
+        />
+      )}
+      
     <div className="min-h-screen bg-background p-4 py-8">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
@@ -344,6 +348,7 @@ const Results = () => {
         </Card>
       </div>
     </div>
+    </>
   );
 };
 
