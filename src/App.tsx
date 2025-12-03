@@ -23,6 +23,7 @@ import GrammarLab from "./pages/GrammarLab";
 import AdminInsert from "./pages/AdminInsert";
 import StudyNotes from "./pages/StudyNotes";
 import StudyMaterials from "./pages/StudyMaterials";
+import ITTextbooks from "./pages/ITTextbooks";
 import MatchThePair from "./pages/games/MatchThePair";
 import MemoryCards from "./pages/games/MemoryCards";
 import TrueOrFalse from "./pages/games/TrueOrFalse";
@@ -56,6 +57,7 @@ const App = () => (
           <Route path="/study-materials" element={<ProtectedRoute><StudyMaterials /></ProtectedRoute>} />
           <Route path="/downloads" element={<ProtectedRoute><Downloads /></ProtectedRoute>} />
           <Route path="/key-points" element={<ProtectedRoute><KeyPoints /></ProtectedRoute>} />
+          <Route path="/it-textbooks" element={<ProtectedRoute><ITTextbooks /></ProtectedRoute>} />
           <Route path="/help" element={<ProtectedRoute><Help /></ProtectedRoute>} />
           <Route path="/admin-insert" element={<AdminInsert />} />
           <Route path="/games/match-pair" element={<ProtectedRoute><MatchThePair /></ProtectedRoute>} />

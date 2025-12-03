@@ -1,4 +1,6 @@
-export const itItesLongQuestions = [
+import { itItesLongQuestionsExpanded } from './itItesLongQuestionsExpanded';
+
+const itItesLongQuestionsBase = [
   // Class 10 - Communication Skills Book
   {
     id: "itites-10-comm-ch1-q1",

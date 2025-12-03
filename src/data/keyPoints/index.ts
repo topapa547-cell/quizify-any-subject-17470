@@ -15,20 +15,25 @@ import { class10MathKeyPoints } from './class10Math';
 import { class10ScienceKeyPoints } from './class10Science';
 import { class9MathKeyPoints } from './class9Math';
 import { class9ScienceKeyPoints } from './class9Science';
+import { class10ITKeyPoints } from './class10IT';
+import { class9ITKeyPoints } from './class9IT';
 
 export const allKeyPoints: KeyPoint[] = [
   ...class10MathKeyPoints,
   ...class10ScienceKeyPoints,
   ...class9MathKeyPoints,
   ...class9ScienceKeyPoints,
+  ...class10ITKeyPoints,
+  ...class9ITKeyPoints,
 ];
 
 export const keyPointsBySubject: Record<string, KeyPoint[]> = {
   math: [...class10MathKeyPoints, ...class9MathKeyPoints],
   science: [...class10ScienceKeyPoints, ...class9ScienceKeyPoints],
+  it_ites: [...class10ITKeyPoints, ...class9ITKeyPoints],
 };
 
 export const keyPointsByClass: Record<number, KeyPoint[]> = {
-  9: [...class9MathKeyPoints, ...class9ScienceKeyPoints],
-  10: [...class10MathKeyPoints, ...class10ScienceKeyPoints],
+  9: [...class9MathKeyPoints, ...class9ScienceKeyPoints, ...class9ITKeyPoints],
+  10: [...class10MathKeyPoints, ...class10ScienceKeyPoints, ...class10ITKeyPoints],
 };
