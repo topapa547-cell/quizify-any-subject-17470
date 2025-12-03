@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Trophy, Medal, Award } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Trophy, Medal, Award, UserPlus, Check, Loader2 } from "lucide-react";
 import { getLeagueIcon } from "@/utils/pointsCalculator";
 import UserAvatar from "@/components/UserAvatar";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 interface LeaderboardEntry {
   username: string;
@@ -23,6 +27,50 @@ interface LeaderboardTabsProps {
 }
 
 const LeaderboardTabs = ({ allTimeData, weeklyData, monthlyData, currentUserId }: LeaderboardTabsProps) => {
+  const [friendRequestsSent, setFriendRequestsSent] = useState<Set<string>>(new Set());
+  const [sendingRequest, setSendingRequest] = useState<string | null>(null);
+
+  const sendFriendRequest = async (targetUserId: string) => {
+    if (!currentUserId) return;
+    setSendingRequest(targetUserId);
+
+    try {
+      // Check if already friends or pending
+      const { data: existing } = await supabase
+        .from("friends")
+        .select("*")
+        .or(`and(user_id.eq.${currentUserId},friend_id.eq.${targetUserId}),and(user_id.eq.${targetUserId},friend_id.eq.${currentUserId})`)
+        .maybeSingle();
+
+      if (existing) {
+        if (existing.status === "accepted") {
+          toast({ title: "Already friends!" });
+        } else if (existing.status === "pending") {
+          toast({ title: "Request already sent" });
+        }
+        setFriendRequestsSent(prev => new Set(prev).add(targetUserId));
+        return;
+      }
+
+      const { error } = await supabase
+        .from("friends")
+        .insert({
+          user_id: currentUserId,
+          friend_id: targetUserId,
+          status: "pending",
+        });
+
+      if (error) throw error;
+
+      setFriendRequestsSent(prev => new Set(prev).add(targetUserId));
+      toast({ title: "Friend request sent!", description: "Waiting for them to accept" });
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setSendingRequest(null);
+    }
+  };
+
   const getRankIcon = (index: number) => {
     if (index === 0) return <Trophy className="w-6 h-6 text-yellow-500" />;
     if (index === 1) return <Medal className="w-6 h-6 text-gray-400" />;
@@ -47,6 +95,10 @@ const LeaderboardTabs = ({ allTimeData, weeklyData, monthlyData, currentUserId }
       <div className="space-y-4">
         {data.map((entry, index) => {
           const isCurrentUser = entry.user_id === currentUserId;
+          const canAddFriend = !isCurrentUser && currentUserId;
+          const requestSent = friendRequestsSent.has(entry.user_id);
+          const isSending = sendingRequest === entry.user_id;
+
           return (
             <Card 
               key={`${entry.user_id}-${index}`} 
@@ -91,9 +143,28 @@ const LeaderboardTabs = ({ allTimeData, weeklyData, monthlyData, currentUserId }
                       </div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-primary">{entry.total_score}</div>
-                    <p className="text-xs text-muted-foreground">अंक</p>
+                  <div className="flex items-center gap-3">
+                    {canAddFriend && (
+                      <Button
+                        size="icon"
+                        variant={requestSent ? "secondary" : "outline"}
+                        className="h-8 w-8"
+                        onClick={() => !requestSent && sendFriendRequest(entry.user_id)}
+                        disabled={requestSent || isSending}
+                      >
+                        {isSending ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : requestSent ? (
+                          <Check className="w-4 h-4 text-green-500" />
+                        ) : (
+                          <UserPlus className="w-4 h-4" />
+                        )}
+                      </Button>
+                    )}
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-primary">{entry.total_score}</div>
+                      <p className="text-xs text-muted-foreground">अंक</p>
+                    </div>
                   </div>
                 </div>
               </CardHeader>

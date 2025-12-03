@@ -6,8 +6,9 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import UserAvatar from "@/components/UserAvatar";
-import { ArrowLeft, Swords, Users, Copy, Loader2, Share2 } from "lucide-react";
+import { ArrowLeft, Swords, Users, Copy, Loader2, Share2, UserPlus } from "lucide-react";
 import { toast } from "sonner";
 import BottomNav from "@/components/BottomNav";
 
@@ -30,17 +31,26 @@ const subjects = [
   { value: "it_ites", label: "IT/ITes", labelEn: "IT/ITes" },
 ];
 
+interface Friend {
+  id: string;
+  username: string;
+  avatar_style?: string;
+}
+
 export default function MultiplayerBattle() {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
-  const [mode, setMode] = useState<"select" | "create" | "join" | "waiting">("select");
+  const [mode, setMode] = useState<"select" | "create" | "join" | "waiting" | "invite">("select");
   const [roomCode, setRoomCode] = useState("");
   const [joinCode, setJoinCode] = useState("");
   const [subject, setSubject] = useState("all");
   const [questionCount, setQuestionCount] = useState("10");
   const [loading, setLoading] = useState(false);
   const [waitingRoom, setWaitingRoom] = useState<any>(null);
+  const [friends, setFriends] = useState<Friend[]>([]);
+  const [loadingFriends, setLoadingFriends] = useState(false);
+  const [sendingInvite, setSendingInvite] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -196,6 +206,73 @@ export default function MultiplayerBattle() {
     setRoomCode("");
   };
 
+  const fetchFriends = async () => {
+    if (!user) return;
+    setLoadingFriends(true);
+    try {
+      // Get accepted friendships where user is either side
+      const { data: friendships } = await supabase
+        .from("friends")
+        .select("*")
+        .eq("status", "accepted")
+        .or(`user_id.eq.${user.id},friend_id.eq.${user.id}`);
+
+      if (friendships && friendships.length > 0) {
+        // Get friend IDs
+        const friendIds = friendships.map(f => 
+          f.user_id === user.id ? f.friend_id : f.user_id
+        );
+
+        // Get friend profiles
+        const { data: profiles } = await supabase
+          .from("profiles")
+          .select("id, username, avatar_style")
+          .in("id", friendIds);
+
+        setFriends(profiles?.map(p => ({
+          id: p.id,
+          username: p.username,
+          avatar_style: p.avatar_style || undefined,
+        })) || []);
+      } else {
+        setFriends([]);
+      }
+    } catch (error) {
+      console.error("Error fetching friends:", error);
+    } finally {
+      setLoadingFriends(false);
+    }
+  };
+
+  const inviteFriend = async (friendId: string) => {
+    if (!user || !profile || !waitingRoom) return;
+    setSendingInvite(friendId);
+
+    try {
+      const { error } = await supabase
+        .from("battle_invitations")
+        .insert({
+          sender_id: user.id,
+          receiver_id: friendId,
+          room_id: waitingRoom.id,
+          status: "pending",
+          expires_at: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
+        });
+
+      if (error) throw error;
+      toast.success("Battle invitation sent!");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to send invitation");
+    } finally {
+      setSendingInvite(null);
+    }
+  };
+
+  const openInviteFriends = () => {
+    fetchFriends();
+    setMode("invite");
+  };
+
   if (!user || !profile) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -270,6 +347,25 @@ export default function MultiplayerBattle() {
                 <div>
                   <h3 className="font-bold text-lg text-foreground">Join Battle</h3>
                   <p className="text-sm text-muted-foreground">Enter a room code to join</p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Invite Friends */}
+            <Card
+              className="p-6 bg-gradient-to-br from-purple-500/10 to-pink-600/10 border-purple-500/30 cursor-pointer hover:scale-[1.02] transition-transform"
+              onClick={() => {
+                fetchFriends();
+                setMode("create"); // First create room, then show invite option
+              }}
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                  <UserPlus className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg text-foreground">Invite Friends</h3>
+                  <p className="text-sm text-muted-foreground">Challenge your friends directly</p>
                 </div>
               </div>
             </Card>
@@ -391,6 +487,44 @@ export default function MultiplayerBattle() {
                 Share
               </Button>
             </div>
+
+            {/* Invite Friends Section */}
+            {friends.length > 0 && (
+              <div className="mt-6 pt-4 border-t border-border">
+                <p className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                  <UserPlus className="w-4 h-4" />
+                  Invite Friends
+                </p>
+                <ScrollArea className="h-32">
+                  <div className="space-y-2">
+                    {friends.map((friend) => (
+                      <div
+                        key={friend.id}
+                        className="flex items-center justify-between p-2 rounded-lg bg-muted/50"
+                      >
+                        <div className="flex items-center gap-2">
+                          <UserAvatar userId={friend.id} avatarStyle={friend.avatar_style} size="sm" />
+                          <span className="text-sm font-medium">{friend.username}</span>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => inviteFriend(friend.id)}
+                          disabled={sendingInvite === friend.id}
+                          className="h-7"
+                        >
+                          {sendingInvite === friend.id ? (
+                            <Loader2 className="w-3 h-3 animate-spin" />
+                          ) : (
+                            <Swords className="w-3 h-3" />
+                          )}
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </div>
+            )}
 
             {/* Waiting Animation */}
             <div className="mt-6 flex justify-center gap-1">
