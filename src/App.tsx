@@ -30,6 +30,7 @@ import TrueOrFalse from "./pages/games/TrueOrFalse";
 import QuickFire from "./pages/games/QuickFire";
 import FillBlanks from "./pages/games/FillBlanks";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PremiumRoute from "./components/PremiumRoute";
 
 const queryClient = new QueryClient();
 
@@ -48,23 +49,23 @@ const App = () => (
           <Route path="/results" element={<ProtectedRoute><Results /></ProtectedRoute>} />
           <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path="/long-questions" element={<ProtectedRoute><LongQuestions /></ProtectedRoute>} />
-          <Route path="/ncert-solutions" element={<ProtectedRoute><NCERTSolutions /></ProtectedRoute>} />
-          <Route path="/previous-year-papers" element={<ProtectedRoute><PreviousYearPapers /></ProtectedRoute>} />
+          <Route path="/long-questions" element={<PremiumRoute featureName="Long Answer Questions"><LongQuestions /></PremiumRoute>} />
+          <Route path="/ncert-solutions" element={<PremiumRoute featureName="NCERT Solutions"><NCERTSolutions /></PremiumRoute>} />
+          <Route path="/previous-year-papers" element={<PremiumRoute featureName="Previous Year Papers"><PreviousYearPapers /></PremiumRoute>} />
           <Route path="/motivations" element={<ProtectedRoute><Motivations /></ProtectedRoute>} />
-          <Route path="/grammar-lab" element={<ProtectedRoute><GrammarLab /></ProtectedRoute>} />
-          <Route path="/study-notes" element={<ProtectedRoute><StudyNotes /></ProtectedRoute>} />
-          <Route path="/study-materials" element={<ProtectedRoute><StudyMaterials /></ProtectedRoute>} />
+          <Route path="/grammar-lab" element={<PremiumRoute featureName="Grammar Lab"><GrammarLab /></PremiumRoute>} />
+          <Route path="/study-notes" element={<PremiumRoute featureName="Study Notes"><StudyNotes /></PremiumRoute>} />
+          <Route path="/study-materials" element={<PremiumRoute featureName="Study Materials"><StudyMaterials /></PremiumRoute>} />
           <Route path="/downloads" element={<ProtectedRoute><Downloads /></ProtectedRoute>} />
-          <Route path="/key-points" element={<ProtectedRoute><KeyPoints /></ProtectedRoute>} />
-          <Route path="/it-textbooks" element={<ProtectedRoute><ITTextbooks /></ProtectedRoute>} />
+          <Route path="/key-points" element={<PremiumRoute featureName="Key Points"><KeyPoints /></PremiumRoute>} />
+          <Route path="/it-textbooks" element={<PremiumRoute featureName="IT Textbooks"><ITTextbooks /></PremiumRoute>} />
           <Route path="/help" element={<ProtectedRoute><Help /></ProtectedRoute>} />
           <Route path="/admin-insert" element={<AdminInsert />} />
-          <Route path="/games/match-pair" element={<ProtectedRoute><MatchThePair /></ProtectedRoute>} />
-          <Route path="/games/memory-cards" element={<ProtectedRoute><MemoryCards /></ProtectedRoute>} />
-          <Route path="/games/true-false" element={<ProtectedRoute><TrueOrFalse /></ProtectedRoute>} />
-          <Route path="/games/quick-fire" element={<ProtectedRoute><QuickFire /></ProtectedRoute>} />
-          <Route path="/games/fill-blanks" element={<ProtectedRoute><FillBlanks /></ProtectedRoute>} />
+          <Route path="/games/match-pair" element={<PremiumRoute featureName="Match the Pair Game"><MatchThePair /></PremiumRoute>} />
+          <Route path="/games/memory-cards" element={<PremiumRoute featureName="Memory Cards Game"><MemoryCards /></PremiumRoute>} />
+          <Route path="/games/true-false" element={<PremiumRoute featureName="True or False Game"><TrueOrFalse /></PremiumRoute>} />
+          <Route path="/games/quick-fire" element={<PremiumRoute featureName="Quick Fire Game"><QuickFire /></PremiumRoute>} />
+          <Route path="/games/fill-blanks" element={<PremiumRoute featureName="Fill the Blanks Game"><FillBlanks /></PremiumRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
