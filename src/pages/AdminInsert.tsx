@@ -11,6 +11,7 @@ import { insertClass9ScienceNCERT } from "@/data/ncertSolutions/insertAllClass9S
 import { insertClass9EnglishNCERT } from "@/data/ncertSolutions/insertAllClass9English";
 import { insertClass9SocialScienceNCERT } from "@/data/ncertSolutions/insertAllClass9SocialScience";
 import { insertClass9HindiNCERT } from "@/data/ncertSolutions/insertAllClass9Hindi";
+import { insertClass10ITNCERT, insertClass9ITNCERT } from "@/data/ncertSolutions/insertAllITNCERT";
 import { toast } from "sonner";
 
 const AdminInsert = () => {
@@ -28,6 +29,10 @@ const AdminInsert = () => {
   const [class9EnglishResult, setClass9EnglishResult] = useState<any>(null);
   const [isInsertingClass9SocialScience, setIsInsertingClass9SocialScience] = useState(false);
   const [class9SocialScienceResult, setClass9SocialScienceResult] = useState<any>(null);
+  const [isInsertingClass10IT, setIsInsertingClass10IT] = useState(false);
+  const [class10ITResult, setClass10ITResult] = useState<any>(null);
+  const [isInsertingClass9IT, setIsInsertingClass9IT] = useState(false);
+  const [class9ITResult, setClass9ITResult] = useState<any>(null);
   const [scienceResult, setScienceResult] = useState<any>(null);
   const [socialScienceResult, setSocialScienceResult] = useState<any>(null);
   const [englishResult, setEnglishResult] = useState<any>(null);
@@ -480,6 +485,98 @@ const AdminInsert = () => {
                 <p>Status: {class9SocialScienceResult.success ? "✅ Success" : "❌ Failed"}</p>
                 <p>Total Questions: {class9SocialScienceResult.total}</p>
                 <p>Successfully Inserted: {class9SocialScienceResult.successCount}</p>
+              </div>
+            </div>
+          )}
+        </Card>
+
+        {/* Class 10 IT/ITes NCERT Solutions */}
+        <Card className="p-6 border-2 border-cyan-500">
+          <h2 className="text-xl font-semibold mb-4">💻 Class 10 IT/ITes NCERT</h2>
+          <p className="text-muted-foreground mb-4">
+            Insert 50 comprehensive NCERT solutions for Class 10 IT/ITes (Communication Skills + Information Technology)
+          </p>
+          
+          <Button 
+            onClick={async () => {
+              setIsInsertingClass10IT(true);
+              setClass10ITResult(null);
+              try {
+                const result = await insertClass10ITNCERT();
+                setClass10ITResult(result);
+                if (result.success) {
+                  toast.success(`✅ Successfully inserted ${result.successCount} Class 10 IT solutions!`);
+                } else {
+                  toast.error(`❌ Insertion completed with ${result.errorCount} errors`);
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                toast.error("Failed to insert Class 10 IT solutions");
+                setClass10ITResult({ success: false, error });
+              } finally {
+                setIsInsertingClass10IT(false);
+              }
+            }}
+            disabled={isInsertingClass10IT}
+            size="lg"
+            className="bg-cyan-600 hover:bg-cyan-700"
+          >
+            {isInsertingClass10IT ? "Inserting..." : "Insert Class 10 IT/ITes"}
+          </Button>
+
+          {class10ITResult && (
+            <div className="mt-4 p-4 bg-muted rounded-lg">
+              <h3 className="text-lg font-semibold mb-3">Class 10 IT Result:</h3>
+              <div className="space-y-2">
+                <p>Status: {class10ITResult.success ? "✅ Success" : "❌ Failed"}</p>
+                <p>Total Questions: {class10ITResult.total}</p>
+                <p>Successfully Inserted: {class10ITResult.successCount}</p>
+              </div>
+            </div>
+          )}
+        </Card>
+
+        {/* Class 9 IT/ITes NCERT Solutions */}
+        <Card className="p-6 border-2 border-teal-500">
+          <h2 className="text-xl font-semibold mb-4">💻 Class 9 IT/ITes NCERT</h2>
+          <p className="text-muted-foreground mb-4">
+            Insert 50 comprehensive NCERT solutions for Class 9 IT/ITes (Communication Skills + Information Technology)
+          </p>
+          
+          <Button 
+            onClick={async () => {
+              setIsInsertingClass9IT(true);
+              setClass9ITResult(null);
+              try {
+                const result = await insertClass9ITNCERT();
+                setClass9ITResult(result);
+                if (result.success) {
+                  toast.success(`✅ Successfully inserted ${result.successCount} Class 9 IT solutions!`);
+                } else {
+                  toast.error(`❌ Insertion completed with ${result.errorCount} errors`);
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                toast.error("Failed to insert Class 9 IT solutions");
+                setClass9ITResult({ success: false, error });
+              } finally {
+                setIsInsertingClass9IT(false);
+              }
+            }}
+            disabled={isInsertingClass9IT}
+            size="lg"
+            className="bg-teal-600 hover:bg-teal-700"
+          >
+            {isInsertingClass9IT ? "Inserting..." : "Insert Class 9 IT/ITes"}
+          </Button>
+
+          {class9ITResult && (
+            <div className="mt-4 p-4 bg-muted rounded-lg">
+              <h3 className="text-lg font-semibold mb-3">Class 9 IT Result:</h3>
+              <div className="space-y-2">
+                <p>Status: {class9ITResult.success ? "✅ Success" : "❌ Failed"}</p>
+                <p>Total Questions: {class9ITResult.total}</p>
+                <p>Successfully Inserted: {class9ITResult.successCount}</p>
               </div>
             </div>
           )}

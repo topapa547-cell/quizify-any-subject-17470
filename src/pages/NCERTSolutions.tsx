@@ -154,6 +154,7 @@ const NCERTSolutions = () => {
                 <SelectItem value="social_science">सामाजिक विज्ञान | Social Science</SelectItem>
                 <SelectItem value="english">अंग्रेज़ी | English</SelectItem>
                 <SelectItem value="hindi">हिंदी | Hindi</SelectItem>
+                <SelectItem value="it_ites">आईटी/आईटीईएस | IT/ITes</SelectItem>
               </SelectContent>
             </Select>
 
