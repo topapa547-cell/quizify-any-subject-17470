@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Flame, Trophy, Target, Sparkles, ChevronRight, Gamepad2, GraduationCap, TrendingUp, Languages } from "lucide-react";
-import { subjects } from "@/data/quizData";
+import { subjects, getSubjectName } from "@/data/quizData";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { getLeagueIcon } from "@/utils/pointsCalculator";
@@ -192,10 +192,10 @@ const Home = () => {
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold text-foreground">
-                      👋 नमस्ते, {profile.username}!
+                      {t("👋 नमस्ते", "👋 Hello")}, {profile.username}!
                     </h2>
                     <p className="text-sm text-muted-foreground">
-                      कक्षा {profile.class_level}
+                      {t("कक्षा", "Class")} {profile.class_level}
                     </p>
                   </div>
                 </div>
@@ -241,10 +241,10 @@ const Home = () => {
         {/* Games Section - WePlay Style */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-foreground">🎮 Games</h2>
+            <h2 className="text-xl font-bold text-foreground">{t("🎮 गेम्स", "🎮 Games")}</h2>
             <Button variant="ghost" size="sm" className="text-primary">
               <Gamepad2 className="w-4 h-4 mr-1" />
-              Game Room
+              {t("गेम रूम", "Game Room")}
             </Button>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -256,7 +256,7 @@ const Home = () => {
 
         {/* Subject Cards */}
         <div>
-          <h2 className="text-xl font-bold text-foreground mb-4">📚 अपना विषय चुनें</h2>
+          <h2 className="text-xl font-bold text-foreground mb-4">{t("📚 अपना विषय चुनें", "📚 Choose Your Subject")}</h2>
           <div className="grid grid-cols-2 gap-3">
             {subjects.filter(s => s.id !== 'all').map((subject) => (
               <Card 
@@ -273,7 +273,7 @@ const Home = () => {
                     </div>
                     <div>
                       <h3 className="text-base font-bold text-white">
-                        {subject.name}
+                        {getSubjectName(subject, language)}
                       </h3>
                       <div className="flex items-center justify-end text-white/80 mt-1">
                         <ChevronRight className="w-4 h-4" />
@@ -295,9 +295,9 @@ const Home = () => {
                   <Target className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-foreground">⭐ Daily Mission</h3>
+                  <h3 className="text-sm font-bold text-foreground">{t("⭐ डेली मिशन", "⭐ Daily Mission")}</h3>
                   <p className="text-xs text-muted-foreground">
-                    +50 bonus points
+                    {t("+50 बोनस अंक", "+50 bonus points")}
                   </p>
                 </div>
               </div>
@@ -306,7 +306,7 @@ const Home = () => {
                 onClick={() => navigate("/quiz", { state: { questionCount: 10, difficulty: 'all' } })}
                 className="bg-secondary hover:bg-secondary/90"
               >
-                Start
+                {t("शुरू करें", "Start")}
               </Button>
             </div>
           </CardContent>
@@ -318,26 +318,26 @@ const Home = () => {
             <CardContent className="p-6">
               <div className="flex items-center gap-2 mb-4">
                 <TrendingUp className="w-5 h-5 text-primary" />
-                <h3 className="text-lg font-bold text-foreground">📊 आज की प्रगति</h3>
+                <h3 className="text-lg font-bold text-foreground">{t("📊 आज की प्रगति", "📊 Today's Progress")}</h3>
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <div className="text-center p-3 rounded-lg bg-primary/5">
                   <div className="text-2xl font-bold text-primary mb-1">
                     {todayStats.quizzes}
                   </div>
-                  <p className="text-xs text-muted-foreground">Quizzes</p>
+                  <p className="text-xs text-muted-foreground">{t("क्विज़", "Quizzes")}</p>
                 </div>
                 <div className="text-center p-3 rounded-lg bg-secondary/5">
                   <div className="text-2xl font-bold text-secondary mb-1">
                     {todayStats.accuracy}%
                   </div>
-                  <p className="text-xs text-muted-foreground">Accuracy</p>
+                  <p className="text-xs text-muted-foreground">{t("सटीकता", "Accuracy")}</p>
                 </div>
                 <div className="text-center p-3 rounded-lg bg-accent/5">
                   <div className="text-2xl font-bold text-accent mb-1">
                     +{todayStats.points}
                   </div>
-                  <p className="text-xs text-muted-foreground">Points</p>
+                  <p className="text-xs text-muted-foreground">{t("अंक", "Points")}</p>
                 </div>
               </div>
             </CardContent>
@@ -359,9 +359,12 @@ const Home = () => {
       <Dialog open={showQuizSetup} onOpenChange={setShowQuizSetup}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-2xl">🎯 Quiz Setup</DialogTitle>
+            <DialogTitle className="text-2xl">{t("🎯 Quiz सेटअप", "🎯 Quiz Setup")}</DialogTitle>
             <DialogDescription className="text-base">
-              {subjects.find(s => s.id === selectedSubject)?.name} के लिए प्रश्नों की संख्या चुनें
+              {(() => {
+                const subject = subjects.find(s => s.id === selectedSubject);
+                return subject ? getSubjectName(subject, language) : '';
+              })()} {t("के लिए प्रश्नों की संख्या चुनें", "- Select number of questions")}
             </DialogDescription>
           </DialogHeader>
           
@@ -373,7 +376,7 @@ const Home = () => {
                 onClick={() => setSelectedQuestionCount(count)}
                 className="h-16 text-lg font-semibold"
               >
-                {count} प्रश्न
+                {count} {t("प्रश्न", "Questions")}
               </Button>
             ))}
           </div>
@@ -393,7 +396,7 @@ const Home = () => {
               }}
               className="w-full h-12 text-base font-semibold"
             >
-              🚀 Quiz शुरू करें
+              {t("🚀 Quiz शुरू करें", "🚀 Start Quiz")}
             </Button>
           </DialogFooter>
         </DialogContent>
