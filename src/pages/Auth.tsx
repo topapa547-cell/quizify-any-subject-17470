@@ -24,6 +24,8 @@ const Auth = () => {
   const [username, setUsername] = useState("");
   const [classLevel, setClassLevel] = useState<number>(9);
   const [showSubscriptionDialog, setShowSubscriptionDialog] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmailSent, setResetEmailSent] = useState(false);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -184,6 +186,109 @@ const Auth = () => {
     }
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) {
+      toast({
+        title: t("ईमेल आवश्यक है", "Email required"),
+        description: t("कृपया अपना ईमेल दर्ज करें", "Please enter your email"),
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/auth`,
+    });
+
+    setLoading(false);
+
+    if (error) {
+      toast({
+        title: t("त्रुटि", "Error"),
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      setResetEmailSent(true);
+      toast({
+        title: t("ईमेल भेजा गया!", "Email Sent!"),
+        description: t("पासवर्ड रीसेट लिंक आपके ईमेल पर भेजा गया है", "Password reset link has been sent to your email"),
+      });
+    }
+  };
+
+  // Forgot Password Form
+  if (showForgotPassword) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary/20 via-background to-accent/20 flex items-center justify-center p-4">
+        <div className="w-full max-w-md space-y-4">
+          <LanguageSelector />
+          <Card>
+            <CardHeader className="text-center">
+              <div className="flex justify-center mb-4">
+                <GraduationCap className="w-12 h-12 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">{t('पासवर्ड रीसेट करें', 'Reset Password')}</CardTitle>
+              <CardDescription>
+                {resetEmailSent 
+                  ? t('पासवर्ड रीसेट लिंक आपके ईमेल पर भेजा गया है। कृपया अपना ईमेल चेक करें।', 'Password reset link has been sent to your email. Please check your inbox.')
+                  : t('अपना ईमेल दर्ज करें और हम आपको पासवर्ड रीसेट लिंक भेजेंगे।', 'Enter your email and we will send you a password reset link.')
+                }
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {resetEmailSent ? (
+                <div className="space-y-4">
+                  <div className="p-4 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-lg text-center">
+                    <p className="text-green-700 dark:text-green-300 text-sm">
+                      ✅ {t('ईमेल सफलतापूर्वक भेजा गया!', 'Email sent successfully!')}
+                    </p>
+                  </div>
+                  <Button 
+                    onClick={() => {
+                      setShowForgotPassword(false);
+                      setResetEmailSent(false);
+                    }} 
+                    className="w-full"
+                  >
+                    {t('लॉगिन पर वापस जाएं', 'Back to Login')}
+                  </Button>
+                </div>
+              ) : (
+                <form onSubmit={handleForgotPassword} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="reset-email">{t('ईमेल', 'Email')}</Label>
+                    <Input
+                      id="reset-email"
+                      type="email"
+                      placeholder="your@email.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? t('भेजा जा रहा है...', 'Sending...') : t('रीसेट लिंक भेजें', 'Send Reset Link')}
+                  </Button>
+                  <Button 
+                    type="button"
+                    variant="outline"
+                    onClick={() => setShowForgotPassword(false)} 
+                    className="w-full"
+                  >
+                    {t('वापस जाएं', 'Go Back')}
+                  </Button>
+                </form>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/20 via-background to-accent/20 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-4">
@@ -230,6 +335,14 @@ const Auth = () => {
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "लॉगिन हो रहा है..." : "लॉगिन करें"}
                 </Button>
+
+                <button
+                  type="button"
+                  onClick={() => setShowForgotPassword(true)}
+                  className="w-full text-sm text-primary hover:underline mt-2"
+                >
+                  {t("पासवर्ड भूल गए?", "Forgot Password?")}
+                </button>
                 
                 <div className="relative my-4">
                   <Separator />
