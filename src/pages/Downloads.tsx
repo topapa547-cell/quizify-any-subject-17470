@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Trash2, FileText } from "lucide-react";
+import { Trash2, FileText, ArrowLeft } from "lucide-react";
 import { getAllDownloads, deleteDownload, clearAllDownloads } from "@/utils/offlineStorage";
 import { useToast } from "@/hooks/use-toast";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import BottomNav from "@/components/BottomNav";
 
 const Downloads = () => {
+  const navigate = useNavigate();
   const { language, t } = useLanguage();
   const { toast } = useToast();
   const [downloads, setDownloads] = useState<any[]>([]);
@@ -59,8 +61,11 @@ const Downloads = () => {
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-8">
       <div className="container mx-auto p-4 max-w-4xl">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">{t("डाउनलोड किए गए प्रश्न", "Downloaded Questions")}</h1>
+        <div className="flex items-center gap-3 mb-6">
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <h1 className="text-3xl font-bold flex-1">{t("डाउनलोड किए गए प्रश्न", "Downloaded Questions")}</h1>
           <HamburgerMenu />
         </div>
 

@@ -27,16 +27,6 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   {
-    icon: "📰",
-    labelHi: "CBSE अपडेट्स",
-    labelEn: "CBSE Updates",
-    subtitleHi: "परीक्षा तिथियां और समाचार",
-    subtitleEn: "Exam dates & news",
-    path: "/cbse-updates",
-    gradient: "from-blue-50 to-blue-100 dark:from-blue-950/40 dark:to-blue-900/40",
-    textColor: "text-blue-800 dark:text-blue-200",
-  },
-  {
     icon: "📍",
     labelHi: "मुख्य बिंदु",
     labelEn: "Key Points",
@@ -135,6 +125,16 @@ const menuItems: MenuItem[] = [
     path: "/help",
     gradient: "from-pink-50 to-pink-100 dark:from-pink-950/40 dark:to-pink-900/40",
     textColor: "text-pink-800 dark:text-pink-200",
+  },
+  {
+    icon: "📰",
+    labelHi: "CBSE अपडेट्स",
+    labelEn: "CBSE Updates",
+    subtitleHi: "परीक्षा तिथियां और समाचार",
+    subtitleEn: "Exam dates & news",
+    path: "/cbse-updates",
+    gradient: "from-blue-50 to-blue-100 dark:from-blue-950/40 dark:to-blue-900/40",
+    textColor: "text-blue-800 dark:text-blue-200",
   },
 ];
 
