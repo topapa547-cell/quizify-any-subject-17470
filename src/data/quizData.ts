@@ -46,8 +46,12 @@ import { socialScienceQuestions } from './questions/socialScienceQuestions';
 import { englishQuestions } from './questions/englishQuestions';
 import { hindiQuestions } from './questions/hindiQuestions';
 import { itItesQuestions } from './questions/itItesQuestions';
+import { itItesQuestionsPhase2 } from './questions/itItesQuestionsPhase2';
 import { mathQuestionsGHS } from './questions/mathQuestionsGHS';
 import { scienceQuestionsGHS } from './questions/scienceQuestionsGHS';
+
+// Combine all IT/ITes questions
+const allItItesQuestions = [...itItesQuestions, ...itItesQuestionsPhase2];
 
 export const questionBank: QuizQuestion[] = [
   ...mathQuestions,
@@ -55,7 +59,7 @@ export const questionBank: QuizQuestion[] = [
   ...socialScienceQuestions,
   ...englishQuestions,
   ...hindiQuestions,
-  ...itItesQuestions,
+  ...allItItesQuestions,
   ...mathQuestionsGHS,
   ...scienceQuestionsGHS
 ];
@@ -67,7 +71,7 @@ export const questionsBySubject: Record<string, QuizQuestion[]> = {
   social: socialScienceQuestions,
   english: englishQuestions,
   hindi: hindiQuestions,
-  it_ites: itItesQuestions
+  it_ites: allItItesQuestions
 };
 
 // Fisher-Yates shuffle algorithm for true randomization

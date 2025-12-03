@@ -8,7 +8,20 @@ export type AchievementType =
   | "quiz_master_50"
   | "subject_expert"
   | "speed_demon"
-  | "consistent_learner";
+  | "consistent_learner"
+  // New achievements
+  | "game_master"
+  | "fire_streak"
+  | "diamond_league"
+  | "superstar"
+  | "rocket_start"
+  | "bookworm"
+  | "sharpshooter"
+  | "all_rounder"
+  | "game_king"
+  | "notes_hero"
+  | "daily_champion"
+  | "it_expert";
 
 export interface Achievement {
   type: AchievementType;
@@ -65,6 +78,79 @@ export const ACHIEVEMENTS: Record<AchievementType, Achievement> = {
     name: "नियमित अध्ययन",
     description: "लगातार 7 दिन क्विज़ हल की",
     icon: "📅"
+  },
+  // 12 New Achievements
+  game_master: {
+    type: "game_master",
+    name: "गेम मास्टर",
+    description: "10 games खेले",
+    icon: "🎮"
+  },
+  fire_streak: {
+    type: "fire_streak",
+    name: "फायर स्ट्रीक",
+    description: "14 दिन लगातार अभ्यास किया",
+    icon: "🔥"
+  },
+  diamond_league: {
+    type: "diamond_league",
+    name: "हीरे की लीग",
+    description: "Diamond League में पहुंचे",
+    icon: "💎"
+  },
+  superstar: {
+    type: "superstar",
+    name: "सुपरस्टार",
+    description: "1000 पॉइंट्स कमाए",
+    icon: "🌟"
+  },
+  rocket_start: {
+    type: "rocket_start",
+    name: "रॉकेट स्टार्ट",
+    description: "पहले दिन 5 क्विज़ पूरी कीं",
+    icon: "🚀"
+  },
+  bookworm: {
+    type: "bookworm",
+    name: "बुकवर्म",
+    description: "50 NCERT Solutions देखे",
+    icon: "📖"
+  },
+  sharpshooter: {
+    type: "sharpshooter",
+    name: "शार्पशूटर",
+    description: "लगातार 20 सही उत्तर दिए",
+    icon: "🎯"
+  },
+  all_rounder: {
+    type: "all_rounder",
+    name: "ऑल-राउंडर",
+    description: "सभी 6 विषयों में क्विज़ खेली",
+    icon: "🌈"
+  },
+  game_king: {
+    type: "game_king",
+    name: "खेल राजा",
+    description: "सभी 5 games खेले",
+    icon: "🎪"
+  },
+  notes_hero: {
+    type: "notes_hero",
+    name: "नोट्स नायक",
+    description: "30 Key Points देखे",
+    icon: "📝"
+  },
+  daily_champion: {
+    type: "daily_champion",
+    name: "दैनिक चैंपियन",
+    description: "7 Daily Challenges पूरे किए",
+    icon: "⭐"
+  },
+  it_expert: {
+    type: "it_expert",
+    name: "IT विशेषज्ञ",
+    description: "IT में 10 क्विज़ 90%+ अंकों के साथ पूरी कीं",
+    icon: "💻"
   }
 };
 
@@ -95,6 +181,13 @@ export async function checkAndAwardAchievements(
     .select("*")
     .eq("user_id", userId);
 
+  // Get user profile for streak and league
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", userId)
+    .single();
+
   if (history) {
     const totalQuizzes = history.length;
 
@@ -119,6 +212,55 @@ export async function checkAndAwardAchievements(
     );
     if (highScoreQuizzes.length >= 5) {
       achievements.push("subject_expert");
+    }
+
+    // IT Expert - 10 IT quizzes with 90%+ score
+    const itQuizzes = history.filter(q => q.subject === "it_ites");
+    const itHighScoreQuizzes = itQuizzes.filter(
+      q => (q.score / q.total_questions) >= 0.9
+    );
+    if (itHighScoreQuizzes.length >= 10) {
+      achievements.push("it_expert");
+    }
+
+    // All-rounder - quizzes in all 6 subjects
+    const uniqueSubjects = new Set(history.map(q => q.subject));
+    const requiredSubjects = ["math", "science", "social", "english", "hindi", "it_ites"];
+    if (requiredSubjects.every(s => uniqueSubjects.has(s))) {
+      achievements.push("all_rounder");
+    }
+
+    // Rocket start - 5 quizzes on first day
+    const firstQuizDate = history[0]?.created_at?.split('T')[0];
+    const firstDayQuizzes = history.filter(
+      q => q.created_at?.split('T')[0] === firstQuizDate
+    );
+    if (firstDayQuizzes.length >= 5) {
+      achievements.push("rocket_start");
+    }
+
+    // Calculate total points for superstar
+    const totalPoints = history.reduce((sum, q) => sum + (q.points_earned || 0), 0);
+    if (totalPoints >= 1000) {
+      achievements.push("superstar");
+    }
+  }
+
+  // Profile-based achievements
+  if (profile) {
+    // Fire streak - 14 day streak
+    if (profile.current_streak && profile.current_streak >= 14) {
+      achievements.push("fire_streak");
+    }
+
+    // Consistent learner - 7 day streak
+    if (profile.current_streak && profile.current_streak >= 7) {
+      achievements.push("consistent_learner");
+    }
+
+    // Diamond league
+    if (profile.league === "diamond") {
+      achievements.push("diamond_league");
     }
   }
 
@@ -160,4 +302,43 @@ export async function getUserAchievements(userId: string) {
     .order("earned_at", { ascending: false });
 
   return data || [];
+}
+
+// Award game-related achievements
+export async function checkGameAchievements(userId: string, gamesPlayed: number, uniqueGamesPlayed: string[]) {
+  const achievements: AchievementType[] = [];
+
+  // Game master - 10 games played
+  if (gamesPlayed >= 10) {
+    achievements.push("game_master");
+  }
+
+  // Game king - all 5 games played
+  const allGames = ["match-pair", "quick-fire", "memory-cards", "true-false", "fill-blanks"];
+  if (allGames.every(g => uniqueGamesPlayed.includes(g))) {
+    achievements.push("game_king");
+  }
+
+  // Check existing and award new
+  const { data: existing } = await supabase
+    .from("achievements")
+    .select("achievement_type")
+    .eq("user_id", userId);
+
+  const existingTypes = new Set(existing?.map(a => a.achievement_type) || []);
+  const newAchievements = achievements.filter(type => !existingTypes.has(type));
+
+  if (newAchievements.length > 0) {
+    const records = newAchievements.map(type => ({
+      user_id: userId,
+      achievement_type: type,
+      achievement_name: ACHIEVEMENTS[type].name,
+      achievement_description: ACHIEVEMENTS[type].description,
+      metadata: { icon: ACHIEVEMENTS[type].icon }
+    }));
+
+    await supabase.from("achievements").insert(records);
+  }
+
+  return newAchievements.map(type => ACHIEVEMENTS[type]);
 }
