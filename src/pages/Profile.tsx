@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Trophy, Target, TrendingUp, Award, Edit, X, Save, BarChart3 } from "lucide-react";
+import InboxSection from "@/components/profile/InboxSection";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BottomNav from "@/components/BottomNav";
@@ -314,15 +315,19 @@ const Profile = () => {
 
         {/* Tabs for Analytics */}
         <Tabs defaultValue="analytics" className="mb-6">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="analytics" className="flex items-center gap-2">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="analytics" className="flex items-center gap-1 text-xs sm:text-sm">
               <BarChart3 className="h-4 w-4" />
-              विश्लेषण
+              <span className="hidden sm:inline">विश्लेषण</span>
             </TabsTrigger>
-            <TabsTrigger value="account">खाता</TabsTrigger>
-            <TabsTrigger value="achievements">
-              <Award className="h-4 w-4 mr-1" />
-              उपलब्धियाँ
+            <TabsTrigger value="inbox" className="flex items-center gap-1 text-xs sm:text-sm">
+              📥
+              <span className="hidden sm:inline">इनबॉक्स</span>
+            </TabsTrigger>
+            <TabsTrigger value="account" className="text-xs sm:text-sm">खाता</TabsTrigger>
+            <TabsTrigger value="achievements" className="flex items-center gap-1 text-xs sm:text-sm">
+              <Award className="h-4 w-4" />
+              <span className="hidden sm:inline">उपलब्धियाँ</span>
             </TabsTrigger>
           </TabsList>
 
@@ -345,6 +350,11 @@ const Profile = () => {
 
             {/* Activity Calendar */}
             <ActivityCalendar data={activityData} />
+          </TabsContent>
+
+          {/* Inbox Tab */}
+          <TabsContent value="inbox" className="mt-4">
+            {user && <InboxSection userId={user.id} />}
           </TabsContent>
 
           {/* Account Tab */}

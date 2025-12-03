@@ -100,6 +100,44 @@ export type Database = {
           },
         ]
       }
+      battle_invitations: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          receiver_id: string
+          room_id: string | null
+          sender_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          receiver_id: string
+          room_id?: string | null
+          sender_id: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          receiver_id?: string
+          room_id?: string | null
+          sender_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "battle_invitations_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "battle_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       battle_rooms: {
         Row: {
           class_level: number
@@ -411,6 +449,33 @@ export type Database = {
           subject_hi?: string
           updated_at?: string | null
           year?: number
+        }
+        Relationships: []
+      }
+      friends: {
+        Row: {
+          created_at: string
+          friend_id: string
+          id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          friend_id: string
+          id?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          friend_id?: string
+          id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
