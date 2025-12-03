@@ -44,6 +44,131 @@ export type Database = {
         }
         Relationships: []
       }
+      battle_history: {
+        Row: {
+          created_at: string
+          id: string
+          is_draw: boolean | null
+          is_winner: boolean | null
+          opponent_id: string | null
+          opponent_score: number
+          opponent_username: string | null
+          points_earned: number
+          room_id: string | null
+          subject: string | null
+          total_questions: number | null
+          user_id: string
+          user_score: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_draw?: boolean | null
+          is_winner?: boolean | null
+          opponent_id?: string | null
+          opponent_score?: number
+          opponent_username?: string | null
+          points_earned?: number
+          room_id?: string | null
+          subject?: string | null
+          total_questions?: number | null
+          user_id: string
+          user_score?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_draw?: boolean | null
+          is_winner?: boolean | null
+          opponent_id?: string | null
+          opponent_score?: number
+          opponent_username?: string | null
+          points_earned?: number
+          room_id?: string | null
+          subject?: string | null
+          total_questions?: number | null
+          user_id?: string
+          user_score?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "battle_history_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "battle_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      battle_rooms: {
+        Row: {
+          class_level: number
+          created_at: string
+          current_question: number | null
+          finished_at: string | null
+          host_answers: Json | null
+          host_id: string
+          host_score: number | null
+          host_username: string
+          id: string
+          opponent_answers: Json | null
+          opponent_id: string | null
+          opponent_score: number | null
+          opponent_username: string | null
+          questions: Json | null
+          room_code: string
+          started_at: string | null
+          status: string
+          subject: string
+          total_questions: number
+          winner_id: string | null
+        }
+        Insert: {
+          class_level?: number
+          created_at?: string
+          current_question?: number | null
+          finished_at?: string | null
+          host_answers?: Json | null
+          host_id: string
+          host_score?: number | null
+          host_username: string
+          id?: string
+          opponent_answers?: Json | null
+          opponent_id?: string | null
+          opponent_score?: number | null
+          opponent_username?: string | null
+          questions?: Json | null
+          room_code: string
+          started_at?: string | null
+          status?: string
+          subject?: string
+          total_questions?: number
+          winner_id?: string | null
+        }
+        Update: {
+          class_level?: number
+          created_at?: string
+          current_question?: number | null
+          finished_at?: string | null
+          host_answers?: Json | null
+          host_id?: string
+          host_score?: number | null
+          host_username?: string
+          id?: string
+          opponent_answers?: Json | null
+          opponent_id?: string | null
+          opponent_score?: number | null
+          opponent_username?: string | null
+          questions?: Json | null
+          room_code?: string
+          started_at?: string | null
+          status?: string
+          subject?: string
+          total_questions?: number
+          winner_id?: string | null
+        }
+        Relationships: []
+      }
       cbse_news: {
         Row: {
           category: string | null
