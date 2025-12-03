@@ -24,6 +24,7 @@ import AdminInsert from "./pages/AdminInsert";
 import StudyNotes from "./pages/StudyNotes";
 import StudyMaterials from "./pages/StudyMaterials";
 import ITTextbooks from "./pages/ITTextbooks";
+import CBSEUpdates from "./pages/CBSEUpdates";
 import MatchThePair from "./pages/games/MatchThePair";
 import MemoryCards from "./pages/games/MemoryCards";
 import TrueOrFalse from "./pages/games/TrueOrFalse";
@@ -59,6 +60,7 @@ const App = () => (
           <Route path="/downloads" element={<ProtectedRoute><Downloads /></ProtectedRoute>} />
           <Route path="/key-points" element={<PremiumRoute featureName="Key Points"><KeyPoints /></PremiumRoute>} />
           <Route path="/it-textbooks" element={<PremiumRoute featureName="IT Textbooks"><ITTextbooks /></PremiumRoute>} />
+          <Route path="/cbse-updates" element={<ProtectedRoute><CBSEUpdates /></ProtectedRoute>} />
           <Route path="/help" element={<ProtectedRoute><Help /></ProtectedRoute>} />
           <Route path="/admin-insert" element={<AdminInsert />} />
           <Route path="/games/match-pair" element={<PremiumRoute featureName="Match the Pair Game"><MatchThePair /></PremiumRoute>} />

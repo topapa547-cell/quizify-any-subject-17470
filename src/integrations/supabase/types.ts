@@ -44,6 +44,48 @@ export type Database = {
         }
         Relationships: []
       }
+      cbse_news: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          description_en: string | null
+          description_hi: string | null
+          expiry_date: string | null
+          id: string
+          is_important: boolean | null
+          publish_date: string
+          source_url: string | null
+          title_en: string
+          title_hi: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          description_en?: string | null
+          description_hi?: string | null
+          expiry_date?: string | null
+          id?: string
+          is_important?: boolean | null
+          publish_date: string
+          source_url?: string | null
+          title_en: string
+          title_hi: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          description_en?: string | null
+          description_hi?: string | null
+          expiry_date?: string | null
+          id?: string
+          is_important?: boolean | null
+          publish_date?: string
+          source_url?: string | null
+          title_en?: string
+          title_hi?: string
+        }
+        Relationships: []
+      }
       coupon_codes: {
         Row: {
           code: string
@@ -198,6 +240,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      exam_timetable: {
+        Row: {
+          class_level: number
+          created_at: string | null
+          exam_date: string
+          exam_duration: string | null
+          exam_time: string | null
+          id: string
+          is_practical: boolean | null
+          notes: string | null
+          notes_hi: string | null
+          subject: string
+          subject_hi: string
+          updated_at: string | null
+          year: number
+        }
+        Insert: {
+          class_level: number
+          created_at?: string | null
+          exam_date: string
+          exam_duration?: string | null
+          exam_time?: string | null
+          id?: string
+          is_practical?: boolean | null
+          notes?: string | null
+          notes_hi?: string | null
+          subject: string
+          subject_hi: string
+          updated_at?: string | null
+          year: number
+        }
+        Update: {
+          class_level?: number
+          created_at?: string | null
+          exam_date?: string
+          exam_duration?: string | null
+          exam_time?: string | null
+          id?: string
+          is_practical?: boolean | null
+          notes?: string | null
+          notes_hi?: string | null
+          subject?: string
+          subject_hi?: string
+          updated_at?: string | null
+          year?: number
+        }
+        Relationships: []
       }
       grammar_progress: {
         Row: {

@@ -1,15 +1,17 @@
 import { Home, Trophy, User } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
 
   const navItems = [
-    { icon: Home, label: "होम", path: "/" },
-    { icon: Trophy, label: "रैंकिंग", path: "/leaderboard" },
-    { icon: User, label: "प्रोफाइल", path: "/profile" },
+    { icon: Home, labelHi: "होम", labelEn: "Home", path: "/" },
+    { icon: Trophy, labelHi: "रैंकिंग", labelEn: "Ranking", path: "/leaderboard" },
+    { icon: User, labelHi: "प्रोफाइल", labelEn: "Profile", path: "/profile" },
   ];
 
   return (
@@ -31,7 +33,7 @@ const BottomNav = () => {
               )}
             >
               <Icon className={cn("w-6 h-6 mb-1", isActive && "scale-110")} />
-              <span className="text-xs font-medium">{item.label}</span>
+              <span className="text-xs font-medium">{t(item.labelHi, item.labelEn)}</span>
             </button>
           );
         })}
