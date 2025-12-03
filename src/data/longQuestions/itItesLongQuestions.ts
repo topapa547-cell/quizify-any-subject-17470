@@ -1,4 +1,5 @@
 import { itItesLongQuestionsExpanded } from './itItesLongQuestionsExpanded';
+import { itItesLongQuestionsPhase2 } from './itItesLongQuestionsPhase2';
 
 const itItesLongQuestionsBase = [
   // Class 10 - Communication Skills Book
