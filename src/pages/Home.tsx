@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Flame, Trophy, Target, Sparkles, ChevronRight, Gamepad2, GraduationCap, TrendingUp, Languages } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { Flame, Trophy, Target, Sparkles, ChevronRight, Gamepad2, GraduationCap, TrendingUp, Languages, Award } from "lucide-react";
 import { subjects, getSubjectName } from "@/data/quizData";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { getLeagueIcon } from "@/utils/pointsCalculator";
+import { ACHIEVEMENTS, getUserAchievements } from "@/utils/achievements";
 import BottomNav from "@/components/BottomNav";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import UserAvatar from "@/components/UserAvatar";
@@ -34,6 +36,8 @@ const Home = () => {
   const [selectedQuestionCount, setSelectedQuestionCount] = useState<number>(10);
   const [dailyChallengeOpen, setDailyChallengeOpen] = useState(false);
   const [showChallengePopup, setShowChallengePopup] = useState(false);
+  const [achievements, setAchievements] = useState<any[]>([]);
+  const [totalAchievements] = useState(Object.keys(ACHIEVEMENTS).length);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -76,6 +80,10 @@ const Home = () => {
 
         // Check if daily challenge is completed
         checkDailyChallenge(session.user.id);
+
+        // Fetch achievements
+        const userAchievements = await getUserAchievements(session.user.id);
+        setAchievements(userAchievements);
       }
       setLoading(false);
     };
@@ -234,6 +242,56 @@ const Home = () => {
                   <p className="text-xs text-muted-foreground">Points</p>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Achievements Card */}
+        {profile && (
+          <Card 
+            className="border-primary/30 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-950/30 dark:via-orange-950/30 dark:to-yellow-950/30 hover:shadow-lg transition-all cursor-pointer"
+            onClick={() => navigate("/profile")}
+          >
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+                    <Award className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-foreground">{t("🏆 उपलब्धियां", "🏆 Achievements")}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {achievements.length}/{totalAchievements} {t("अनलॉक", "Unlocked")}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-2">
+                  <Progress 
+                    value={(achievements.length / totalAchievements) * 100} 
+                    className="w-20 h-2"
+                  />
+                  <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                </div>
+              </div>
+              
+              {/* Recent Achievements Preview */}
+              {achievements.length > 0 && (
+                <div className="flex gap-2 mt-3 flex-wrap">
+                  {achievements.slice(0, 3).map((a: any) => (
+                    <span 
+                      key={a.id} 
+                      className="px-2 py-1 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 rounded-full text-xs font-medium flex items-center gap-1"
+                    >
+                      {a.metadata?.icon || "🏅"} {a.achievement_name}
+                    </span>
+                  ))}
+                  {achievements.length > 3 && (
+                    <span className="px-2 py-1 bg-muted text-muted-foreground rounded-full text-xs">
+                      +{achievements.length - 3} {t("और", "more")}
+                    </span>
+                  )}
+                </div>
+              )}
             </CardContent>
           </Card>
         )}

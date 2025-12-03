@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Shuffle, Heart, Share2, Lightbulb, Sparkles } from "lucide-react";
+import { Shuffle, Heart, Share2, Lightbulb, Sparkles, ArrowLeft } from "lucide-react";
 import { motivationalQuotes, MotivationalQuote } from "@/data/motivationalQuotes";
 import { useLanguage } from "@/contexts/LanguageContext";
 import BottomNav from "@/components/BottomNav";
 import HamburgerMenu from "@/components/HamburgerMenu";
 
 const Motivations = () => {
+  const navigate = useNavigate();
   const { t, language } = useLanguage();
   const isHindi = language === "hindi";
   const [filteredQuotes, setFilteredQuotes] = useState(motivationalQuotes);
@@ -70,13 +72,14 @@ const Motivations = () => {
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 pb-20">
       <div className="max-w-4xl mx-auto p-4 space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Lightbulb className="w-8 h-8 text-amber-600" />
-            <h1 className="text-2xl font-bold text-foreground">
-              {t("महान व्यक्तियों से प्रेरणा", "Motivation from Legends")}
-            </h1>
-          </div>
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <Lightbulb className="w-8 h-8 text-amber-600" />
+          <h1 className="text-2xl font-bold text-foreground flex-1">
+            {t("महान व्यक्तियों से प्रेरणा", "Motivation from Legends")}
+          </h1>
           <HamburgerMenu />
         </div>
 

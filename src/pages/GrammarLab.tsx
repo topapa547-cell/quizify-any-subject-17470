@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { allGrammarTopics, type GrammarTopic } from '@/data/grammarLab';
@@ -7,10 +8,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { BookOpen, CheckCircle, Circle, Flame, Clock, TrendingUp } from 'lucide-react';
+import { BookOpen, CheckCircle, Circle, Flame, Clock, TrendingUp, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 
 const GrammarLab = () => {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const [selectedClass, setSelectedClass] = useState<9 | 10>(9);
   const [selectedTopic, setSelectedTopic] = useState<GrammarTopic | null>(null);
@@ -99,15 +101,20 @@ const GrammarLab = () => {
   if (!selectedTopic) {
     return (
       <div className="container mx-auto p-4 max-w-7xl">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            📚 {language === 'hindi' ? 'व्याकरण प्रयोगशाला' : 'Grammar Lab'}
-          </h1>
-          <p className="text-muted-foreground">
-            {language === 'hindi' 
-              ? 'व्याकरण नियमों को सीखें और अभ्यास करें'
-              : 'Learn and practice grammar rules'}
-          </p>
+        <div className="flex items-center gap-3 mb-6">
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <div className="flex-1">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              📚 {language === 'hindi' ? 'व्याकरण प्रयोगशाला' : 'Grammar Lab'}
+            </h1>
+            <p className="text-muted-foreground">
+              {language === 'hindi' 
+                ? 'व्याकरण नियमों को सीखें और अभ्यास करें'
+                : 'Learn and practice grammar rules'}
+            </p>
+          </div>
         </div>
 
         <div className="mb-6">

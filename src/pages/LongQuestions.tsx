@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Download, Sparkles } from "lucide-react";
+import { Download, Sparkles, ArrowLeft } from "lucide-react";
 import { EnhancedAnswerText } from "@/components/EnhancedAnswerText";
 import { generateLongQuestionPDF, downloadPDF, LongQuestion } from "@/utils/pdfGenerator";
 import { saveDownload } from "@/utils/offlineStorage";
@@ -20,6 +21,7 @@ import HamburgerMenu from "@/components/HamburgerMenu";
 import BottomNav from "@/components/BottomNav";
 
 const LongQuestions = () => {
+  const navigate = useNavigate();
   const { language, t } = useLanguage();
   const { toast } = useToast();
   const [questions, setQuestions] = useState<LongQuestion[]>([]);
@@ -122,8 +124,11 @@ const LongQuestions = () => {
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-8">
       <div className="container mx-auto p-4 max-w-4xl">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">{t("लंबे उत्तर वाले प्रश्न", "Long Answer Questions")}</h1>
+        <div className="flex items-center gap-3 mb-6">
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <h1 className="text-3xl font-bold flex-1">{t("लंबे उत्तर वाले प्रश्न", "Long Answer Questions")}</h1>
           <HamburgerMenu />
         </div>
 

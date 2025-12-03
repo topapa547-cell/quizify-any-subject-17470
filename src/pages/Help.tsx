@@ -1,18 +1,25 @@
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ArrowLeft } from "lucide-react";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import BottomNav from "@/components/BottomNav";
 import HelpChatAssistant from "@/components/HelpChatAssistant";
 
 const Help = () => {
+  const navigate = useNavigate();
   const { t } = useLanguage();
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-8">
       <div className="container mx-auto p-4 max-w-4xl">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">{t("सहायता", "Help")}</h1>
+        <div className="flex items-center gap-3 mb-6">
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <h1 className="text-3xl font-bold flex-1">{t("सहायता", "Help")}</h1>
           <HamburgerMenu />
         </div>
 
