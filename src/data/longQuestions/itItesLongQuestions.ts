@@ -189,3 +189,8 @@ const itItesLongQuestionsBase = [
     expected_time_minutes: 8,
   },
 ];
+
+export const itItesLongQuestions = [
+  ...itItesLongQuestionsBase,
+  ...itItesLongQuestionsExpanded,
+];
