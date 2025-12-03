@@ -37,6 +37,16 @@ const menuItems: MenuItem[] = [
     textColor: "text-red-800 dark:text-red-200",
   },
   {
+    icon: "💻",
+    labelHi: "IT किताबें PDF",
+    labelEn: "IT Textbooks PDF",
+    subtitleHi: "IT/ITes संपूर्ण पाठ्यपुस्तकें",
+    subtitleEn: "Complete IT/ITes textbooks",
+    path: "/it-textbooks",
+    gradient: "from-cyan-50 to-cyan-100 dark:from-cyan-950/40 dark:to-cyan-900/40",
+    textColor: "text-cyan-800 dark:text-cyan-200",
+  },
+  {
     icon: "📝",
     labelHi: "लंबे उत्तर वाले प्रश्न",
     labelEn: "Long Answer Questions",

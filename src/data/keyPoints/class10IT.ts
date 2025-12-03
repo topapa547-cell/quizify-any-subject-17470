@@ -1,0 +1,561 @@
+import { KeyPoint } from './index';
+
+export const class10ITKeyPoints: KeyPoint[] = [
+  // Computer Generations
+  {
+    id: "it10-1-1",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "कंप्यूटर की पीढ़ियाँ",
+    chapter_number: 1,
+    point_hindi: "प्रथम पीढ़ी (1940-56): Vacuum Tubes - ENIAC, UNIVAC - बहुत बड़े, अधिक बिजली, अधिक गर्मी",
+    point_english: "First Generation (1940-56): Vacuum Tubes - ENIAC, UNIVAC - Very large, high power, high heat",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 5"
+  },
+  {
+    id: "it10-1-2",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "कंप्यूटर की पीढ़ियाँ",
+    chapter_number: 1,
+    point_hindi: "द्वितीय पीढ़ी (1956-63): Transistors - IBM 1401 - छोटे, तेज, अधिक विश्वसनीय",
+    point_english: "Second Generation (1956-63): Transistors - IBM 1401 - Smaller, faster, more reliable",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 6"
+  },
+  {
+    id: "it10-1-3",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "कंप्यूटर की पीढ़ियाँ",
+    chapter_number: 1,
+    point_hindi: "तृतीय पीढ़ी (1964-71): IC (Integrated Circuit) - IBM 360 - और छोटे, कम बिजली",
+    point_english: "Third Generation (1964-71): IC (Integrated Circuit) - IBM 360 - Even smaller, less power",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 7"
+  },
+  {
+    id: "it10-1-4",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "कंप्यूटर की पीढ़ियाँ",
+    chapter_number: 1,
+    point_hindi: "चतुर्थ पीढ़ी (1971-वर्तमान): VLSI Microprocessor - PC, Laptops - GUI, Internet",
+    point_english: "Fourth Generation (1971-Present): VLSI Microprocessor - PC, Laptops - GUI, Internet",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 8"
+  },
+  {
+    id: "it10-1-5",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "कंप्यूटर की पीढ़ियाँ",
+    chapter_number: 1,
+    point_hindi: "पाँचवीं पीढ़ी: AI, Quantum Computing - स्वयं सीखने की क्षमता, Voice Recognition",
+    point_english: "Fifth Generation: AI, Quantum Computing - Self-learning, Voice Recognition",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 9"
+  },
+
+  // Hardware & Software
+  {
+    id: "it10-2-1",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "हार्डवेयर और सॉफ्टवेयर",
+    chapter_number: 2,
+    point_hindi: "Hardware = Physical parts (छू सकते हैं), Software = Programs (छू नहीं सकते)",
+    point_english: "Hardware = Physical parts (touchable), Software = Programs (non-touchable)",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 15"
+  },
+  {
+    id: "it10-2-2",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "हार्डवेयर और सॉफ्टवेयर",
+    chapter_number: 2,
+    point_hindi: "Input Devices: Keyboard, Mouse, Scanner, Microphone, Webcam, Joystick",
+    point_english: "Input Devices: Keyboard, Mouse, Scanner, Microphone, Webcam, Joystick",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 17"
+  },
+  {
+    id: "it10-2-3",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "हार्डवेयर और सॉफ्टवेयर",
+    chapter_number: 2,
+    point_hindi: "Output Devices: Monitor, Printer, Speaker, Headphone, Projector",
+    point_english: "Output Devices: Monitor, Printer, Speaker, Headphone, Projector",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 19"
+  },
+  {
+    id: "it10-2-4",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "हार्डवेयर और सॉफ्टवेयर",
+    chapter_number: 2,
+    point_hindi: "CPU = Central Processing Unit (कंप्यूटर का मस्तिष्क) - ALU + CU + Registers",
+    point_english: "CPU = Central Processing Unit (Brain of computer) - ALU + CU + Registers",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 21"
+  },
+  {
+    id: "it10-2-5",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "हार्डवेयर और सॉफ्टवेयर",
+    chapter_number: 2,
+    point_hindi: "RAM = Volatile Memory (बिजली जाने पर data खो जाता है), ROM = Non-volatile",
+    point_english: "RAM = Volatile Memory (data lost when power off), ROM = Non-volatile",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 23"
+  },
+  {
+    id: "it10-2-6",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "हार्डवेयर और सॉफ्टवेयर",
+    chapter_number: 2,
+    point_hindi: "System Software: OS (Windows, Linux), Utility Software, Device Drivers",
+    point_english: "System Software: OS (Windows, Linux), Utility Software, Device Drivers",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 25"
+  },
+  {
+    id: "it10-2-7",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "हार्डवेयर और सॉफ्टवेयर",
+    chapter_number: 2,
+    point_hindi: "Application Software: MS Office, Browser, Games, Media Player",
+    point_english: "Application Software: MS Office, Browser, Games, Media Player",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 27"
+  },
+
+  // MS Word
+  {
+    id: "it10-3-1",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस वर्ड",
+    chapter_number: 3,
+    point_hindi: "MS Word Extension: .docx | Open: Ctrl+O | Save: Ctrl+S | New: Ctrl+N",
+    point_english: "MS Word Extension: .docx | Open: Ctrl+O | Save: Ctrl+S | New: Ctrl+N",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 35"
+  },
+  {
+    id: "it10-3-2",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस वर्ड",
+    chapter_number: 3,
+    point_hindi: "Font Formatting: Bold (Ctrl+B), Italic (Ctrl+I), Underline (Ctrl+U)",
+    point_english: "Font Formatting: Bold (Ctrl+B), Italic (Ctrl+I), Underline (Ctrl+U)",
+    importance: "high",
+    category: "rule",
+    page_reference: "Page 37"
+  },
+  {
+    id: "it10-3-3",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस वर्ड",
+    chapter_number: 3,
+    point_hindi: "Cut (Ctrl+X), Copy (Ctrl+C), Paste (Ctrl+V), Undo (Ctrl+Z), Redo (Ctrl+Y)",
+    point_english: "Cut (Ctrl+X), Copy (Ctrl+C), Paste (Ctrl+V), Undo (Ctrl+Z), Redo (Ctrl+Y)",
+    importance: "high",
+    category: "rule",
+    page_reference: "Page 39"
+  },
+  {
+    id: "it10-3-4",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस वर्ड",
+    chapter_number: 3,
+    point_hindi: "Find (Ctrl+F), Replace (Ctrl+H), Select All (Ctrl+A), Print (Ctrl+P)",
+    point_english: "Find (Ctrl+F), Replace (Ctrl+H), Select All (Ctrl+A), Print (Ctrl+P)",
+    importance: "high",
+    category: "rule",
+    page_reference: "Page 41"
+  },
+  {
+    id: "it10-3-5",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस वर्ड",
+    chapter_number: 3,
+    point_hindi: "Page Setup: Margins, Orientation (Portrait/Landscape), Paper Size",
+    point_english: "Page Setup: Margins, Orientation (Portrait/Landscape), Paper Size",
+    importance: "medium",
+    category: "fact",
+    page_reference: "Page 43"
+  },
+
+  // MS Excel
+  {
+    id: "it10-4-1",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस एक्सेल",
+    chapter_number: 4,
+    point_hindi: "MS Excel Extension: .xlsx | Cell = Row + Column का intersection (जैसे A1, B2)",
+    point_english: "MS Excel Extension: .xlsx | Cell = Row + Column intersection (e.g., A1, B2)",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 50"
+  },
+  {
+    id: "it10-4-2",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस एक्सेल",
+    chapter_number: 4,
+    point_hindi: "Rows: 1048576 (1-1048576), Columns: 16384 (A-XFD)",
+    point_english: "Rows: 1048576 (1-1048576), Columns: 16384 (A-XFD)",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 51"
+  },
+  {
+    id: "it10-4-3",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस एक्सेल",
+    chapter_number: 4,
+    point_hindi: "=SUM(A1:A10) → जोड़, =AVERAGE(A1:A10) → औसत, =COUNT(A1:A10) → गिनती",
+    point_english: "=SUM(A1:A10) → Addition, =AVERAGE(A1:A10) → Average, =COUNT(A1:A10) → Count",
+    importance: "high",
+    category: "formula",
+    page_reference: "Page 55"
+  },
+  {
+    id: "it10-4-4",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस एक्सेल",
+    chapter_number: 4,
+    point_hindi: "=MAX(A1:A10) → अधिकतम, =MIN(A1:A10) → न्यूनतम",
+    point_english: "=MAX(A1:A10) → Maximum, =MIN(A1:A10) → Minimum",
+    importance: "high",
+    category: "formula",
+    page_reference: "Page 56"
+  },
+  {
+    id: "it10-4-5",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस एक्सेल",
+    chapter_number: 4,
+    point_hindi: "Formulas हमेशा = से शुरू होते हैं | Operators: + - * / ^ (power)",
+    point_english: "Formulas always start with = | Operators: + - * / ^ (power)",
+    importance: "high",
+    category: "rule",
+    page_reference: "Page 53"
+  },
+  {
+    id: "it10-4-6",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस एक्सेल",
+    chapter_number: 4,
+    point_hindi: "Charts: Bar, Column, Pie, Line | Insert → Chart से बनाएं",
+    point_english: "Charts: Bar, Column, Pie, Line | Create from Insert → Chart",
+    importance: "medium",
+    category: "fact",
+    page_reference: "Page 60"
+  },
+
+  // MS PowerPoint
+  {
+    id: "it10-5-1",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस पावरपॉइंट",
+    chapter_number: 5,
+    point_hindi: "MS PowerPoint Extension: .pptx | Slide = एक Page | Presentation = सभी Slides",
+    point_english: "MS PowerPoint Extension: .pptx | Slide = One Page | Presentation = All Slides",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 70"
+  },
+  {
+    id: "it10-5-2",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस पावरपॉइंट",
+    chapter_number: 5,
+    point_hindi: "Slide Views: Normal, Slide Sorter, Reading View, Slide Show (F5)",
+    point_english: "Slide Views: Normal, Slide Sorter, Reading View, Slide Show (F5)",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 72"
+  },
+  {
+    id: "it10-5-3",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस पावरपॉइंट",
+    chapter_number: 5,
+    point_hindi: "Animations: Entrance, Emphasis, Exit, Motion Paths",
+    point_english: "Animations: Entrance, Emphasis, Exit, Motion Paths",
+    importance: "medium",
+    category: "fact",
+    page_reference: "Page 75"
+  },
+  {
+    id: "it10-5-4",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "एमएस पावरपॉइंट",
+    chapter_number: 5,
+    point_hindi: "Transition = Slide बदलने का Effect | Duration और Sound set कर सकते हैं",
+    point_english: "Transition = Effect when changing slides | Can set Duration and Sound",
+    importance: "medium",
+    category: "definition",
+    page_reference: "Page 77"
+  },
+
+  // Internet
+  {
+    id: "it10-6-1",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "इंटरनेट",
+    chapter_number: 6,
+    point_hindi: "Internet = Interconnected Networks | WWW = World Wide Web (Tim Berners-Lee)",
+    point_english: "Internet = Interconnected Networks | WWW = World Wide Web (Tim Berners-Lee)",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 85"
+  },
+  {
+    id: "it10-6-2",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "इंटरनेट",
+    chapter_number: 6,
+    point_hindi: "URL = Uniform Resource Locator | Protocol://domain/path",
+    point_english: "URL = Uniform Resource Locator | Protocol://domain/path",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 87"
+  },
+  {
+    id: "it10-6-3",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "इंटरनेट",
+    chapter_number: 6,
+    point_hindi: "Browsers: Chrome, Firefox, Edge, Safari | Search Engines: Google, Bing, Yahoo",
+    point_english: "Browsers: Chrome, Firefox, Edge, Safari | Search Engines: Google, Bing, Yahoo",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 89"
+  },
+  {
+    id: "it10-6-4",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "इंटरनेट",
+    chapter_number: 6,
+    point_hindi: "HTTP = HyperText Transfer Protocol | HTTPS = Secure (encrypted)",
+    point_english: "HTTP = HyperText Transfer Protocol | HTTPS = Secure (encrypted)",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 91"
+  },
+  {
+    id: "it10-6-5",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "इंटरनेट",
+    chapter_number: 6,
+    point_hindi: "IP Address = Computer का unique address | IPv4 (32-bit), IPv6 (128-bit)",
+    point_english: "IP Address = Computer's unique address | IPv4 (32-bit), IPv6 (128-bit)",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 93"
+  },
+
+  // Networking
+  {
+    id: "it10-7-1",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "नेटवर्किंग",
+    chapter_number: 7,
+    point_hindi: "LAN = Local Area Network (एक building), MAN = Metropolitan (शहर), WAN = Wide (देश/दुनिया)",
+    point_english: "LAN = Local Area Network (one building), MAN = Metropolitan (city), WAN = Wide (country/world)",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 100"
+  },
+  {
+    id: "it10-7-2",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "नेटवर्किंग",
+    chapter_number: 7,
+    point_hindi: "Topology: Bus, Star, Ring, Mesh | Star सबसे common है",
+    point_english: "Topology: Bus, Star, Ring, Mesh | Star is most common",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 102"
+  },
+  {
+    id: "it10-7-3",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "नेटवर्किंग",
+    chapter_number: 7,
+    point_hindi: "Modem = Modulator-Demodulator | Router = Networks को connect करता है",
+    point_english: "Modem = Modulator-Demodulator | Router = Connects networks",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 105"
+  },
+
+  // Communication Skills
+  {
+    id: "it10-8-1",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "संचार कौशल",
+    chapter_number: 8,
+    point_hindi: "Communication = सूचना का आदान-प्रदान | Verbal (शब्द) + Non-verbal (body language)",
+    point_english: "Communication = Exchange of information | Verbal (words) + Non-verbal (body language)",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 115"
+  },
+  {
+    id: "it10-8-2",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "संचार कौशल",
+    chapter_number: 8,
+    point_hindi: "7 C's of Communication: Clear, Concise, Concrete, Correct, Coherent, Complete, Courteous",
+    point_english: "7 C's of Communication: Clear, Concise, Concrete, Correct, Coherent, Complete, Courteous",
+    importance: "high",
+    category: "rule",
+    page_reference: "Page 117"
+  },
+  {
+    id: "it10-8-3",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "संचार कौशल",
+    chapter_number: 8,
+    point_hindi: "Active Listening = ध्यान से सुनना + समझना + Feedback देना",
+    point_english: "Active Listening = Attentive listening + Understanding + Giving Feedback",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 120"
+  },
+  {
+    id: "it10-8-4",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "संचार कौशल",
+    chapter_number: 8,
+    point_hindi: "Formal Letter: To, Subject, Body, Closing | Informal Letter: Dear Friend...",
+    point_english: "Formal Letter: To, Subject, Body, Closing | Informal Letter: Dear Friend...",
+    importance: "high",
+    category: "rule",
+    page_reference: "Page 125"
+  },
+  {
+    id: "it10-8-5",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "संचार कौशल",
+    chapter_number: 8,
+    point_hindi: "Email Etiquette: Clear Subject, Professional tone, Proper greeting, No CAPS, Reply in 24hrs",
+    point_english: "Email Etiquette: Clear Subject, Professional tone, Proper greeting, No CAPS, Reply in 24hrs",
+    importance: "high",
+    category: "rule",
+    page_reference: "Page 130"
+  },
+
+  // Cyber Security
+  {
+    id: "it10-9-1",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "साइबर सुरक्षा",
+    chapter_number: 9,
+    point_hindi: "Virus = malicious program जो खुद को copy करता है | Worm = network से फैलता है",
+    point_english: "Virus = malicious program that copies itself | Worm = spreads through network",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 140"
+  },
+  {
+    id: "it10-9-2",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "साइबर सुरक्षा",
+    chapter_number: 9,
+    point_hindi: "Phishing = fake website/email से data चुराना | Hacking = unauthorized access",
+    point_english: "Phishing = stealing data via fake website/email | Hacking = unauthorized access",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 142"
+  },
+  {
+    id: "it10-9-3",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "साइबर सुरक्षा",
+    chapter_number: 9,
+    point_hindi: "Strong Password: 8+ characters, Upper+Lower+Number+Special, नाम न रखें",
+    point_english: "Strong Password: 8+ characters, Upper+Lower+Number+Special, Don't use name",
+    importance: "high",
+    category: "rule",
+    page_reference: "Page 145"
+  },
+  {
+    id: "it10-9-4",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "साइबर सुरक्षा",
+    chapter_number: 9,
+    point_hindi: "Firewall = network security system | Antivirus = virus से protection",
+    point_english: "Firewall = network security system | Antivirus = protection from virus",
+    importance: "high",
+    category: "definition",
+    page_reference: "Page 148"
+  },
+  {
+    id: "it10-9-5",
+    subject: "it_ites",
+    class_level: 10,
+    chapter: "साइबर सुरक्षा",
+    chapter_number: 9,
+    point_hindi: "Cyber Crime: Identity theft, Online fraud, Cyberbullying | IT Act 2000 India में",
+    point_english: "Cyber Crime: Identity theft, Online fraud, Cyberbullying | IT Act 2000 in India",
+    importance: "high",
+    category: "fact",
+    page_reference: "Page 150"
+  },
+];

@@ -25,6 +25,7 @@ const KeyPoints = () => {
     { id: "all", labelHi: "सभी", labelEn: "All", icon: "📚" },
     { id: "math", labelHi: "गणित", labelEn: "Math", icon: "🔢" },
     { id: "science", labelHi: "विज्ञान", labelEn: "Science", icon: "🔬" },
+    { id: "it_ites", labelHi: "IT/ITes", labelEn: "IT/ITes", icon: "💻" },
   ];
 
   const filteredKeyPoints = useMemo(() => {
