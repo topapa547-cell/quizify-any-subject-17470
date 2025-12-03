@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Flame, Trophy, Target, Sparkles, ChevronRight, Gamepad2, GraduationCap, TrendingUp, Languages, Award } from "lucide-react";
+import { Flame, Trophy, Target, Sparkles, ChevronRight, Gamepad2, GraduationCap, TrendingUp, Languages, Award, Swords } from "lucide-react";
 import { subjects, getSubjectName } from "@/data/quizData";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -144,6 +144,7 @@ const Home = () => {
   };
 
   const games = [
+    { id: "multiplayer", name: "⚔️ Multiplayer Battle", emoji: "⚔️", gradient: "bg-gradient-to-br from-[hsl(0,85%,55%)] to-[hsl(25,95%,50%)]", route: "/multiplayer", players: 320 },
     { id: "match-pair", name: "सही जोड़ी मिलाओ", emoji: "🔗", gradient: "bg-gradient-to-br from-[hsl(217,91%,60%)] to-[hsl(217,91%,45%)]", route: "/games/match-pair", players: 150 },
     { id: "quick-fire", name: "Quick Fire", emoji: "⚡", gradient: "bg-gradient-to-br from-[hsl(25,95%,53%)] to-[hsl(25,95%,40%)]", route: "/games/quick-fire", players: 200 },
     { id: "memory-cards", name: "Memory Cards", emoji: "🧠", gradient: "bg-gradient-to-br from-[hsl(271,81%,56%)] to-[hsl(271,81%,40%)]", route: "/games/memory-cards", players: 120 },
