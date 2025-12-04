@@ -67,14 +67,37 @@ export default function BattleRoom() {
             .eq("id", user.id)
             .single();
 
-          await supabase
+          const { error: updateError } = await supabase
             .from("battle_rooms")
             .update({
               opponent_id: user.id,
               opponent_username: profile?.username,
               status: "ready",
             })
-            .eq("id", roomData.id);
+            .eq("id", roomData.id)
+            .eq("status", "waiting"); // Prevent race condition
+
+          if (updateError) {
+            toast.error("Failed to join battle");
+            navigate("/multiplayer");
+            return;
+          }
+
+          // Refetch updated room data after joining
+          const { data: updatedRoom } = await supabase
+            .from("battle_rooms")
+            .select("*")
+            .eq("id", roomData.id)
+            .single();
+
+          if (updatedRoom) {
+            setRoom(updatedRoom);
+            setLoading(false);
+            if (updatedRoom.status === "ready" && updatedRoom.opponent_id) {
+              setShowAnimation(true);
+            }
+            return;
+          }
         } else {
           toast.error("Cannot join this battle");
           navigate("/multiplayer");
