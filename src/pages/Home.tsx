@@ -45,25 +45,23 @@ const Home = () => {
       setUser(session?.user ?? null);
       
       if (session?.user) {
-        // Fetch profile
-        const { data: profileData } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
+        const today = new Date().toISOString().split('T')[0];
         
-        if (profileData) {
-          setProfile(profileData);
+        // Run ALL queries in parallel for faster loading
+        const [profileRes, quizHistoryRes, dailyChallengeRes, achievementsRes] = await Promise.all([
+          supabase.from('profiles').select('*').eq('id', session.user.id).single(),
+          supabase.from('quiz_history').select('*').eq('user_id', session.user.id).gte('created_at', today),
+          supabase.from('daily_challenges').select('id').eq('user_id', session.user.id).eq('challenge_date', today).maybeSingle(),
+          getUserAchievements(session.user.id)
+        ]);
+
+        // Process profile
+        if (profileRes.data) {
+          setProfile(profileRes.data);
         }
 
-        // Fetch today's stats
-        const today = new Date().toISOString().split('T')[0];
-        const { data: quizHistory } = await supabase
-          .from('quiz_history')
-          .select('*')
-          .eq('user_id', session.user.id)
-          .gte('created_at', today);
-
+        // Process today's stats
+        const quizHistory = quizHistoryRes.data;
         if (quizHistory && quizHistory.length > 0) {
           const totalQuizzes = quizHistory.length;
           const totalCorrect = quizHistory.reduce((sum, quiz) => sum + quiz.score, 0);
@@ -78,12 +76,13 @@ const Home = () => {
           });
         }
 
-        // Check if daily challenge is completed
-        checkDailyChallenge(session.user.id);
+        // Show daily challenge popup if not completed
+        if (!dailyChallengeRes.data) {
+          setTimeout(() => setShowChallengePopup(true), 1000);
+        }
 
-        // Fetch achievements
-        const userAchievements = await getUserAchievements(session.user.id);
-        setAchievements(userAchievements);
+        // Set achievements
+        setAchievements(achievementsRes);
       }
       setLoading(false);
     };
@@ -97,28 +96,6 @@ const Home = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const checkDailyChallenge = async (userId: string) => {
-    try {
-      const today = new Date().toISOString().split('T')[0];
-      const { data, error } = await supabase
-        .from("daily_challenges")
-        .select("id")
-        .eq("user_id", userId)
-        .eq("challenge_date", today)
-        .maybeSingle();
-
-      if (error) throw error;
-
-      // If no challenge completed today, show corner popup after 1 second
-      if (!data) {
-        setTimeout(() => {
-          setShowChallengePopup(true);
-        }, 1000);
-      }
-    } catch (error) {
-      console.error("Error checking daily challenge:", error);
-    }
-  };
 
   const handleSubjectClick = (subjectId: string) => {
     setSelectedSubject(subjectId);
