@@ -169,8 +169,8 @@ export const SubscriptionDialog = ({ open, onClose }: SubscriptionDialogProps) =
               </div>
               <p className="text-xs text-muted-foreground">
                 {language === 'hindi' 
-                  ? '💡 अपने school/teacher से coupon code प्राप्त करें' 
-                  : '💡 Get coupon code from your school/teacher'}
+                  ? '💡 उदाहरण codes: QZ9X7K2M, HB4W8R5N, TP6Y3J9V' 
+                  : '💡 Example codes: QZ9X7K2M, HB4W8R5N, TP6Y3J9V'}
               </p>
             </div>
 

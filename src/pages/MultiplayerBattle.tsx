@@ -11,6 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import UserAvatar from "@/components/UserAvatar";
+import OnlineStatusIndicator from "@/components/OnlineStatusIndicator";
 import { ArrowLeft, Swords, Users, Copy, Loader2, Share2, UserPlus, Globe, Lock, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import BottomNav from "@/components/BottomNav";
@@ -72,6 +73,7 @@ export default function MultiplayerBattle() {
   const [publicRooms, setPublicRooms] = useState<PublicRoom[]>([]);
   const [loadingPublicRooms, setLoadingPublicRooms] = useState(false);
   const [joiningRoom, setJoiningRoom] = useState<string | null>(null);
+  const [onlineUsers, setOnlineUsers] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -97,6 +99,39 @@ export default function MultiplayerBattle() {
     if (user) {
       fetchFriends();
     }
+  }, [user]);
+
+  // Track online presence
+  useEffect(() => {
+    if (!user) return;
+
+    const presenceChannel = supabase.channel('online-users');
+
+    presenceChannel
+      .on('presence', { event: 'sync' }, () => {
+        const state = presenceChannel.presenceState();
+        const online = new Set<string>();
+        Object.values(state).forEach((presences: any) => {
+          presences.forEach((presence: any) => {
+            if (presence.user_id) {
+              online.add(presence.user_id);
+            }
+          });
+        });
+        setOnlineUsers(online);
+      })
+      .subscribe(async (status) => {
+        if (status === 'SUBSCRIBED') {
+          await presenceChannel.track({
+            user_id: user.id,
+            online_at: new Date().toISOString(),
+          });
+        }
+      });
+
+    return () => {
+      supabase.removeChannel(presenceChannel);
+    };
   }, [user]);
 
   // Subscribe to room updates when waiting
@@ -555,10 +590,18 @@ export default function MultiplayerBattle() {
                   <Label className="flex items-center gap-2 mb-2">
                     <UserPlus className="w-4 h-4" />
                     Invite Friends ({selectedFriends.size} selected)
+                    <span className="text-xs text-green-500">
+                      ({friends.filter(f => onlineUsers.has(f.id)).length} online)
+                    </span>
                   </Label>
                   <ScrollArea className="h-40 border rounded-lg p-2">
                     <div className="space-y-2">
-                      {friends.map((friend) => (
+                      {/* Sort friends - online first */}
+                      {[...friends].sort((a, b) => {
+                        const aOnline = onlineUsers.has(a.id) ? 0 : 1;
+                        const bOnline = onlineUsers.has(b.id) ? 0 : 1;
+                        return aOnline - bOnline;
+                      }).map((friend) => (
                         <div
                           key={friend.id}
                           className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors ${
@@ -567,8 +610,19 @@ export default function MultiplayerBattle() {
                           onClick={() => toggleFriendSelection(friend.id)}
                         >
                           <Checkbox checked={selectedFriends.has(friend.id)} />
-                          <UserAvatar userId={friend.id} avatarStyle={friend.avatar_style} size="sm" />
+                          <div className="relative">
+                            <UserAvatar userId={friend.id} avatarStyle={friend.avatar_style} size="sm" />
+                            <OnlineStatusIndicator 
+                              isOnline={onlineUsers.has(friend.id)} 
+                              className="absolute -bottom-0.5 -right-0.5"
+                            />
+                          </div>
                           <span className="text-sm font-medium">{friend.username}</span>
+                          {onlineUsers.has(friend.id) && (
+                            <Badge variant="secondary" className="text-xs bg-green-500/10 text-green-500 ml-auto">
+                              Online
+                            </Badge>
+                          )}
                         </div>
                       ))}
                     </div>

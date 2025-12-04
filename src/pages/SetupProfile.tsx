@@ -11,6 +11,7 @@ import { GraduationCap } from "lucide-react";
 import { SubscriptionDialog } from "@/components/SubscriptionDialog";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { generateUniqueUsername } from "@/utils/usernameGenerator";
 
 const SetupProfile = () => {
   const navigate = useNavigate();
@@ -61,10 +62,21 @@ const SetupProfile = () => {
     
     setLoading(true);
     
+    // Generate unique username if it already exists
+    const uniqueUsername = await generateUniqueUsername(username);
+    
+    // Notify user if username was changed
+    if (uniqueUsername !== username.trim()) {
+      toast({
+        title: "Username बदल दिया गया",
+        description: `"${username}" पहले से उपयोग में है, आपका नया username: ${uniqueUsername}`,
+      });
+    }
+    
     const { error } = await supabase
       .from('profiles')
       .update({
-        username: username.trim(),
+        username: uniqueUsername,
         class_level: classLevel,
       })
       .eq('id', userId);

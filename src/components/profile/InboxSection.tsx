@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UserAvatar from "@/components/UserAvatar";
+import OnlineStatusIndicator from "@/components/OnlineStatusIndicator";
 import { UserPlus, Swords, Check, X, Loader2, Inbox, Users } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -42,6 +43,7 @@ export default function InboxSection({ userId }: InboxSectionProps) {
   const [battleInvites, setBattleInvites] = useState<BattleInvite[]>([]);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState<string | null>(null);
+  const [onlineUsers, setOnlineUsers] = useState<Set<string>>(new Set());
 
   const fetchInbox = async () => {
     setLoading(true);
@@ -134,9 +136,34 @@ export default function InboxSection({ userId }: InboxSectionProps) {
       })
       .subscribe();
 
+    // Track online presence
+    const presenceChannel = supabase.channel('online-users-inbox');
+    presenceChannel
+      .on('presence', { event: 'sync' }, () => {
+        const state = presenceChannel.presenceState();
+        const online = new Set<string>();
+        Object.values(state).forEach((presences: any) => {
+          presences.forEach((presence: any) => {
+            if (presence.user_id) {
+              online.add(presence.user_id);
+            }
+          });
+        });
+        setOnlineUsers(online);
+      })
+      .subscribe(async (status) => {
+        if (status === 'SUBSCRIBED') {
+          await presenceChannel.track({
+            user_id: userId,
+            online_at: new Date().toISOString(),
+          });
+        }
+      });
+
     return () => {
       supabase.removeChannel(friendChannel);
       supabase.removeChannel(inviteChannel);
+      supabase.removeChannel(presenceChannel);
     };
   }, [userId]);
 
@@ -248,6 +275,7 @@ export default function InboxSection({ userId }: InboxSectionProps) {
                   key={req.id}
                   request={req}
                   processing={processing === req.id}
+                  isOnline={onlineUsers.has(req.user_id)}
                   onAccept={() => handleFriendRequest(req.id, true)}
                   onReject={() => handleFriendRequest(req.id, false)}
                 />
@@ -257,6 +285,7 @@ export default function InboxSection({ userId }: InboxSectionProps) {
                   key={inv.id}
                   invite={inv}
                   processing={processing === inv.id}
+                  isOnline={onlineUsers.has(inv.sender_id)}
                   onAccept={() => handleBattleInvite(inv, true)}
                   onReject={() => handleBattleInvite(inv, false)}
                 />
@@ -277,6 +306,7 @@ export default function InboxSection({ userId }: InboxSectionProps) {
                 key={req.id}
                 request={req}
                 processing={processing === req.id}
+                isOnline={onlineUsers.has(req.user_id)}
                 onAccept={() => handleFriendRequest(req.id, true)}
                 onReject={() => handleFriendRequest(req.id, false)}
               />
@@ -296,6 +326,7 @@ export default function InboxSection({ userId }: InboxSectionProps) {
                 key={inv.id}
                 invite={inv}
                 processing={processing === inv.id}
+                isOnline={onlineUsers.has(inv.sender_id)}
                 onAccept={() => handleBattleInvite(inv, true)}
                 onReject={() => handleBattleInvite(inv, false)}
               />
@@ -310,11 +341,13 @@ export default function InboxSection({ userId }: InboxSectionProps) {
 function FriendRequestCard({
   request,
   processing,
+  isOnline,
   onAccept,
   onReject,
 }: {
   request: FriendRequest;
   processing: boolean;
+  isOnline: boolean;
   onAccept: () => void;
   onReject: () => void;
 }) {
@@ -322,16 +355,23 @@ function FriendRequestCard({
     <Card className="p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <UserAvatar
-            userId={request.user_id}
-            avatarStyle={request.sender_avatar_style}
-            size="md"
-          />
+          <div className="relative">
+            <UserAvatar
+              userId={request.user_id}
+              avatarStyle={request.sender_avatar_style}
+              size="md"
+            />
+            <OnlineStatusIndicator 
+              isOnline={isOnline} 
+              className="absolute -bottom-0.5 -right-0.5"
+            />
+          </div>
           <div>
             <p className="font-semibold">{request.sender_username}</p>
             <p className="text-xs text-muted-foreground flex items-center gap-1">
               <UserPlus className="w-3 h-3" />
               Friend Request
+              {isOnline && <span className="text-green-500">• Online</span>}
             </p>
           </div>
         </div>
@@ -362,11 +402,13 @@ function FriendRequestCard({
 function BattleInviteCard({
   invite,
   processing,
+  isOnline,
   onAccept,
   onReject,
 }: {
   invite: BattleInvite;
   processing: boolean;
+  isOnline: boolean;
   onAccept: () => void;
   onReject: () => void;
 }) {
@@ -385,11 +427,16 @@ function BattleInviteCard({
             <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
               <Swords className="w-3 h-3 text-white" />
             </div>
+            <OnlineStatusIndicator 
+              isOnline={isOnline} 
+              className="absolute -top-0.5 -right-0.5"
+            />
           </div>
           <div>
             <p className="font-semibold">{invite.sender_username}</p>
             <p className="text-xs text-muted-foreground">
               Battle Challenge • {invite.subject || "All"} • Expires in {expiresIn}m
+              {isOnline && <span className="text-green-500"> • Online</span>}
             </p>
           </div>
         </div>

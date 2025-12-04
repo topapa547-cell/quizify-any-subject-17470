@@ -11,6 +11,7 @@ import { toast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { getRandomAvatarStyle } from "@/utils/avatarGenerator";
+import { generateUniqueUsername } from "@/utils/usernameGenerator";
 import { SubscriptionDialog } from "@/components/SubscriptionDialog";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -61,6 +62,9 @@ const Auth = () => {
 
     setLoading(true);
     
+    // Generate unique username if it already exists
+    const uniqueUsername = await generateUniqueUsername(username);
+    
     // Sign up user
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -68,10 +72,18 @@ const Auth = () => {
       options: {
         emailRedirectTo: `${window.location.origin}/`,
         data: {
-          username: username.trim(),
+          username: uniqueUsername,
         }
       }
     });
+    
+    // Notify user if username was changed
+    if (uniqueUsername !== username.trim()) {
+      toast({
+        title: "Username बदल दिया गया",
+        description: `"${username}" पहले से उपयोग में है, आपका नया username: ${uniqueUsername}`,
+      });
+    }
 
     if (error) {
       setLoading(false);
