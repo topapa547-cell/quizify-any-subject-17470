@@ -7,8 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import UserAvatar from "@/components/UserAvatar";
-import { ArrowLeft, Swords, Users, Copy, Loader2, Share2, UserPlus } from "lucide-react";
+import { ArrowLeft, Swords, Users, Copy, Loader2, Share2, UserPlus, Globe, Lock, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import BottomNav from "@/components/BottomNav";
 
@@ -37,20 +40,38 @@ interface Friend {
   avatar_style?: string;
 }
 
+interface PublicRoom {
+  id: string;
+  room_code: string;
+  host_username: string;
+  host_id: string;
+  subject: string;
+  total_questions: number;
+  class_level: number;
+  created_at: string;
+}
+
+type Mode = "select" | "create" | "join" | "public" | "waiting";
+
 export default function MultiplayerBattle() {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
-  const [mode, setMode] = useState<"select" | "create" | "join" | "waiting" | "invite">("select");
+  const [mode, setMode] = useState<Mode>("select");
   const [roomCode, setRoomCode] = useState("");
   const [joinCode, setJoinCode] = useState("");
   const [subject, setSubject] = useState("all");
   const [questionCount, setQuestionCount] = useState("10");
+  const [isPublic, setIsPublic] = useState(false);
   const [loading, setLoading] = useState(false);
   const [waitingRoom, setWaitingRoom] = useState<any>(null);
   const [friends, setFriends] = useState<Friend[]>([]);
+  const [selectedFriends, setSelectedFriends] = useState<Set<string>>(new Set());
   const [loadingFriends, setLoadingFriends] = useState(false);
   const [sendingInvite, setSendingInvite] = useState<string | null>(null);
+  const [publicRooms, setPublicRooms] = useState<PublicRoom[]>([]);
+  const [loadingPublicRooms, setLoadingPublicRooms] = useState(false);
+  const [joiningRoom, setJoiningRoom] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -71,6 +92,13 @@ export default function MultiplayerBattle() {
     fetchUser();
   }, [navigate]);
 
+  // Fetch friends when component mounts
+  useEffect(() => {
+    if (user) {
+      fetchFriends();
+    }
+  }, [user]);
+
   // Subscribe to room updates when waiting
   useEffect(() => {
     if (!waitingRoom) return;
@@ -88,7 +116,6 @@ export default function MultiplayerBattle() {
         (payload) => {
           const updatedRoom = payload.new as any;
           if (updatedRoom.opponent_id && updatedRoom.status === "ready") {
-            // Opponent joined! Navigate to battle
             navigate(`/battle/${updatedRoom.room_code}`);
           }
         }
@@ -99,6 +126,87 @@ export default function MultiplayerBattle() {
       supabase.removeChannel(channel);
     };
   }, [waitingRoom, navigate]);
+
+  // Subscribe to public rooms when in public mode
+  useEffect(() => {
+    if (mode !== "public") return;
+
+    fetchPublicRooms();
+
+    const channel = supabase
+      .channel("public_rooms")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "battle_rooms",
+        },
+        () => {
+          fetchPublicRooms();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [mode]);
+
+  const fetchFriends = async () => {
+    if (!user) return;
+    setLoadingFriends(true);
+    try {
+      const { data: friendships } = await supabase
+        .from("friends")
+        .select("*")
+        .eq("status", "accepted")
+        .or(`user_id.eq.${user.id},friend_id.eq.${user.id}`);
+
+      if (friendships && friendships.length > 0) {
+        const friendIds = friendships.map(f => 
+          f.user_id === user.id ? f.friend_id : f.user_id
+        );
+
+        const { data: profiles } = await supabase
+          .from("profiles")
+          .select("id, username, avatar_style")
+          .in("id", friendIds);
+
+        setFriends(profiles?.map(p => ({
+          id: p.id,
+          username: p.username,
+          avatar_style: p.avatar_style || undefined,
+        })) || []);
+      } else {
+        setFriends([]);
+      }
+    } catch (error) {
+      console.error("Error fetching friends:", error);
+    } finally {
+      setLoadingFriends(false);
+    }
+  };
+
+  const fetchPublicRooms = async () => {
+    setLoadingPublicRooms(true);
+    try {
+      const { data, error } = await supabase
+        .from("battle_rooms")
+        .select("id, room_code, host_username, host_id, subject, total_questions, class_level, created_at")
+        .eq("is_public", true)
+        .eq("status", "waiting")
+        .order("created_at", { ascending: false })
+        .limit(20);
+
+      if (error) throw error;
+      setPublicRooms((data as PublicRoom[]) || []);
+    } catch (error) {
+      console.error("Error fetching public rooms:", error);
+    } finally {
+      setLoadingPublicRooms(false);
+    }
+  };
 
   const createBattle = async () => {
     if (!user || !profile) return;
@@ -116,6 +224,7 @@ export default function MultiplayerBattle() {
           class_level: profile.class_level || 10,
           total_questions: parseInt(questionCount),
           status: "waiting",
+          is_public: isPublic,
         })
         .select()
         .single();
@@ -126,6 +235,20 @@ export default function MultiplayerBattle() {
       setWaitingRoom(data);
       setMode("waiting");
       toast.success("Battle room created!");
+
+      // Send invites to selected friends
+      if (selectedFriends.size > 0) {
+        const invites = Array.from(selectedFriends).map(friendId => ({
+          sender_id: user.id,
+          receiver_id: friendId,
+          room_id: data.id,
+          status: "pending",
+          expires_at: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
+        }));
+
+        await supabase.from("battle_invitations").insert(invites);
+        toast.success(`Invited ${selectedFriends.size} friend(s)!`);
+      }
     } catch (error: any) {
       toast.error(error.message || "Failed to create room");
     } finally {
@@ -133,32 +256,44 @@ export default function MultiplayerBattle() {
     }
   };
 
-  const joinBattle = async () => {
-    if (!user || !profile || !joinCode.trim()) return;
+  const joinBattle = async (roomCodeToJoin?: string, roomId?: string) => {
+    if (!user || !profile) return;
+    const codeToUse = roomCodeToJoin || joinCode.trim().toUpperCase();
+    if (!codeToUse && !roomId) return;
+    
     setLoading(true);
+    if (roomId) setJoiningRoom(roomId);
 
     try {
-      // Find the room
-      const { data: room, error: findError } = await supabase
-        .from("battle_rooms")
-        .select("*")
-        .eq("room_code", joinCode.toUpperCase())
-        .eq("status", "waiting")
-        .single();
-
-      if (findError || !room) {
-        toast.error("Room not found or already started");
-        setLoading(false);
-        return;
+      let room;
+      if (roomId) {
+        const { data, error } = await supabase
+          .from("battle_rooms")
+          .select("*")
+          .eq("id", roomId)
+          .eq("status", "waiting")
+          .single();
+        if (error) throw error;
+        room = data;
+      } else {
+        const { data, error } = await supabase
+          .from("battle_rooms")
+          .select("*")
+          .eq("room_code", codeToUse)
+          .eq("status", "waiting")
+          .single();
+        if (error || !data) {
+          toast.error("Room not found or already started");
+          return;
+        }
+        room = data;
       }
 
       if (room.host_id === user.id) {
         toast.error("You cannot join your own room");
-        setLoading(false);
         return;
       }
 
-      // Join the room
       const { error: joinError } = await supabase
         .from("battle_rooms")
         .update({
@@ -175,6 +310,7 @@ export default function MultiplayerBattle() {
       toast.error(error.message || "Failed to join room");
     } finally {
       setLoading(false);
+      setJoiningRoom(null);
     }
   };
 
@@ -204,44 +340,7 @@ export default function MultiplayerBattle() {
     setWaitingRoom(null);
     setMode("select");
     setRoomCode("");
-  };
-
-  const fetchFriends = async () => {
-    if (!user) return;
-    setLoadingFriends(true);
-    try {
-      // Get accepted friendships where user is either side
-      const { data: friendships } = await supabase
-        .from("friends")
-        .select("*")
-        .eq("status", "accepted")
-        .or(`user_id.eq.${user.id},friend_id.eq.${user.id}`);
-
-      if (friendships && friendships.length > 0) {
-        // Get friend IDs
-        const friendIds = friendships.map(f => 
-          f.user_id === user.id ? f.friend_id : f.user_id
-        );
-
-        // Get friend profiles
-        const { data: profiles } = await supabase
-          .from("profiles")
-          .select("id, username, avatar_style")
-          .in("id", friendIds);
-
-        setFriends(profiles?.map(p => ({
-          id: p.id,
-          username: p.username,
-          avatar_style: p.avatar_style || undefined,
-        })) || []);
-      } else {
-        setFriends([]);
-      }
-    } catch (error) {
-      console.error("Error fetching friends:", error);
-    } finally {
-      setLoadingFriends(false);
-    }
+    setSelectedFriends(new Set());
   };
 
   const inviteFriend = async (friendId: string) => {
@@ -268,9 +367,14 @@ export default function MultiplayerBattle() {
     }
   };
 
-  const openInviteFriends = () => {
-    fetchFriends();
-    setMode("invite");
+  const toggleFriendSelection = (friendId: string) => {
+    const newSet = new Set(selectedFriends);
+    if (newSet.has(friendId)) {
+      newSet.delete(friendId);
+    } else {
+      newSet.add(friendId);
+    }
+    setSelectedFriends(newSet);
   };
 
   if (!user || !profile) {
@@ -330,45 +434,63 @@ export default function MultiplayerBattle() {
                 </div>
                 <div>
                   <h3 className="font-bold text-lg text-foreground">Create Battle</h3>
-                  <p className="text-sm text-muted-foreground">Host a new battle room</p>
+                  <p className="text-sm text-muted-foreground">Host public or private room</p>
                 </div>
               </div>
             </Card>
 
-            {/* Join Battle */}
+            {/* Join Private */}
             <Card
               className="p-6 bg-gradient-to-br from-green-500/10 to-green-600/10 border-green-500/30 cursor-pointer hover:scale-[1.02] transition-transform"
               onClick={() => setMode("join")}
             >
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
-                  <Users className="w-7 h-7 text-white" />
+                  <Lock className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg text-foreground">Join Battle</h3>
-                  <p className="text-sm text-muted-foreground">Enter a room code to join</p>
+                  <h3 className="font-bold text-lg text-foreground">Join Private</h3>
+                  <p className="text-sm text-muted-foreground">Enter room code to join</p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Browse Public */}
+            <Card
+              className="p-6 bg-gradient-to-br from-purple-500/10 to-purple-600/10 border-purple-500/30 cursor-pointer hover:scale-[1.02] transition-transform"
+              onClick={() => setMode("public")}
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-full bg-purple-500 flex items-center justify-center">
+                  <Globe className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg text-foreground">Browse Public</h3>
+                  <p className="text-sm text-muted-foreground">Join open battle rooms</p>
                 </div>
               </div>
             </Card>
 
             {/* Invite Friends */}
-            <Card
-              className="p-6 bg-gradient-to-br from-purple-500/10 to-pink-600/10 border-purple-500/30 cursor-pointer hover:scale-[1.02] transition-transform"
-              onClick={() => {
-                fetchFriends();
-                setMode("create"); // First create room, then show invite option
-              }}
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-                  <UserPlus className="w-7 h-7 text-white" />
+            {friends.length > 0 && (
+              <Card
+                className="p-6 bg-gradient-to-br from-pink-500/10 to-rose-600/10 border-pink-500/30 cursor-pointer hover:scale-[1.02] transition-transform"
+                onClick={() => {
+                  setIsPublic(false);
+                  setMode("create");
+                }}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 flex items-center justify-center">
+                    <UserPlus className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg text-foreground">Invite Friends</h3>
+                    <p className="text-sm text-muted-foreground">{friends.length} friends available</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-bold text-lg text-foreground">Invite Friends</h3>
-                  <p className="text-sm text-muted-foreground">Challenge your friends directly</p>
-                </div>
-              </div>
-            </Card>
+              </Card>
+            )}
           </div>
         )}
 
@@ -378,6 +500,24 @@ export default function MultiplayerBattle() {
             <h2 className="text-xl font-bold mb-4 text-foreground">Create Battle Room</h2>
             
             <div className="space-y-4">
+              {/* Public/Private Toggle */}
+              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                <div className="flex items-center gap-3">
+                  {isPublic ? (
+                    <Globe className="w-5 h-5 text-purple-500" />
+                  ) : (
+                    <Lock className="w-5 h-5 text-green-500" />
+                  )}
+                  <div>
+                    <p className="font-medium text-sm">{isPublic ? "Public Room" : "Private Room"}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {isPublic ? "Anyone can join from lobby" : "Only with room code/invite"}
+                    </p>
+                  </div>
+                </div>
+                <Switch checked={isPublic} onCheckedChange={setIsPublic} />
+              </div>
+
               <div>
                 <Label>Subject</Label>
                 <Select value={subject} onValueChange={setSubject}>
@@ -409,22 +549,52 @@ export default function MultiplayerBattle() {
                 </Select>
               </div>
 
+              {/* Friend Selector */}
+              {friends.length > 0 && !isPublic && (
+                <div>
+                  <Label className="flex items-center gap-2 mb-2">
+                    <UserPlus className="w-4 h-4" />
+                    Invite Friends ({selectedFriends.size} selected)
+                  </Label>
+                  <ScrollArea className="h-40 border rounded-lg p-2">
+                    <div className="space-y-2">
+                      {friends.map((friend) => (
+                        <div
+                          key={friend.id}
+                          className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors ${
+                            selectedFriends.has(friend.id) ? "bg-primary/10" : "hover:bg-muted/50"
+                          }`}
+                          onClick={() => toggleFriendSelection(friend.id)}
+                        >
+                          <Checkbox checked={selectedFriends.has(friend.id)} />
+                          <UserAvatar userId={friend.id} avatarStyle={friend.avatar_style} size="sm" />
+                          <span className="text-sm font-medium">{friend.username}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </div>
+              )}
+
               <Button
                 className="w-full bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600"
                 onClick={createBattle}
                 disabled={loading}
               >
                 {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Swords className="w-4 h-4 mr-2" />}
-                Create Room
+                Create Room {selectedFriends.size > 0 && `& Invite ${selectedFriends.size}`}
               </Button>
             </div>
           </Card>
         )}
 
-        {/* Join Battle Form */}
+        {/* Join Private Form */}
         {mode === "join" && (
           <Card className="p-6 bg-card border-border">
-            <h2 className="text-xl font-bold mb-4 text-foreground">Join Battle Room</h2>
+            <h2 className="text-xl font-bold mb-4 text-foreground flex items-center gap-2">
+              <Lock className="w-5 h-5" />
+              Join Private Room
+            </h2>
             
             <div className="space-y-4">
               <div>
@@ -440,7 +610,7 @@ export default function MultiplayerBattle() {
 
               <Button
                 className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600"
-                onClick={joinBattle}
+                onClick={() => joinBattle()}
                 disabled={loading || joinCode.length !== 6}
               >
                 {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Users className="w-4 h-4 mr-2" />}
@@ -448,6 +618,69 @@ export default function MultiplayerBattle() {
               </Button>
             </div>
           </Card>
+        )}
+
+        {/* Browse Public Rooms */}
+        {mode === "public" && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+                <Globe className="w-5 h-5 text-purple-500" />
+                Public Rooms
+              </h2>
+              <Button variant="ghost" size="sm" onClick={fetchPublicRooms} disabled={loadingPublicRooms}>
+                <RefreshCw className={`w-4 h-4 ${loadingPublicRooms ? "animate-spin" : ""}`} />
+              </Button>
+            </div>
+
+            {loadingPublicRooms ? (
+              <div className="flex justify-center py-12">
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+              </div>
+            ) : publicRooms.length === 0 ? (
+              <Card className="p-8 text-center">
+                <Globe className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                <p className="text-muted-foreground mb-4">No public rooms available</p>
+                <Button onClick={() => { setIsPublic(true); setMode("create"); }}>
+                  Create Public Room
+                </Button>
+              </Card>
+            ) : (
+              <div className="space-y-3">
+                {publicRooms.map((room) => (
+                  <Card key={room.id} className="p-4 border-purple-500/20">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <UserAvatar userId={room.host_id} size="md" />
+                        <div>
+                          <p className="font-semibold">{room.host_username}</p>
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <Badge variant="secondary" className="text-xs">
+                              {subjects.find(s => s.value === room.subject)?.label || room.subject}
+                            </Badge>
+                            <span>{room.total_questions} Qs</span>
+                            <span>Class {room.class_level}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <Button
+                        size="sm"
+                        className="bg-purple-500 hover:bg-purple-600"
+                        onClick={() => joinBattle(room.room_code, room.id)}
+                        disabled={joiningRoom === room.id}
+                      >
+                        {joiningRoom === room.id ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          "Join"
+                        )}
+                      </Button>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
         )}
 
         {/* Waiting Room */}
@@ -458,7 +691,17 @@ export default function MultiplayerBattle() {
                 <Swords className="w-10 h-10 text-white" />
               </div>
               <h2 className="text-xl font-bold text-foreground">Waiting for Opponent...</h2>
-              <p className="text-muted-foreground text-sm mt-1">Share the room code with your friend</p>
+              <div className="flex items-center justify-center gap-2 mt-2">
+                {waitingRoom?.is_public ? (
+                  <Badge className="bg-purple-500/20 text-purple-600">
+                    <Globe className="w-3 h-3 mr-1" /> Public
+                  </Badge>
+                ) : (
+                  <Badge className="bg-green-500/20 text-green-600">
+                    <Lock className="w-3 h-3 mr-1" /> Private
+                  </Badge>
+                )}
+              </div>
             </div>
 
             {/* Room Code Display */}
@@ -473,12 +716,12 @@ export default function MultiplayerBattle() {
             </div>
 
             {/* Room Details */}
-            <div className="text-sm text-muted-foreground mb-6">
+            <div className="text-sm text-muted-foreground mb-4">
               <p>Subject: {subjects.find(s => s.value === subject)?.label}</p>
               <p>Questions: {questionCount}</p>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-3 mb-4">
               <Button variant="outline" className="flex-1" onClick={cancelWaiting}>
                 Cancel
               </Button>
@@ -488,14 +731,14 @@ export default function MultiplayerBattle() {
               </Button>
             </div>
 
-            {/* Invite Friends Section */}
+            {/* Invite Friends Section - Always Visible */}
             {friends.length > 0 && (
-              <div className="mt-6 pt-4 border-t border-border">
+              <div className="pt-4 border-t border-border text-left">
                 <p className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
                   <UserPlus className="w-4 h-4" />
                   Invite Friends
                 </p>
-                <ScrollArea className="h-32">
+                <ScrollArea className="h-40">
                   <div className="space-y-2">
                     {friends.map((friend) => (
                       <div
@@ -524,6 +767,12 @@ export default function MultiplayerBattle() {
                   </div>
                 </ScrollArea>
               </div>
+            )}
+
+            {friends.length === 0 && (
+              <p className="text-xs text-muted-foreground mt-4">
+                Add friends from the Leaderboard to invite them directly!
+              </p>
             )}
 
             {/* Waiting Animation */}
