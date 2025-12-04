@@ -149,6 +149,7 @@ export type Database = {
           host_score: number | null
           host_username: string
           id: string
+          is_public: boolean
           opponent_answers: Json | null
           opponent_id: string | null
           opponent_score: number | null
@@ -171,6 +172,7 @@ export type Database = {
           host_score?: number | null
           host_username: string
           id?: string
+          is_public?: boolean
           opponent_answers?: Json | null
           opponent_id?: string | null
           opponent_score?: number | null
@@ -193,6 +195,7 @@ export type Database = {
           host_score?: number | null
           host_username?: string
           id?: string
+          is_public?: boolean
           opponent_answers?: Json | null
           opponent_id?: string | null
           opponent_score?: number | null
