@@ -322,6 +322,70 @@ const Home = () => {
           </div>
         </div>
 
+        {/* Olympiad Section */}
+        <div>
+          <h2 className="text-xl font-bold text-foreground mb-4">{t("🏆 ओलंपियाड प्रैक्टिस", "🏆 Olympiad Practice")}</h2>
+          <div className="grid grid-cols-2 gap-3">
+            {/* IMO - Math Olympiad */}
+            <Card 
+              className="group cursor-pointer border-none overflow-hidden hover:shadow-xl hover:scale-105 transition-all duration-300"
+              onClick={() => {
+                setSelectedSubject('olympiad_math');
+                setShowQuizSetup(true);
+              }}
+            >
+              <CardContent className="p-4 bg-gradient-to-br from-amber-500 to-amber-600 relative aspect-[4/3]">
+                <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-white/10" />
+                <div className="absolute -bottom-6 -left-6 w-20 h-20 rounded-full bg-white/10" />
+                <div className="absolute top-2 right-2 px-2 py-0.5 bg-white/20 rounded-full text-xs text-white font-medium">
+                  IMO
+                </div>
+                <div className="relative z-10 h-full flex flex-col justify-between">
+                  <div className="text-3xl">🏆</div>
+                  <div>
+                    <h3 className="text-base font-bold text-white">
+                      {t("गणित ओलंपियाड", "Math Olympiad")}
+                    </h3>
+                    <p className="text-xs text-white/80">
+                      {t("20 प्रश्न", "20 Questions")}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* NSO - Science Olympiad */}
+            <Card 
+              className="group cursor-pointer border-none overflow-hidden hover:shadow-xl hover:scale-105 transition-all duration-300 opacity-60"
+              onClick={() => {
+                toast({
+                  title: t("जल्द आ रहा है!", "Coming Soon!"),
+                  description: t("विज्ञान ओलंपियाड जल्द उपलब्ध होगा", "Science Olympiad will be available soon"),
+                });
+              }}
+            >
+              <CardContent className="p-4 bg-gradient-to-br from-emerald-500 to-emerald-600 relative aspect-[4/3]">
+                <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-white/10" />
+                <div className="absolute -bottom-6 -left-6 w-20 h-20 rounded-full bg-white/10" />
+                <div className="absolute top-2 right-2 px-2 py-0.5 bg-white/20 rounded-full text-xs text-white font-medium">
+                  NSO
+                </div>
+                <div className="relative z-10 h-full flex flex-col justify-between">
+                  <div className="text-3xl">🥇</div>
+                  <div>
+                    <h3 className="text-base font-bold text-white">
+                      {t("विज्ञान ओलंपियाड", "Science Olympiad")}
+                    </h3>
+                    <p className="text-xs text-white/80">
+                      {t("जल्द आ रहा है", "Coming Soon")}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
         {/* Daily Mission Card - Compact */}
         <Card className="border-secondary/30 bg-gradient-to-r from-secondary/20 to-secondary/5 hover:shadow-lg transition-all duration-300">
           <CardContent className="p-4">
