@@ -11,6 +11,7 @@ export interface QuizQuestion {
   class_level?: number;
   difficulty?: string;
   explanation?: string;
+  subject?: string;
 }
 
 export interface QuizData {
@@ -55,6 +56,7 @@ import { itItesQuestions } from './questions/itItesQuestions';
 import { itItesQuestionsPhase2 } from './questions/itItesQuestionsPhase2';
 import { mathQuestionsGHS } from './questions/mathQuestionsGHS';
 import { scienceQuestionsGHS } from './questions/scienceQuestionsGHS';
+import { olympiadMathQuestions } from './questions/Olmapiadmathsquestions';
 
 // Combine all IT/ITes questions
 const allItItesQuestions = [...itItesQuestions, ...itItesQuestionsPhase2];
@@ -77,7 +79,8 @@ export const questionsBySubject: Record<string, QuizQuestion[]> = {
   social: socialScienceQuestions,
   english: englishQuestions,
   hindi: hindiQuestions,
-  it_ites: allItItesQuestions
+  it_ites: allItItesQuestions,
+  olympiad_math: olympiadMathQuestions
 };
 
 // Fisher-Yates shuffle algorithm for true randomization
