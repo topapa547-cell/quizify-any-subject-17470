@@ -136,6 +136,16 @@ const menuItems: MenuItem[] = [
     gradient: "from-blue-50 to-blue-100 dark:from-blue-950/40 dark:to-blue-900/40",
     textColor: "text-blue-800 dark:text-blue-200",
   },
+  {
+    icon: "♟️",
+    labelHi: "शतरंज खेलें",
+    labelEn: "Play Chess",
+    subtitleHi: "AI के विरुद्ध शतरंज",
+    subtitleEn: "Chess against AI",
+    path: "/games/chess",
+    gradient: "from-slate-50 to-slate-100 dark:from-slate-950/40 dark:to-slate-900/40",
+    textColor: "text-slate-800 dark:text-slate-200",
+  },
 ];
 
 const HamburgerMenu = () => {
