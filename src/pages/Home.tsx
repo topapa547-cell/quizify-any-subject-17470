@@ -127,6 +127,7 @@ const Home = () => {
     { id: "memory-cards", name: "Memory Cards", emoji: "🧠", gradient: "bg-gradient-to-br from-[hsl(271,81%,56%)] to-[hsl(271,81%,40%)]", route: "/games/memory-cards", players: 120 },
     { id: "true-false", name: "सही या गलत", emoji: "✓✗", gradient: "bg-gradient-to-br from-[hsl(142,76%,36%)] to-[hsl(142,76%,25%)]", route: "/games/true-false", players: 180 },
     { id: "fill-blanks", name: "खाली भरो", emoji: "📝", gradient: "bg-gradient-to-br from-[hsl(195,91%,60%)] to-[hsl(195,91%,45%)]", route: "/games/fill-blanks", players: 95 },
+    { id: "chess", name: "शतरंज", emoji: "♟️", gradient: "bg-gradient-to-br from-[hsl(220,15%,30%)] to-[hsl(220,15%,15%)]", route: "/games/chess", players: 85 },
   ];
 
   if (loading) {

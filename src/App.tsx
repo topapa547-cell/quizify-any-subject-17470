@@ -30,6 +30,7 @@ import MemoryCards from "./pages/games/MemoryCards";
 import TrueOrFalse from "./pages/games/TrueOrFalse";
 import QuickFire from "./pages/games/QuickFire";
 import FillBlanks from "./pages/games/FillBlanks";
+import PlayChess from "./pages/games/PlayChess";
 import MultiplayerBattle from "./pages/MultiplayerBattle";
 import BattleRoom from "./pages/BattleRoom";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -70,6 +71,7 @@ const App = () => (
           <Route path="/games/true-false" element={<PremiumRoute featureName="True or False Game"><TrueOrFalse /></PremiumRoute>} />
           <Route path="/games/quick-fire" element={<PremiumRoute featureName="Quick Fire Game"><QuickFire /></PremiumRoute>} />
           <Route path="/games/fill-blanks" element={<PremiumRoute featureName="Fill the Blanks Game"><FillBlanks /></PremiumRoute>} />
+          <Route path="/games/chess" element={<ProtectedRoute><PlayChess /></ProtectedRoute>} />
           <Route path="/multiplayer" element={<PremiumRoute featureName="Multiplayer Battle"><MultiplayerBattle /></PremiumRoute>} />
           <Route path="/battle/:roomCode" element={<PremiumRoute featureName="Multiplayer Battle"><BattleRoom /></PremiumRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
