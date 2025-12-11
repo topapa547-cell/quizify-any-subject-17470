@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, RotateCcw } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
+import ChessAIPanel from "@/components/chess/ChessAIPanel";
 
 // Chess piece symbols
 const PIECES: Record<string, string> = {
@@ -261,8 +262,8 @@ const PlayChess = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 p-4">
-      <div className="max-w-lg mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 p-4 pb-24">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
@@ -284,9 +285,21 @@ const PlayChess = () => {
           </span>
         </div>
 
-        {/* Chess Board */}
-        <div className="max-w-md mx-auto">
-          {renderBoard()}
+        {/* Main Content - Board + AI Panel */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* Chess Board */}
+          <div className="max-w-md mx-auto lg:mx-0">
+            {renderBoard()}
+          </div>
+
+          {/* AI Assistant Panel */}
+          <div className="lg:max-w-md">
+            <ChessAIPanel 
+              board={gameState.board} 
+              playerColor={playerColor} 
+              userElo={aiElo} 
+            />
+          </div>
         </div>
       </div>
     </div>
