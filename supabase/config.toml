@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.concept-explainer]
 verify_jwt = false
+
+[functions.chess-assistant]
+verify_jwt = false
