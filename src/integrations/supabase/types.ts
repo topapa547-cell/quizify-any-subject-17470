@@ -252,6 +252,140 @@ export type Database = {
         }
         Relationships: []
       }
+      chess_leaderboard: {
+        Row: {
+          best_time: number | null
+          created_at: string
+          current_streak: number
+          elo_rating: number
+          id: string
+          last_puzzle_date: string | null
+          longest_streak: number
+          puzzles_solved: number
+          total_points: number
+          updated_at: string
+          user_id: string
+          username: string
+        }
+        Insert: {
+          best_time?: number | null
+          created_at?: string
+          current_streak?: number
+          elo_rating?: number
+          id?: string
+          last_puzzle_date?: string | null
+          longest_streak?: number
+          puzzles_solved?: number
+          total_points?: number
+          updated_at?: string
+          user_id: string
+          username: string
+        }
+        Update: {
+          best_time?: number | null
+          created_at?: string
+          current_streak?: number
+          elo_rating?: number
+          id?: string
+          last_puzzle_date?: string | null
+          longest_streak?: number
+          puzzles_solved?: number
+          total_points?: number
+          updated_at?: string
+          user_id?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      chess_puzzle_attempts: {
+        Row: {
+          attempts: number
+          created_at: string
+          hints_used: number
+          id: string
+          points_earned: number
+          puzzle_id: string
+          solved: boolean
+          solved_at: string | null
+          time_taken: number | null
+          user_id: string
+        }
+        Insert: {
+          attempts?: number
+          created_at?: string
+          hints_used?: number
+          id?: string
+          points_earned?: number
+          puzzle_id: string
+          solved?: boolean
+          solved_at?: string | null
+          time_taken?: number | null
+          user_id: string
+        }
+        Update: {
+          attempts?: number
+          created_at?: string
+          hints_used?: number
+          id?: string
+          points_earned?: number
+          puzzle_id?: string
+          solved?: boolean
+          solved_at?: string | null
+          time_taken?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chess_puzzle_attempts_puzzle_id_fkey"
+            columns: ["puzzle_id"]
+            isOneToOne: false
+            referencedRelation: "chess_puzzles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chess_puzzles: {
+        Row: {
+          created_at: string
+          difficulty: string
+          hint_text: string | null
+          hint_text_hindi: string | null
+          id: string
+          points: number
+          puzzle_fen: string
+          solution: string[]
+          theme: string
+          title: string | null
+          title_hindi: string | null
+        }
+        Insert: {
+          created_at?: string
+          difficulty?: string
+          hint_text?: string | null
+          hint_text_hindi?: string | null
+          id?: string
+          points?: number
+          puzzle_fen: string
+          solution: string[]
+          theme?: string
+          title?: string | null
+          title_hindi?: string | null
+        }
+        Update: {
+          created_at?: string
+          difficulty?: string
+          hint_text?: string | null
+          hint_text_hindi?: string | null
+          id?: string
+          points?: number
+          puzzle_fen?: string
+          solution?: string[]
+          theme?: string
+          title?: string | null
+          title_hindi?: string | null
+        }
+        Relationships: []
+      }
       coupon_codes: {
         Row: {
           code: string
@@ -864,6 +998,18 @@ export type Database = {
           speed_bonus: number
         }[]
       }
+      get_chess_leaderboard: {
+        Args: { limit_count?: number }
+        Returns: {
+          current_streak: number
+          elo_rating: number
+          puzzles_solved: number
+          rank: number
+          total_points: number
+          user_id: string
+          username: string
+        }[]
+      }
       get_class_leaderboard: {
         Args: { class_num: number }
         Returns: {
@@ -935,6 +1081,14 @@ export type Database = {
           p_total_questions: number
         }
         Returns: string
+      }
+      update_chess_streak: {
+        Args: { p_user_id: string }
+        Returns: {
+          current_streak: number
+          longest_streak: number
+          streak_maintained: boolean
+        }[]
       }
       update_user_league: { Args: { p_user_id: string }; Returns: string }
       update_user_streak: {
