@@ -928,6 +928,136 @@ export type Database = {
         }
         Relationships: []
       }
+      spy_game_players: {
+        Row: {
+          id: string
+          is_eliminated: boolean | null
+          is_spy: boolean | null
+          joined_at: string
+          room_id: string
+          user_id: string
+          username: string
+          votes_received: number | null
+        }
+        Insert: {
+          id?: string
+          is_eliminated?: boolean | null
+          is_spy?: boolean | null
+          joined_at?: string
+          room_id: string
+          user_id: string
+          username: string
+          votes_received?: number | null
+        }
+        Update: {
+          id?: string
+          is_eliminated?: boolean | null
+          is_spy?: boolean | null
+          joined_at?: string
+          room_id?: string
+          user_id?: string
+          username?: string
+          votes_received?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "spy_game_players_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "spy_game_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      spy_game_rooms: {
+        Row: {
+          citizen_word: string | null
+          created_at: string
+          current_round: number | null
+          ended_at: string | null
+          host_id: string
+          host_username: string
+          id: string
+          max_players: number | null
+          max_rounds: number | null
+          min_players: number | null
+          room_code: string
+          spy_word: string | null
+          started_at: string | null
+          status: string
+          winner_type: string | null
+        }
+        Insert: {
+          citizen_word?: string | null
+          created_at?: string
+          current_round?: number | null
+          ended_at?: string | null
+          host_id: string
+          host_username: string
+          id?: string
+          max_players?: number | null
+          max_rounds?: number | null
+          min_players?: number | null
+          room_code: string
+          spy_word?: string | null
+          started_at?: string | null
+          status?: string
+          winner_type?: string | null
+        }
+        Update: {
+          citizen_word?: string | null
+          created_at?: string
+          current_round?: number | null
+          ended_at?: string | null
+          host_id?: string
+          host_username?: string
+          id?: string
+          max_players?: number | null
+          max_rounds?: number | null
+          min_players?: number | null
+          room_code?: string
+          spy_word?: string | null
+          started_at?: string | null
+          status?: string
+          winner_type?: string | null
+        }
+        Relationships: []
+      }
+      spy_game_votes: {
+        Row: {
+          created_at: string
+          id: string
+          room_id: string
+          round_number: number
+          voted_for_id: string
+          voter_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          room_id: string
+          round_number: number
+          voted_for_id: string
+          voter_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          room_id?: string
+          round_number?: number
+          voted_for_id?: string
+          voter_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "spy_game_votes_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "spy_game_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subscriptions: {
         Row: {
           amount_paid: number

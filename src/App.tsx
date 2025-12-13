@@ -32,6 +32,7 @@ import QuickFire from "./pages/games/QuickFire";
 import FillBlanks from "./pages/games/FillBlanks";
 import PlayChess from "./pages/games/PlayChess";
 import ChessPuzzles from "./pages/games/ChessPuzzles";
+import WhoIsTheSpy from "./pages/games/WhoIsTheSpy";
 import MultiplayerBattle from "./pages/MultiplayerBattle";
 import BattleRoom from "./pages/BattleRoom";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -74,6 +75,7 @@ const App = () => (
           <Route path="/games/fill-blanks" element={<PremiumRoute featureName="Fill the Blanks Game"><FillBlanks /></PremiumRoute>} />
           <Route path="/games/chess" element={<ProtectedRoute><PlayChess /></ProtectedRoute>} />
           <Route path="/games/chess-puzzles" element={<ProtectedRoute><ChessPuzzles /></ProtectedRoute>} />
+          <Route path="/games/spy" element={<PremiumRoute featureName="Who is the Spy"><WhoIsTheSpy /></PremiumRoute>} />
           <Route path="/multiplayer" element={<PremiumRoute featureName="Multiplayer Battle"><MultiplayerBattle /></PremiumRoute>} />
           <Route path="/battle/:roomCode" element={<PremiumRoute featureName="Multiplayer Battle"><BattleRoom /></PremiumRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
