@@ -226,11 +226,15 @@ export default function MultiplayerBattle() {
   const fetchPublicRooms = async () => {
     setLoadingPublicRooms(true);
     try {
+      // Only show rooms created within last 15 minutes
+      const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+      
       const { data, error } = await supabase
         .from("battle_rooms")
         .select("id, room_code, host_username, host_id, subject, total_questions, class_level, created_at")
         .eq("is_public", true)
         .eq("status", "waiting")
+        .gte("created_at", fifteenMinutesAgo)
         .order("created_at", { ascending: false })
         .limit(20);
 
@@ -248,6 +252,20 @@ export default function MultiplayerBattle() {
     setLoading(true);
 
     try {
+      // Check if user already has an active waiting room
+      const { data: existingRoom } = await supabase
+        .from("battle_rooms")
+        .select("id, room_code")
+        .eq("host_id", user.id)
+        .eq("status", "waiting")
+        .maybeSingle();
+
+      if (existingRoom) {
+        toast.error("आपके पास पहले से एक active room है! पहले उसे cancel करें।");
+        setLoading(false);
+        return;
+      }
+
       const code = generateRoomCode();
       const { data, error } = await supabase
         .from("battle_rooms")
@@ -324,6 +342,14 @@ export default function MultiplayerBattle() {
         room = data;
       }
 
+      // Check if room is too old (> 15 minutes)
+      const roomAge = Date.now() - new Date(room.created_at).getTime();
+      if (roomAge > 15 * 60 * 1000) {
+        toast.error("यह room expire हो गया है। कृपया दूसरा room try करें।");
+        fetchPublicRooms(); // Refresh the list
+        return;
+      }
+
       if (room.host_id === user.id) {
         toast.error("You cannot join your own room");
         return;
@@ -336,7 +362,8 @@ export default function MultiplayerBattle() {
           opponent_username: profile.username,
           status: "ready",
         })
-        .eq("id", room.id);
+        .eq("id", room.id)
+        .eq("status", "waiting"); // Prevent race condition
 
       if (joinError) throw joinError;
 
