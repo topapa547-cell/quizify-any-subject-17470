@@ -330,8 +330,8 @@ export default function BattleRoom() {
     );
   }
 
-  // Waiting for opponent
-  if (room?.status === "waiting") {
+  // Waiting for opponent - only show if no opponent has joined yet
+  if (room?.status === "waiting" && !room?.opponent_id) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="p-8 text-center max-w-md">
