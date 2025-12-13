@@ -121,7 +121,7 @@ export const SubscriptionPaywall = ({ featureName = "Premium Feature", onSuccess
             </label>
             <div className="flex gap-2">
               <Input
-                placeholder="e.g., QZ9X7K2M"
+                placeholder="XXXXXXXX"
                 value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                 className="font-mono text-lg tracking-wider"
