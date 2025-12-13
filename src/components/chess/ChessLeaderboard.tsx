@@ -151,7 +151,7 @@ export const ChessLeaderboard = () => {
 
                     {/* Avatar */}
                     <UserAvatar 
-                      seed={entry.user_id} 
+                      userId={entry.user_id} 
                       size="sm" 
                       className="flex-shrink-0"
                     />
