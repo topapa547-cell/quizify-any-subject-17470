@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { ArrowLeft, Play, Copy, RefreshCw, Palette } from "lucide-react";
+import { ArrowLeft, Palette } from "lucide-react";
 import UnoBoard from "@/components/games/uno/UnoBoard";
 import { UnoCard as UnoCardType, UnoPlayer, UnoRoom, UnoColor } from "@/data/games/unoTypes";
 import { generateDeck, isValidMove, getDrawAmount } from "@/lib/unoEngine";
@@ -71,8 +71,9 @@ const QuizknowMercy = () => {
                  current_player_index: newRoomData.current_player_index,
                  direction: newRoomData.direction,
                  top_card: newRoomData.top_card,
-                 stack_count: newRoomData.stack_count || 0, // Ensure column exists or defaults
-                 winner_id: newRoomData.winner_id
+                 stack_count: newRoomData.stack_count || 0,
+                 winner_id: newRoomData.winner_id,
+                 current_deck: newRoomData.current_deck || []
              }));
              setGamePhase(newRoomData.status === 'ended' ? 'ended' : newRoomData.status);
           }
@@ -185,17 +186,11 @@ const QuizknowMercy = () => {
 
         playCard(bot.id, cardToPlay, colorToPick);
     } else {
-        // Draw (Mercy Rule: Draw until play logic is simplified here to 1 attempt + force pass if fails for now, or loop)
-        // Implementing proper "Draw Until Play" for Bot:
         attemptBotDraw(bot.id);
     }
   };
 
   const attemptBotDraw = (botId: string) => {
-      // For Bot, we can just peek deck and draw until we find one or deck limit
-      // Simplified: Just call drawCard which now implements "Draw until Play" logic partly
-      // or we just call drawCard once.
-      // Let's rely on drawCard's logic.
       drawCard(botId);
   };
 
@@ -236,12 +231,6 @@ const QuizknowMercy = () => {
   const playCard = async (playerId: string, card: UnoCardType, chosenColor?: UnoColor) => {
     if (!room) return;
 
-    // Validate Move (Server side / logic side)
-    // Note: If Wild, we check if it is valid (always is).
-    // If not wild, check vs top card.
-
-    // If we have a chosenColor, we treat the card as that color for future matching,
-    // BUT for "isValidMove" right now, we use the card's original state vs top_card.
     if (!isValidMove(card, room.top_card!, room.stack_count)) {
         toast.error("Invalid move!");
         return;
@@ -294,10 +283,7 @@ const QuizknowMercy = () => {
     // Prepare Top Card (with chosen color if applicable)
     const effectiveTopCard = { ...card };
     if (chosenColor) {
-        effectiveTopCard.color = chosenColor; // Visually it might remain black/wild, but logic sees Color
-        // To make it visually clear, we might want to change it or add a tag.
-        // For simple UI, we assume Card component handles 'wild' color but maybe we want to show the 'active' color border?
-        // We will pass `color` as property to card object in state.
+        effectiveTopCard.color = chosenColor;
     }
 
     // --- State Update ---
@@ -319,9 +305,6 @@ const QuizknowMercy = () => {
         setPlayers(updatedPlayers);
     } else {
         // Update Supabase
-        // Note: For a real secure game, this logic should be in a Postgres Function (RPC).
-        // Since we are doing client-side logic for MVP:
-
         await supabase.from('uno_players').update({
             hand: newHand,
             card_count: newHand.length
@@ -342,14 +325,10 @@ const QuizknowMercy = () => {
   const drawCard = async (playerId: string) => {
      if (!room) return;
 
-     // DRAW UNTIL PLAY Logic
-     // If stack_count > 0, we draw exactly that amount and pass (Stack rule usually overrides Draw Until Play in standard variants,
-     // but No Mercy rules say "Draw Until You Play" applies when you don't have a matching card.
-     // However, receiving a penalty (+10) is different from "choosing to draw".
-     // If you take the penalty, you take cards and turn ends.
-
      let drawLimit = 100; // Safety break
-     const newDeck = [...localDeck];
+     // Use localDeck for Bot, or room.current_deck for Online
+     const deckSource = isBotMode ? localDeck : (room.current_deck || []);
+     const newDeck = [...deckSource];
      const drawnCards: UnoCardType[] = [];
      let canPlay = false;
 
@@ -398,26 +377,10 @@ const QuizknowMercy = () => {
      // Update Room
      let nextPlayerIndex = room.current_player_index;
 
-     // If stack count > 0, turn ends.
-     // If Draw Until Play, and we found a card... we usually let the player PLAY it immediately.
-     // In this simplified engine, if we found a playable card, we could:
-     // 1. Auto-play it (aggressive)
-     // 2. Add to hand and let player click it (better UX, but "Draw Until Play" implies you MUST play it).
-     // Rule: "Draw until you get a card you can play." then "Play that card."? Usually yes.
-     // For this iteration: Add to hand. If it was a voluntary draw, DO NOT advance turn yet?
-     // Standard Uno: Draw 1, if playable play, else pass.
-     // Mercy Uno: Draw until playable. Then Play.
-
      if (room.stack_count === 0 && canPlay) {
-         // Do NOT advance turn. Let player play the card they just drew.
-         // (Or the bot will play it in next tick if we re-trigger bot turn?)
-         // For Bot: We should probably auto-play to avoid stuck loop if we rely on 'handleBotTurn' which might not re-fire if index didn't change?
-         // Actually `handleBotTurn` fires on effect `room` change.
-         // If we update room (deck count), effect fires? Yes.
-         // So Bot will see new hand, see valid move, and play.
-         // Human will see new card, see it is playable, and play.
+         // Do NOT advance turn if playable card found (Player must play it manually next)
      } else {
-         // Turn ends (Stack penalty OR Deck empty/Limit reached without playable)
+         // Turn ends
          const move = room.direction === 'clockwise' ? 1 : -1;
          nextPlayerIndex = (room.current_player_index + move) % players.length;
          if (nextPlayerIndex < 0) nextPlayerIndex += players.length;
@@ -434,28 +397,20 @@ const QuizknowMercy = () => {
         }));
      } else {
          // Online Mode Draw
-         // Note: Managing a central deck is hard without a server process.
-         // For MVP, we might treat 'draw' as generating a random card since we can't easily sync a shuffled array via simple row updates without conflicts.
-         // OR we store 'deck' in 'uno_rooms' as a large JSON array.
-         // Given Supabase limitations for an AI agent: generating random cards is safer for "Online MVP".
-
-         // TODO: Implement Online Draw properly. For now, we stub it or use random generation.
-         const randomCard = generateDeck()[0]; // Just a random card for now
-
-         const newHandOnline = [...player.hand, randomCard];
-
          await supabase.from('uno_players').update({
-             hand: newHandOnline,
-             card_count: newHandOnline.length
+             hand: newHand,
+             card_count: newHand.length,
+             is_eliminated: isEliminated
          }).eq('id', playerId);
 
-         // We must update room to trigger next turn if needed
-         if (room.stack_count > 0 || !isValidMove(randomCard, room.top_card!, 0)) {
-             await supabase.from('uno_rooms').update({
-                 current_player_index: nextPlayerIndex,
-                 stack_count: 0
-             }).eq('id', room.id);
-         }
+         // Update shared deck
+         await supabase.from('uno_rooms').update({
+             // eslint-disable-next-line @typescript-eslint/no-explicit-any
+             current_deck: newDeck as any,
+             draw_pile_count: newDeck.length,
+             current_player_index: nextPlayerIndex,
+             stack_count: 0
+         }).eq('id', room.id);
      }
   };
 
@@ -478,10 +433,10 @@ const QuizknowMercy = () => {
               top_card: startCard as any,
               current_player_index: 0,
               direction: 'clockwise',
-              draw_pile_count: deck.length
-              // Note: We aren't storing the full deck in DB in this MVP to avoid row size limits/complexity,
-              // we will generate cards on the fly for online draw or assume trusted client (Host) deals.
-              // Better approach: Store deck in a separate table or just array.
+              draw_pile_count: deck.length,
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              current_deck: deck as any,
+              stack_count: 0
           }).select().single();
 
           if (error) throw error;
@@ -551,7 +506,7 @@ const QuizknowMercy = () => {
       if (!room || !players) return;
       // Only host can start
       // Deal cards
-      const deck = generateDeck();
+      const deck = [...(room.current_deck || [])];
 
       // Update each player with a hand
       const updates = players.map((p, i) => {
@@ -565,13 +520,13 @@ const QuizknowMercy = () => {
 
       await Promise.all(updates);
 
-      const startCard = deck.shift();
-
+      // Update deck in DB
       await supabase.from('uno_rooms').update({
           status: 'playing',
+          current_player_index: 0,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          top_card: startCard as any,
-          current_player_index: 0
+          current_deck: deck as any,
+          draw_pile_count: deck.length
       }).eq('id', room.id);
   };
 

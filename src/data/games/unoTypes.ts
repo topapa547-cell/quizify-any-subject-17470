@@ -34,6 +34,7 @@ export interface UnoRoom {
   winner_id?: string;
   stack_count: number; // Current accumulated draw penalty (e.g. 2, 4, 6, 16)
   last_action_source?: string; // Who played the last action
+  current_deck?: UnoCard[]; // Added for shared deck state
 }
 
 export interface GameSettings {
