@@ -1,16 +1,21 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useGameSfx } from "@/hooks/useGameSfx";
-import { ArrowLeft, Users, Bot, Copy, Play, RefreshCw, Volume2, VolumeX } from "lucide-react";
+import { ArrowLeft, Users, Bot, Play, RefreshCw, Volume2, VolumeX, Globe } from "lucide-react";
 import UnoBoard from "@/components/uno/UnoBoard";
 import UnoPlayerHand from "@/components/uno/UnoPlayerHand";
 import ColorPicker from "@/components/uno/ColorPicker";
+import PublicRoomsLobby from "@/components/uno/PublicRoomsLobby";
+import ShareInvite from "@/components/uno/ShareInvite";
+import UserAvatar from "@/components/UserAvatar";
+import { getRandomBotName, getRandomAvatarStyle } from "@/data/botNames";
 import {
   UnoCard,
   UnoPlayer,
@@ -24,10 +29,11 @@ import {
   getDrawCount,
 } from "@/types/unoTypes";
 
-type GameMode = 'menu' | 'lobby' | 'playing';
+type GameMode = 'menu' | 'lobby' | 'playing' | 'public_rooms';
 
 const QuizknowMercy = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { language, t } = useLanguage();
   const { playSfx, preloadSfx } = useGameSfx();
   
@@ -42,6 +48,7 @@ const QuizknowMercy = () => {
   // Game state
   const [gameMode, setGameMode] = useState<GameMode>('menu');
   const [isBotGame, setIsBotGame] = useState(false);
+  const [isPublicRoom, setIsPublicRoom] = useState(false);
   const [room, setRoom] = useState<UnoRoom | null>(null);
   const [players, setPlayers] = useState<UnoPlayer[]>([]);
   const [myHand, setMyHand] = useState<UnoCard[]>([]);
@@ -65,6 +72,18 @@ const QuizknowMercy = () => {
       preloadSfx(['card_play', 'draw_card', 'uno_call']);
     }
   }, [soundEnabled, preloadSfx]);
+
+  // Handle URL join parameter
+  useEffect(() => {
+    const joinParam = searchParams.get('join');
+    if (joinParam && user && profile) {
+      setJoinCode(joinParam.toUpperCase());
+      // Auto-join after a small delay
+      setTimeout(() => {
+        handleJoinRoomByCode(joinParam.toUpperCase());
+      }, 500);
+    }
+  }, [searchParams, user, profile]);
 
   // Load user data
   useEffect(() => {
@@ -96,7 +115,7 @@ const QuizknowMercy = () => {
     return code;
   };
 
-  // Create bot game
+  // Create bot game with realistic bots
   const startBotGame = async () => {
     if (!user || !profile) {
       toast({ title: t("कृपया पहले लॉगिन करें", "Please login first"), variant: "destructive" });
@@ -116,6 +135,7 @@ const QuizknowMercy = () => {
         host_id: user.id,
         host_username: profile.username,
         is_bot_game: true,
+        is_public: false,
         status: 'waiting',
       })
       .select()
@@ -131,19 +151,24 @@ const QuizknowMercy = () => {
       room_id: roomData.id,
       user_id: user.id,
       username: profile.username,
+      avatar_style: profile.avatar_style || 'adventurer',
       position: 0,
       is_bot: false,
     });
 
-    // Add 3 bots with proper UUIDs
-    const botNames = ['🤖 QuizBot', '🤖 SmartAI', '🤖 MercyBot'];
+    // Add 3 bots with realistic names and avatars
+    const usedNames: string[] = [];
     for (let i = 0; i < 3; i++) {
-      // Generate a valid UUID for bots
       const botUuid = crypto.randomUUID();
+      const botName = getRandomBotName(usedNames);
+      usedNames.push(botName);
+      const botAvatar = getRandomAvatarStyle();
+      
       const { error: botError } = await supabase.from('uno_players').insert({
         room_id: roomData.id,
         user_id: botUuid,
-        username: botNames[i],
+        username: botName,
+        avatar_style: botAvatar,
         position: i + 1,
         is_bot: true,
       });
@@ -185,6 +210,7 @@ const QuizknowMercy = () => {
         host_id: user.id,
         host_username: profile.username,
         is_bot_game: false,
+        is_public: isPublicRoom,
         status: 'waiting',
       })
       .select()
@@ -200,6 +226,7 @@ const QuizknowMercy = () => {
       room_id: roomData.id,
       user_id: user.id,
       username: profile.username,
+      avatar_style: profile.avatar_style || 'adventurer',
       position: 0,
       is_bot: false,
     });
@@ -216,8 +243,8 @@ const QuizknowMercy = () => {
     setPlayers((playersData || []) as unknown as UnoPlayer[]);
   };
 
-  // Join room
-  const joinRoom = async () => {
+  // Handle join room by code
+  const handleJoinRoomByCode = async (code: string) => {
     if (!user || !profile) {
       toast({ title: t("कृपया पहले लॉगिन करें", "Please login first"), variant: "destructive" });
       navigate('/auth');
@@ -227,7 +254,7 @@ const QuizknowMercy = () => {
     const { data: roomData, error: roomError } = await supabase
       .from('uno_rooms')
       .select('*')
-      .eq('room_code', joinCode.toUpperCase())
+      .eq('room_code', code.toUpperCase())
       .eq('status', 'waiting')
       .single();
 
@@ -257,6 +284,7 @@ const QuizknowMercy = () => {
       room_id: roomData.id,
       user_id: user.id,
       username: profile.username,
+      avatar_style: profile.avatar_style || 'adventurer',
       position: nextPosition,
       is_bot: false,
     });
@@ -273,6 +301,11 @@ const QuizknowMercy = () => {
       .order('position');
 
     setPlayers((playersData || []) as unknown as UnoPlayer[]);
+  };
+
+  // Join room
+  const joinRoom = async () => {
+    await handleJoinRoomByCode(joinCode);
   };
 
   // Start game
@@ -561,24 +594,49 @@ const QuizknowMercy = () => {
     }
   };
 
-  // Bot turn logic
+  // Smart Bot AI
   const playBotTurn = async (botIndex: number) => {
     if (!room) return;
 
     const bot = players[botIndex];
     if (!bot.is_bot) return;
 
-    // Find a playable card
-    const playableCard = bot.hand.find(card => canPlayCard(card, room.current_card, stackState));
+    // Add random delay for realism (1-3 seconds)
+    await new Promise(resolve => setTimeout(resolve, Math.random() * 2000 + 1000));
 
-    if (playableCard) {
+    // Smart card selection priority
+    const playableCards = bot.hand.filter(card => canPlayCard(card, room.current_card, stackState));
+
+    if (playableCards.length > 0) {
+      // Priority: +10 > +6 > +4 > +2 > Skip > Reverse > Number match > Color match > Wild
+      let cardToPlay = playableCards.find(c => c.type === 'draw10') ||
+                       playableCards.find(c => c.type === 'draw6') ||
+                       playableCards.find(c => c.type === 'draw4') ||
+                       playableCards.find(c => c.type === 'draw2') ||
+                       playableCards.find(c => c.type === 'skip') ||
+                       playableCards.find(c => c.type === 'reverse') ||
+                       playableCards.find(c => c.type === 'number' && c.color === room.current_card?.color) ||
+                       playableCards.find(c => c.type === 'number') ||
+                       playableCards.find(c => c.color !== 'wild') ||
+                       playableCards[0];
+
       // Bot plays a card
-      const newHand = bot.hand.filter(c => c.id !== playableCard.id);
+      const newHand = bot.hand.filter(c => c.id !== cardToPlay.id);
 
-      // For wild cards, pick a random color
-      const playedCard = playableCard.color === 'wild'
-        ? { ...playableCard, color: ['red', 'blue', 'green', 'yellow'][Math.floor(Math.random() * 4)] as UnoColor }
-        : playableCard;
+      // For wild cards, pick the color bot has most of
+      let playedCard = cardToPlay;
+      if (cardToPlay.color === 'wild') {
+        const colorCounts = { red: 0, blue: 0, green: 0, yellow: 0 };
+        newHand.forEach(c => {
+          if (c.color !== 'wild' && colorCounts[c.color as keyof typeof colorCounts] !== undefined) {
+            colorCounts[c.color as keyof typeof colorCounts]++;
+          }
+        });
+        const bestColor = (Object.keys(colorCounts) as UnoColor[]).reduce((a, b) => 
+          colorCounts[a as keyof typeof colorCounts] > colorCounts[b as keyof typeof colorCounts] ? a : b
+        );
+        playedCard = { ...cardToPlay, color: bestColor };
+      }
 
       // Update bot's hand
       await supabase
@@ -590,9 +648,8 @@ const QuizknowMercy = () => {
       let nextPlayerIndex = botIndex;
       let newDirection = room.direction;
       let newStackState = { ...stackState };
-      let drawCards = 0;
 
-      switch (playableCard.type) {
+      switch (cardToPlay.type) {
         case 'skip':
           nextPlayerIndex = (nextPlayerIndex + newDirection * 2 + players.length) % players.length;
           break;
@@ -604,11 +661,11 @@ const QuizknowMercy = () => {
         case 'draw4':
         case 'draw6':
         case 'draw10':
-          drawCards = getDrawCount(playableCard.type);
+          const drawCount = getDrawCount(cardToPlay.type);
           newStackState = {
             isStacking: true,
-            stackCount: newStackState.stackCount + drawCards,
-            stackType: playableCard.type as any,
+            stackCount: newStackState.stackCount + drawCount,
+            stackType: cardToPlay.type as any,
           };
           nextPlayerIndex = (nextPlayerIndex + newDirection + players.length) % players.length;
           break;
@@ -647,9 +704,14 @@ const QuizknowMercy = () => {
 
       // Check for bot win
       if (newHand.length === 0) {
-        toast({ title: `🤖 ${bot.username} जीत गया!`, description: "गेम समाप्त" });
+        toast({ title: `🎉 ${bot.username} जीत गया!`, description: "गेम समाप्त" });
         setGameMode('menu');
         return;
+      }
+
+      // UNO call - random 80% chance bot calls
+      if (newHand.length === 1 && Math.random() < 0.8) {
+        toast({ title: `${bot.username}: UNO! 🎉` });
       }
 
       // Next bot turn if applicable
@@ -707,12 +769,6 @@ const QuizknowMercy = () => {
     setGameMode('menu');
   };
 
-  // Copy room code
-  const copyRoomCode = () => {
-    navigator.clipboard.writeText(roomCode);
-    toast({ title: t("कोड कॉपी हो गया!", "Code copied!") });
-  };
-
   // Real-time subscriptions
   useEffect(() => {
     if (!room?.id) return;
@@ -763,6 +819,17 @@ const QuizknowMercy = () => {
     );
   }
 
+  // Public Rooms Screen
+  if (gameMode === 'public_rooms') {
+    return (
+      <PublicRoomsLobby
+        onBack={() => setGameMode('menu')}
+        onJoinRoom={handleJoinRoomByCode}
+        currentUserId={user?.id}
+      />
+    );
+  }
+
   // Menu Screen
   if (gameMode === 'menu') {
     return (
@@ -809,15 +876,44 @@ const QuizknowMercy = () => {
               className="w-full h-16 text-lg bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
             >
               <Bot className="w-6 h-6 mr-3" />
-              {t("🤖 बॉट के साथ खेलें", "🤖 Play with Bots")}
+              {t("🎮 बॉट के साथ खेलें", "🎮 Play with Bots")}
             </Button>
 
+            {/* Online Room with Public Toggle */}
+            <Card className="bg-white/10 border-white/20">
+              <CardContent className="p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-white font-medium">
+                    {t("पब्लिक रूम", "Public Room")}
+                  </span>
+                  <Switch
+                    checked={isPublicRoom}
+                    onCheckedChange={setIsPublicRoom}
+                  />
+                </div>
+                <p className="text-white/60 text-xs">
+                  {isPublicRoom 
+                    ? t("कोई भी आपके रूम में शामिल हो सकता है", "Anyone can join your room")
+                    : t("सिर्फ इनवाइट लिंक से शामिल हो सकते हैं", "Only invite link can join")}
+                </p>
+                <Button
+                  onClick={createOnlineRoom}
+                  className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
+                >
+                  <Users className="w-5 h-5 mr-2" />
+                  {t("🌐 ऑनलाइन रूम बनाएं", "🌐 Create Online Room")}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Browse Public Rooms */}
             <Button
-              onClick={createOnlineRoom}
-              className="w-full h-16 text-lg bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
+              onClick={() => setGameMode('public_rooms')}
+              variant="outline"
+              className="w-full h-14 text-lg border-white/20 text-white hover:bg-white/10"
             >
-              <Users className="w-6 h-6 mr-3" />
-              {t("🌐 ऑनलाइन रूम बनाएं", "🌐 Create Online Room")}
+              <Globe className="w-5 h-5 mr-2" />
+              {t("🔍 पब्लिक रूम्स ब्राउज़ करें", "🔍 Browse Public Rooms")}
             </Button>
 
             <Card className="bg-white/10 border-white/20">
@@ -881,16 +977,20 @@ const QuizknowMercy = () => {
           <Card className="bg-gradient-to-br from-primary/20 to-primary/10 border-primary/30">
             <CardContent className="p-6 text-center">
               <p className="text-white/70 mb-2">{t("रूम कोड", "Room Code")}</p>
-              <div className="flex items-center justify-center gap-3">
-                <span className="text-4xl font-mono font-bold text-white tracking-widest">
-                  {roomCode}
-                </span>
-                <Button size="icon" variant="secondary" onClick={copyRoomCode}>
-                  <Copy className="w-4 h-4" />
-                </Button>
-              </div>
+              <span className="text-4xl font-mono font-bold text-white tracking-widest">
+                {roomCode}
+              </span>
             </CardContent>
           </Card>
+
+          {/* Share Invite (for online rooms) */}
+          {!isBotGame && (
+            <Card className="bg-white/10 border-white/20">
+              <CardContent className="p-4">
+                <ShareInvite roomCode={roomCode} />
+              </CardContent>
+            </Card>
+          )}
 
           {/* Players */}
           <Card className="bg-white/10 border-white/20">
@@ -906,13 +1006,16 @@ const QuizknowMercy = () => {
                   key={player.id}
                   className="flex items-center gap-3 p-3 bg-white/10 rounded-lg"
                 >
-                  <span className="text-2xl">
-                    {player.is_bot ? '🤖' : player.user_id === room?.host_id ? '👑' : '👤'}
-                  </span>
+                  <UserAvatar
+                    userId={player.user_id}
+                    avatarStyle={(player as any).avatar_style || 'adventurer'}
+                    size="md"
+                    fallbackText={player.username.charAt(0).toUpperCase()}
+                  />
                   <span className="text-white font-medium flex-1">
                     {player.username}
                   </span>
-                  {index === 0 && (
+                  {player.user_id === room?.host_id && (
                     <span className="text-xs bg-yellow-500/20 text-yellow-300 px-2 py-1 rounded">
                       Host
                     </span>

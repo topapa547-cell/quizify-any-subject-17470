@@ -1111,6 +1111,7 @@ export type Database = {
       }
       uno_players: {
         Row: {
+          avatar_style: string | null
           created_at: string
           hand: Json | null
           has_called_uno: boolean | null
@@ -1123,6 +1124,7 @@ export type Database = {
           username: string
         }
         Insert: {
+          avatar_style?: string | null
           created_at?: string
           hand?: Json | null
           has_called_uno?: boolean | null
@@ -1135,6 +1137,7 @@ export type Database = {
           username: string
         }
         Update: {
+          avatar_style?: string | null
           created_at?: string
           hand?: Json | null
           has_called_uno?: boolean | null
@@ -1169,6 +1172,7 @@ export type Database = {
           host_username: string
           id: string
           is_bot_game: boolean | null
+          is_public: boolean | null
           max_players: number | null
           room_code: string
           started_at: string | null
@@ -1188,6 +1192,7 @@ export type Database = {
           host_username: string
           id?: string
           is_bot_game?: boolean | null
+          is_public?: boolean | null
           max_players?: number | null
           room_code: string
           started_at?: string | null
@@ -1207,6 +1212,7 @@ export type Database = {
           host_username?: string
           id?: string
           is_bot_game?: boolean | null
+          is_public?: boolean | null
           max_players?: number | null
           room_code?: string
           started_at?: string | null
