@@ -1109,6 +1109,113 @@ export type Database = {
         }
         Relationships: []
       }
+      uno_players: {
+        Row: {
+          created_at: string
+          hand: Json | null
+          has_called_uno: boolean | null
+          id: string
+          is_active: boolean | null
+          is_bot: boolean | null
+          position: number
+          room_id: string
+          user_id: string
+          username: string
+        }
+        Insert: {
+          created_at?: string
+          hand?: Json | null
+          has_called_uno?: boolean | null
+          id?: string
+          is_active?: boolean | null
+          is_bot?: boolean | null
+          position: number
+          room_id: string
+          user_id: string
+          username: string
+        }
+        Update: {
+          created_at?: string
+          hand?: Json | null
+          has_called_uno?: boolean | null
+          id?: string
+          is_active?: boolean | null
+          is_bot?: boolean | null
+          position?: number
+          room_id?: string
+          user_id?: string
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "uno_players_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "uno_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      uno_rooms: {
+        Row: {
+          created_at: string
+          current_card: Json | null
+          current_player_index: number | null
+          direction: number | null
+          discard_pile: Json | null
+          draw_pile: Json | null
+          finished_at: string | null
+          host_id: string
+          host_username: string
+          id: string
+          is_bot_game: boolean | null
+          max_players: number | null
+          room_code: string
+          started_at: string | null
+          status: string
+          winner_id: string | null
+          winner_username: string | null
+        }
+        Insert: {
+          created_at?: string
+          current_card?: Json | null
+          current_player_index?: number | null
+          direction?: number | null
+          discard_pile?: Json | null
+          draw_pile?: Json | null
+          finished_at?: string | null
+          host_id: string
+          host_username: string
+          id?: string
+          is_bot_game?: boolean | null
+          max_players?: number | null
+          room_code: string
+          started_at?: string | null
+          status?: string
+          winner_id?: string | null
+          winner_username?: string | null
+        }
+        Update: {
+          created_at?: string
+          current_card?: Json | null
+          current_player_index?: number | null
+          direction?: number | null
+          discard_pile?: Json | null
+          draw_pile?: Json | null
+          finished_at?: string | null
+          host_id?: string
+          host_username?: string
+          id?: string
+          is_bot_game?: boolean | null
+          max_players?: number | null
+          room_code?: string
+          started_at?: string | null
+          status?: string
+          winner_id?: string | null
+          winner_username?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
