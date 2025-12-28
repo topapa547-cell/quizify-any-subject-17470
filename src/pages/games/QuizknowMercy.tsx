@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ArrowLeft, Users, Bot, Copy, Play, RefreshCw } from "lucide-react";
+import { useGameSfx } from "@/hooks/useGameSfx";
+import { ArrowLeft, Users, Bot, Copy, Play, RefreshCw, Volume2, VolumeX } from "lucide-react";
 import UnoBoard from "@/components/uno/UnoBoard";
 import UnoPlayerHand from "@/components/uno/UnoPlayerHand";
 import ColorPicker from "@/components/uno/ColorPicker";
@@ -28,6 +29,10 @@ type GameMode = 'menu' | 'lobby' | 'playing';
 const QuizknowMercy = () => {
   const navigate = useNavigate();
   const { language, t } = useLanguage();
+  const { playSfx, preloadSfx } = useGameSfx();
+  
+  // Sound settings
+  const [soundEnabled, setSoundEnabled] = useState(true);
   
   // Auth state
   const [user, setUser] = useState<any>(null);
@@ -53,6 +58,13 @@ const QuizknowMercy = () => {
     stackCount: 0,
     stackType: null,
   });
+
+  // Preload common sounds on mount
+  useEffect(() => {
+    if (soundEnabled) {
+      preloadSfx(['card_play', 'draw_card', 'uno_call']);
+    }
+  }, [soundEnabled, preloadSfx]);
 
   // Load user data
   useEffect(() => {
@@ -343,6 +355,21 @@ const QuizknowMercy = () => {
     const myPlayer = players.find(p => p.user_id === user.id);
     if (!myPlayer) return;
 
+    // Play card sound effect
+    if (soundEnabled) {
+      if (card.color === 'wild') {
+        playSfx('wild_card');
+      } else if (card.type === 'reverse') {
+        playSfx('reverse_card');
+      } else if (card.type === 'skip') {
+        playSfx('skip_card');
+      } else if (['draw2', 'draw4', 'draw6', 'draw10'].includes(card.type)) {
+        playSfx('draw_stack');
+      } else {
+        playSfx('card_play');
+      }
+    }
+
     // Remove card from hand
     const newHand = myHand.filter(c => c.id !== card.id);
     setMyHand(newHand);
@@ -427,8 +454,9 @@ const QuizknowMercy = () => {
       return;
     }
 
-    // UNO call reminder
+    // UNO call with sound
     if (newHand.length === 1) {
+      if (soundEnabled) playSfx('uno_call');
       toast({ title: "🎉 UNO! एक कार्ड बचा!" });
     }
 
@@ -509,7 +537,8 @@ const QuizknowMercy = () => {
       return;
     }
 
-    // Normal draw
+    // Normal draw with sound
+    if (soundEnabled) playSfx('draw_card');
     await applyDrawCards(myPlayerIndex, 1);
     
     // Move to next player
@@ -651,6 +680,9 @@ const QuizknowMercy = () => {
   const handleWin = async () => {
     if (!room || !user || !profile) return;
 
+    // Play win celebration sound
+    if (soundEnabled) playSfx('win_celebration');
+
     await supabase
       .from('uno_rooms')
       .update({
@@ -731,14 +763,24 @@ const QuizknowMercy = () => {
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 p-4">
         <div className="max-w-md mx-auto space-y-6">
           {/* Header */}
-          <div className="flex items-center gap-4 pt-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
-              <ArrowLeft className="w-6 h-6 text-white" />
-            </Button>
-            <div>
-              <h1 className="text-3xl font-bold text-white">QuizKnow Mercy</h1>
-              <p className="text-white/70">UNO + Special Mercy Cards 🎴</p>
+          <div className="flex items-center justify-between pt-4">
+            <div className="flex items-center gap-4">
+              <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
+                <ArrowLeft className="w-6 h-6 text-white" />
+              </Button>
+              <div>
+                <h1 className="text-3xl font-bold text-white">QuizKnow Mercy</h1>
+                <p className="text-white/70">UNO + Special Mercy Cards 🎴</p>
+              </div>
             </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setSoundEnabled(!soundEnabled)}
+              className="text-white"
+            >
+              {soundEnabled ? <Volume2 className="w-6 h-6" /> : <VolumeX className="w-6 h-6" />}
+            </Button>
           </div>
 
           {/* Logo/Banner */}
@@ -918,8 +960,18 @@ const QuizknowMercy = () => {
           {t("बाहर", "Exit")}
         </Button>
         <div className="text-white font-bold">QuizKnow Mercy</div>
-        <div className="text-white/70 text-sm">
-          🎴 {room?.draw_pile?.length || 0}
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setSoundEnabled(!soundEnabled)}
+            className="text-white h-8 w-8"
+          >
+            {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+          </Button>
+          <span className="text-white/70 text-sm">
+            🎴 {room?.draw_pile?.length || 0}
+          </span>
         </div>
       </div>
 
