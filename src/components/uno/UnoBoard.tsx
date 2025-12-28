@@ -3,6 +3,7 @@ import UnoCard from "./UnoCard";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
 import { RotateCcw, RotateCw } from "lucide-react";
+import UserAvatar from "@/components/UserAvatar";
 
 interface UnoBoardProps {
   currentCard: UnoCardType | null;
@@ -51,31 +52,45 @@ export const UnoBoard = ({
             )}
             style={{ left: `${x}%`, top: `${y}%` }}
           >
-            {/* Player avatar/name */}
+            {/* Player Avatar - no bot indicators, looks like real player */}
             <div
               className={cn(
-                "px-3 py-1.5 rounded-full text-sm font-medium",
-                "transition-all duration-300",
-                isCurrentTurn && "ring-2 ring-yellow-400 ring-offset-2 animate-pulse",
-                isMe
-                  ? "bg-primary text-primary-foreground"
-                  : player.is_bot
-                  ? "bg-slate-600 text-white"
-                  : "bg-secondary text-secondary-foreground"
+                "relative transition-all duration-300",
+                isCurrentTurn && "ring-2 ring-yellow-400 ring-offset-2 ring-offset-transparent animate-pulse rounded-full"
               )}
             >
-              {player.is_bot ? "🤖 " : isMe ? "👤 " : ""}
-              {player.username}
+              <UserAvatar
+                userId={player.user_id}
+                avatarStyle={(player as any).avatar_style || 'adventurer'}
+                size="md"
+                fallbackText={player.username.charAt(0).toUpperCase()}
+                className={cn(
+                  isMe && "ring-2 ring-primary"
+                )}
+              />
               {player.has_called_uno && (
-                <span className="ml-1 text-yellow-400 animate-bounce inline-block">
+                <span className="absolute -top-1 -right-1 bg-yellow-400 text-yellow-900 text-[10px] font-bold px-1 rounded animate-bounce">
                   UNO!
                 </span>
               )}
             </div>
 
+            {/* Player name */}
+            <div
+              className={cn(
+                "px-2 py-0.5 rounded-full text-xs font-medium",
+                "transition-all duration-300 max-w-[80px] truncate",
+                isMe
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-secondary/80 text-secondary-foreground"
+              )}
+            >
+              {isMe ? (language === 'hindi' ? 'आप' : 'You') : player.username}
+            </div>
+
             {/* Card count */}
-            <div className="flex items-center gap-1 text-xs text-muted-foreground">
-              <span className="text-lg">🎴</span>
+            <div className="flex items-center gap-1 text-xs text-white/80 bg-black/30 px-2 py-0.5 rounded-full">
+              <span>🎴</span>
               <span className="font-bold">{player.hand.length}</span>
             </div>
           </div>
