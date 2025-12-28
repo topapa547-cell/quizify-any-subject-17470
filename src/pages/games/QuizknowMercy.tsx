@@ -135,16 +135,22 @@ const QuizknowMercy = () => {
       is_bot: false,
     });
 
-    // Add 3 bots
+    // Add 3 bots with proper UUIDs
     const botNames = ['🤖 QuizBot', '🤖 SmartAI', '🤖 MercyBot'];
     for (let i = 0; i < 3; i++) {
-      await supabase.from('uno_players').insert({
+      // Generate a valid UUID for bots
+      const botUuid = crypto.randomUUID();
+      const { error: botError } = await supabase.from('uno_players').insert({
         room_id: roomData.id,
-        user_id: `bot_${i}_${Date.now()}`,
+        user_id: botUuid,
         username: botNames[i],
         position: i + 1,
         is_bot: true,
       });
+      
+      if (botError) {
+        console.error('Error adding bot:', botError);
+      }
     }
 
     setRoom(roomData as unknown as UnoRoom);
