@@ -24,25 +24,27 @@ const UnoCard: React.FC<UnoCardProps> = ({
 }) => {
 
   const getCardBodyStyle = () => {
-    return "bg-black border-2 border-white/10 shadow-xl overflow-hidden";
+    // Clean black card with subtle gradient for depth, no grunge texture
+    return "bg-gradient-to-br from-gray-900 to-black border-2 border-gray-800 shadow-xl overflow-hidden";
   };
 
   const getInnerOvalClass = (color?: string) => {
-    // Defines the rotated oval background for the number
-    const base = "absolute inset-0 m-1 rounded-[100%] rotate-[20deg] border-4 border-white/20";
+    // Clean rotated oval
+    const base = "absolute inset-0 m-1 rounded-[100%] rotate-[20deg] border-4 border-black/20";
     switch (color) {
-      case 'red': return `${base} bg-red-600`;
-      case 'blue': return `${base} bg-blue-600`;
-      case 'green': return `${base} bg-green-600`;
-      case 'yellow': return `${base} bg-yellow-400`;
-      case 'wild': return `${base} bg-gradient-to-br from-red-500 via-yellow-400 to-blue-600`;
+      case 'red': return `${base} bg-gradient-to-br from-red-500 to-red-700`;
+      case 'blue': return `${base} bg-gradient-to-br from-blue-500 to-blue-700`;
+      case 'green': return `${base} bg-gradient-to-br from-green-500 to-green-700`;
+      case 'yellow': return `${base} bg-gradient-to-br from-yellow-400 to-yellow-600`;
+      // Wild: Rainbow gradient
+      case 'wild': return `${base} bg-[conic-gradient(at_center,_var(--tw-gradient-stops))] from-red-500 via-yellow-500 via-green-500 via-blue-500 to-red-500`;
       default: return `${base} bg-gray-700`;
     }
   };
 
   const getTextColor = (color?: string) => {
-    // White text with thick black stroke (simulated with drop-shadow or text-shadow in css)
-    return "text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]";
+    // Clean white text with sharp shadow
+    return "text-white drop-shadow-md";
   };
 
   const getActionSymbol = (action: string) => {
@@ -68,7 +70,7 @@ const UnoCard: React.FC<UnoCardProps> = ({
       y: 0,
       scale: 1,
       rotateY: 0,
-      rotate: i * 3 - 6, // Fanning effect
+      rotate: i * 3 - 6,
       transition: {
         type: "spring",
         stiffness: 260,
@@ -101,28 +103,25 @@ const UnoCard: React.FC<UnoCardProps> = ({
         exit="exit"
         variants={hiddenVariants}
         className={cn(
-          "w-24 h-36 rounded-xl bg-black border-2 border-white/20 shadow-2xl flex items-center justify-center relative overflow-hidden",
+          "w-24 h-36 rounded-xl bg-black border-2 border-gray-700 shadow-2xl flex items-center justify-center relative overflow-hidden",
           className
         )}
       >
-        {/* Card Back Design */}
-        <div className="absolute inset-0 bg-gradient-to-br from-red-900 to-black opacity-90" />
-        <div className="absolute inset-2 border-2 border-yellow-500/30 rounded-lg" />
+        {/* Clean Gradient Back */}
+        <div className="absolute inset-0 bg-gradient-to-br from-red-900 to-black" />
+        <div className="absolute inset-2 border-2 border-yellow-500/20 rounded-lg" />
 
-        {/* Branding Logo */}
+        {/* Branding Logo - Clean Vector Style */}
         <div className="relative z-10 flex flex-col items-center justify-center transform rotate-12">
-            <div className="bg-yellow-500 text-black font-black text-xs px-2 py-0.5 rounded shadow-lg transform -rotate-12 mb-1">
+            <div className="bg-yellow-500 text-black font-black text-[10px] px-2 py-0.5 rounded shadow-sm transform -rotate-12 mb-1">
                 OFFICIAL
             </div>
-            <h1 className="text-2xl font-black text-white tracking-tighter drop-shadow-[0_2px_0_rgba(255,0,0,1)]">
+            <h1 className="text-2xl font-black text-white tracking-tighter drop-shadow-md">
                 QUIZ
                 <span className="text-yellow-400">KNOW</span>
             </h1>
-            <div className="text-[8px] text-white/50 font-bold tracking-[0.2em] mt-1">NO MERCY</div>
+            <div className="text-[8px] text-white/70 font-bold tracking-[0.2em] mt-1">NO MERCY</div>
         </div>
-
-        {/* Texture */}
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none" />
       </motion.div>
     );
   }
@@ -150,39 +149,37 @@ const UnoCard: React.FC<UnoCardProps> = ({
       )}
     >
       {/* Background Oval */}
-      <div className={cn(getInnerOvalClass(card.color), "flex items-center justify-center")}>
-           {/* Texture Overlay for Grunge look */}
-           <div className="absolute inset-0 bg-black opacity-10 mix-blend-overlay pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/concrete-wall.png')]" />
-
+      <div className={cn(getInnerOvalClass(card.color), "flex items-center justify-center shadow-inner")}>
            {/* Center Big Symbol */}
            <span
              className={cn(
-                 "text-5xl font-black italic drop-shadow-[3px_3px_0_rgba(0,0,0,1)] z-10",
+                 "text-5xl font-black italic z-10",
                  getTextColor(card.color),
-                 String(symbol).length > 2 ? "text-3xl" : "" // Scale down for +10
+                 String(symbol).length > 2 ? "text-3xl" : ""
              )}
-             style={{ textShadow: "2px 2px 0px #000" }}
+             // Outline effect using text-shadow
+             style={{ textShadow: "2px 2px 0px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000" }}
            >
              {symbol}
            </span>
       </div>
 
       {/* Top Left Corner */}
-      <div className="absolute top-2 left-2 flex flex-col items-center leading-none">
-          <span className={cn("text-lg font-bold drop-shadow-md", getTextColor(card.color))}>
+      <div className="absolute top-1.5 left-2 flex flex-col items-center leading-none">
+          <span className={cn("text-lg font-bold drop-shadow-sm", getTextColor(card.color))}>
              {symbol}
           </span>
       </div>
 
       {/* Bottom Right Corner (Rotated) */}
-      <div className="absolute bottom-2 right-2 flex flex-col items-center leading-none rotate-180">
-          <span className={cn("text-lg font-bold drop-shadow-md", getTextColor(card.color))}>
+      <div className="absolute bottom-1.5 right-2 flex flex-col items-center leading-none rotate-180">
+          <span className={cn("text-lg font-bold drop-shadow-sm", getTextColor(card.color))}>
              {symbol}
           </span>
       </div>
 
-      {/* Branding Watermark on Front (Subtle) */}
-      <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 text-[6px] text-white/30 font-bold tracking-widest pointer-events-none">
+      {/* Branding Watermark on Front (Clean) */}
+      <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 text-[5px] text-white/20 font-bold tracking-widest pointer-events-none">
         QUIZKNOW
       </div>
     </motion.div>
