@@ -23,28 +23,47 @@ const UnoCard: React.FC<UnoCardProps> = ({
   index = 0
 }) => {
 
+  // --- Visual Helpers ---
+
+  // SVG Noise Pattern for Texture
+  const TextureOverlay = () => (
+    <div className="absolute inset-0 opacity-30 pointer-events-none mix-blend-overlay z-20">
+      <svg width="100%" height="100%">
+        <filter id="noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.80" numOctaves="4" stitchTiles="stitch"/>
+          <feColorMatrix type="saturate" values="0"/>
+        </filter>
+        <rect width="100%" height="100%" filter="url(#noise)" opacity="0.5"/>
+      </svg>
+    </div>
+  );
+
   const getCardBodyStyle = () => {
-    // Clean black card with subtle gradient for depth, no grunge texture
-    return "bg-gradient-to-br from-gray-900 to-black border-2 border-gray-800 shadow-xl overflow-hidden";
+    // Deep black with subtle gradient
+    return "bg-gradient-to-br from-[#1a1a1a] via-black to-[#0a0a0a] border-[3px] border-[#2a2a2a] shadow-xl overflow-hidden";
   };
 
   const getInnerOvalClass = (color?: string) => {
-    // Clean rotated oval
-    const base = "absolute inset-0 m-1 rounded-[100%] rotate-[20deg] border-4 border-black/20";
+    const base = "absolute inset-1 rounded-[50%] rotate-[20deg] border-2 border-black/40 shadow-inner";
+    // Colors matching the reference image (Vibrant but with depth)
     switch (color) {
-      case 'red': return `${base} bg-gradient-to-br from-red-500 to-red-700`;
-      case 'blue': return `${base} bg-gradient-to-br from-blue-500 to-blue-700`;
-      case 'green': return `${base} bg-gradient-to-br from-green-500 to-green-700`;
-      case 'yellow': return `${base} bg-gradient-to-br from-yellow-400 to-yellow-600`;
-      // Wild: Rainbow gradient
-      case 'wild': return `${base} bg-[conic-gradient(at_center,_var(--tw-gradient-stops))] from-red-500 via-yellow-500 via-green-500 via-blue-500 to-red-500`;
+      case 'red': return `${base} bg-[#d91e18]`; // Deep Red
+      case 'blue': return `${base} bg-[#0055d4]`; // Deep Blue
+      case 'green': return `${base} bg-[#2d8a26]`; // Deep Green
+      case 'yellow': return `${base} bg-[#f5b301]`; // Deep Yellow
+      case 'wild': return `${base} bg-[conic-gradient(from_90deg,_#d91e18,_#f5b301,_#2d8a26,_#0055d4,_#d91e18)]`;
       default: return `${base} bg-gray-700`;
     }
   };
 
   const getTextColor = (color?: string) => {
-    // Clean white text with sharp shadow
-    return "text-white drop-shadow-md";
+    // White text with VERY thick black outline (simulated via drop shadows)
+    return "text-white";
+  };
+
+  const getTextShadow = () => {
+      // Multiple shadows to create a stroke effect
+      return "3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000";
   };
 
   const getActionSymbol = (action: string) => {
@@ -61,6 +80,29 @@ const UnoCard: React.FC<UnoCardProps> = ({
       case 'wild_roulette': return "🎰";
       default: return "";
     }
+  };
+
+  // --- Mini Card Visual Generator for +6, +10, etc ---
+  const MiniCardStack = ({ count }: { count: number }) => {
+      // Generates a little stack of cards for the visual
+      return (
+          <div className="relative w-12 h-12 flex items-center justify-center">
+              {[...Array(Math.min(count, 5))].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-6 h-9 rounded-sm border border-black shadow-sm"
+                    style={{
+                        backgroundColor: ['#d91e18', '#0055d4', '#2d8a26', '#f5b301'][i % 4],
+                        transform: `rotate(${i * 15 - 30}deg) translate(${i * 2}px, ${i * -2}px)`,
+                        zIndex: i
+                    }}
+                  />
+              ))}
+              <span className="relative z-10 font-black text-2xl text-white drop-shadow-md" style={{ textShadow: getTextShadow() }}>
+                  +{count}
+              </span>
+          </div>
+      );
   };
 
   const variants = {
@@ -103,24 +145,26 @@ const UnoCard: React.FC<UnoCardProps> = ({
         exit="exit"
         variants={hiddenVariants}
         className={cn(
-          "w-24 h-36 rounded-xl bg-black border-2 border-gray-700 shadow-2xl flex items-center justify-center relative overflow-hidden",
+          "w-24 h-36 rounded-xl bg-[#111] border-2 border-[#333] shadow-2xl flex items-center justify-center relative overflow-hidden",
           className
         )}
       >
-        {/* Clean Gradient Back */}
-        <div className="absolute inset-0 bg-gradient-to-br from-red-900 to-black" />
+        <TextureOverlay />
+
+        {/* Card Back Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#800] to-black opacity-80" />
         <div className="absolute inset-2 border-2 border-yellow-500/20 rounded-lg" />
 
-        {/* Branding Logo - Clean Vector Style */}
-        <div className="relative z-10 flex flex-col items-center justify-center transform rotate-12">
-            <div className="bg-yellow-500 text-black font-black text-[10px] px-2 py-0.5 rounded shadow-sm transform -rotate-12 mb-1">
+        {/* Branding Logo */}
+        <div className="relative z-30 flex flex-col items-center justify-center transform rotate-12">
+            <div className="bg-[#ffcc00] text-black font-black text-[10px] px-2 py-0.5 rounded shadow-sm transform -rotate-12 mb-1 border border-black">
                 OFFICIAL
             </div>
-            <h1 className="text-2xl font-black text-white tracking-tighter drop-shadow-md">
+            <h1 className="text-2xl font-black text-white tracking-tighter drop-shadow-[0_2px_0_rgba(0,0,0,1)]">
                 QUIZ
-                <span className="text-yellow-400">KNOW</span>
+                <span className="text-[#ffcc00]">KNOW</span>
             </h1>
-            <div className="text-[8px] text-white/70 font-bold tracking-[0.2em] mt-1">NO MERCY</div>
+            <div className="text-[8px] text-white/80 font-bold tracking-[0.2em] mt-1 drop-shadow-md">NO MERCY</div>
         </div>
       </motion.div>
     );
@@ -130,6 +174,8 @@ const UnoCard: React.FC<UnoCardProps> = ({
 
   // --- CARD FRONT ---
   const symbol = card.number !== undefined ? card.number : getActionSymbol(card.action);
+  const isDrawCard = ['draw6', 'draw10', 'draw2', 'draw4'].includes(card.action);
+  const drawCount = card.action === 'draw10' ? 10 : card.action === 'draw6' ? 6 : card.action === 'draw4' ? 4 : 2;
 
   return (
     <motion.div
@@ -148,38 +194,51 @@ const UnoCard: React.FC<UnoCardProps> = ({
         className
       )}
     >
+      <TextureOverlay />
+
       {/* Background Oval */}
-      <div className={cn(getInnerOvalClass(card.color), "flex items-center justify-center shadow-inner")}>
-           {/* Center Big Symbol */}
-           <span
-             className={cn(
-                 "text-5xl font-black italic z-10",
-                 getTextColor(card.color),
-                 String(symbol).length > 2 ? "text-3xl" : ""
-             )}
-             // Outline effect using text-shadow
-             style={{ textShadow: "2px 2px 0px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000" }}
-           >
-             {symbol}
-           </span>
+      <div className={cn(getInnerOvalClass(card.color), "flex items-center justify-center overflow-hidden")}>
+
+           {/* Inner Texture Specific to Oval */}
+           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,_transparent_20%,_#000_120%)]" />
+
+           {/* Content */}
+           {isDrawCard && (card.action === 'draw6' || card.action === 'draw10') ? (
+               // Special Visuals for Mega Draws
+               <div className="z-10 transform scale-75">
+                   <MiniCardStack count={drawCount} />
+               </div>
+           ) : (
+               // Standard Number/Symbol
+               <span
+                 className={cn(
+                     "font-black italic z-10 leading-none",
+                     getTextColor(card.color),
+                     String(symbol).length > 2 ? "text-2xl" : "text-6xl"
+                 )}
+                 style={{ textShadow: getTextShadow() }}
+               >
+                 {symbol}
+               </span>
+           )}
       </div>
 
       {/* Top Left Corner */}
-      <div className="absolute top-1.5 left-2 flex flex-col items-center leading-none">
-          <span className={cn("text-lg font-bold drop-shadow-sm", getTextColor(card.color))}>
+      <div className="absolute top-1.5 left-1.5 flex flex-col items-center leading-none z-30">
+          <span className={cn("text-lg font-bold", getTextColor(card.color))} style={{ textShadow: "1px 1px 0 #000" }}>
              {symbol}
           </span>
       </div>
 
       {/* Bottom Right Corner (Rotated) */}
-      <div className="absolute bottom-1.5 right-2 flex flex-col items-center leading-none rotate-180">
-          <span className={cn("text-lg font-bold drop-shadow-sm", getTextColor(card.color))}>
+      <div className="absolute bottom-1.5 right-1.5 flex flex-col items-center leading-none rotate-180 z-30">
+          <span className={cn("text-lg font-bold", getTextColor(card.color))} style={{ textShadow: "1px 1px 0 #000" }}>
              {symbol}
           </span>
       </div>
 
-      {/* Branding Watermark on Front (Clean) */}
-      <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 text-[5px] text-white/20 font-bold tracking-widest pointer-events-none">
+      {/* Subtle Branding */}
+      <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 text-[4px] text-white/30 font-bold tracking-widest pointer-events-none z-20">
         QUIZKNOW
       </div>
     </motion.div>
