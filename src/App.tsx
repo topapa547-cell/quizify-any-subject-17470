@@ -6,6 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Home from "./pages/Home";
 import Quiz from "./pages/Quiz";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 import Results from "./pages/Results";
 import Auth from "./pages/Auth";
 import Leaderboard from "./pages/Leaderboard";
@@ -80,6 +84,10 @@ const App = () => (
           <Route path="/games/quizknow-mercy" element={<PremiumRoute featureName="QuizKnow Mercy"><QuizknowMercy /></PremiumRoute>} />
           <Route path="/multiplayer" element={<PremiumRoute featureName="Multiplayer Battle"><MultiplayerBattle /></PremiumRoute>} />
           <Route path="/battle/:roomCode" element={<PremiumRoute featureName="Multiplayer Battle"><BattleRoom /></PremiumRoute>} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
