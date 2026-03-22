@@ -1222,6 +1222,57 @@ export type Database = {
         }
         Relationships: []
       }
+      uploaded_games: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          description: string | null
+          description_hi: string | null
+          game_file_path: string
+          id: string
+          is_published: boolean | null
+          play_count: number | null
+          rating: number | null
+          tags: string[] | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string | null
+          uploaded_by: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          description_hi?: string | null
+          game_file_path: string
+          id?: string
+          is_published?: boolean | null
+          play_count?: number | null
+          rating?: number | null
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string | null
+          uploaded_by: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          description_hi?: string | null
+          game_file_path?: string
+          id?: string
+          is_published?: boolean | null
+          play_count?: number | null
+          rating?: number | null
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string | null
+          uploaded_by?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -1313,6 +1364,7 @@ export type Database = {
           username: string
         }[]
       }
+      is_admin_user: { Args: { p_user_id: string }; Returns: boolean }
       submit_quiz_result: {
         Args: {
           p_answered_questions: number
