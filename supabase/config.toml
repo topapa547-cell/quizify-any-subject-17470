@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.chess-assistant]
 verify_jwt = false
+
+[functions.generate-game-metadata]
+verify_jwt = false
