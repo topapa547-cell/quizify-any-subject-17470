@@ -37,6 +37,15 @@ const menuItems: MenuItem[] = [
     textColor: "text-emerald-800 dark:text-emerald-200",
   },
   {
+    icon: "📍",
+    labelHi: "मुख्य बिंदु",
+    labelEn: "Key Points",
+    subtitleHi: "NCERT के महत्वपूर्ण बिंदु",
+    subtitleEn: "Important NCERT points",
+    path: "/key-points",
+    gradient: "from-red-50 to-red-100 dark:from-red-950/40 dark:to-red-900/40",
+    textColor: "text-red-800 dark:text-red-200",
+  },
   {
     icon: "💻",
     labelHi: "IT किताबें PDF",
