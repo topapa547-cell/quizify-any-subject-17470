@@ -205,12 +205,14 @@ const HamburgerMenu = () => {
   const [open, setOpen] = useState(false);
   const [profile, setProfile] = useState<{ username: string; class_level: number; avatar_style: string | null } | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUserId(user.id);
+        setUserEmail(user.email || null);
         const { data } = await supabase
           .from("profiles")
           .select("username, class_level, avatar_style")
@@ -287,6 +289,26 @@ const HamburgerMenu = () => {
               </div>
             </div>
           ))}
+
+          {/* Admin Game Upload - only for admin */}
+          {userEmail === "radhgupta2013@gmail.com" && (
+            <div
+              onClick={() => handleNavigate("/admin/games")}
+              className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-yellow-50 to-yellow-100 
+                         dark:from-yellow-950/40 dark:to-yellow-900/40 hover:shadow-lg hover:scale-[1.02] 
+                         transition-all cursor-pointer active:scale-[0.98]"
+            >
+              <span className="text-3xl flex-shrink-0">📤</span>
+              <div className="min-w-0 flex-1">
+                <p className="font-semibold truncate text-yellow-800 dark:text-yellow-200">
+                  {t("गेम अपलोड", "Game Upload")}
+                </p>
+                <p className="text-xs truncate opacity-70 text-yellow-800 dark:text-yellow-200">
+                  {t("Admin: नए गेम अपलोड करें", "Admin: Upload new games")}
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Logout Button */}
           <div
