@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft, Maximize2, Minimize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,25 +13,22 @@ interface GamePlayerProps {
 const GamePlayer = ({ gameId, gameUrl, title, onClose }: GamePlayerProps) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Increment play count
-  useState(() => {
-    supabase.rpc("increment_play_count" as any, { game_id: gameId }).catch(() => {
-      // Fallback: direct update
-      supabase
+  useEffect(() => {
+    // Increment play count on mount
+    const incrementCount = async () => {
+      const { data } = await supabase
         .from("uploaded_games")
         .select("play_count")
         .eq("id", gameId)
-        .single()
-        .then(({ data }) => {
-          if (data) {
-            supabase
-              .from("uploaded_games" as any)
-              .update({ play_count: (data.play_count || 0) + 1 } as any)
-              .eq("id", gameId);
-          }
-        });
-    });
-  });
+        .single();
+      if (data) {
+        await (supabase.from("uploaded_games") as any)
+          .update({ play_count: ((data as any).play_count || 0) + 1 })
+          .eq("id", gameId);
+      }
+    };
+    incrementCount();
+  }, [gameId]);
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -45,7 +42,6 @@ const GamePlayer = ({ gameId, gameUrl, title, onClose }: GamePlayerProps) => {
 
   return (
     <div className="fixed inset-0 z-50 bg-black flex flex-col">
-      {/* Top bar */}
       <div className="flex items-center justify-between px-3 py-2 bg-black/80 text-white">
         <Button variant="ghost" size="sm" onClick={onClose} className="text-white hover:text-white/80">
           <ArrowLeft className="h-5 w-5 mr-1" /> {title}
@@ -54,8 +50,6 @@ const GamePlayer = ({ gameId, gameUrl, title, onClose }: GamePlayerProps) => {
           {isFullscreen ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
         </Button>
       </div>
-
-      {/* Game iframe */}
       <iframe
         src={gameUrl}
         className="flex-1 w-full border-0"

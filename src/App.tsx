@@ -27,6 +27,8 @@ import GrammarLab from "./pages/GrammarLab";
 import AdminInsert from "./pages/AdminInsert";
 import StudyNotes from "./pages/StudyNotes";
 import StudyMaterials from "./pages/StudyMaterials";
+import GameZone from "./pages/GameZone";
+import AdminGameUpload from "./pages/AdminGameUpload";
 import ITTextbooks from "./pages/ITTextbooks";
 import CBSEUpdates from "./pages/CBSEUpdates";
 import MatchThePair from "./pages/games/MatchThePair";
@@ -73,6 +75,8 @@ const App = () => (
           <Route path="/cbse-updates" element={<ProtectedRoute><CBSEUpdates /></ProtectedRoute>} />
           <Route path="/help" element={<ProtectedRoute><Help /></ProtectedRoute>} />
           <Route path="/admin-insert" element={<AdminInsert />} />
+          <Route path="/game-zone" element={<ProtectedRoute><GameZone /></ProtectedRoute>} />
+          <Route path="/admin/games" element={<ProtectedRoute><AdminGameUpload /></ProtectedRoute>} />
           <Route path="/games/match-pair" element={<PremiumRoute featureName="Match the Pair Game"><MatchThePair /></PremiumRoute>} />
           <Route path="/games/memory-cards" element={<PremiumRoute featureName="Memory Cards Game"><MemoryCards /></PremiumRoute>} />
           <Route path="/games/true-false" element={<PremiumRoute featureName="True or False Game"><TrueOrFalse /></PremiumRoute>} />
