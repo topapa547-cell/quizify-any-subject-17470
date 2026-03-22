@@ -27,15 +27,16 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   {
-    icon: "📍",
-    labelHi: "मुख्य बिंदु",
-    labelEn: "Key Points",
-    subtitleHi: "NCERT के महत्वपूर्ण बिंदु",
-    subtitleEn: "Important NCERT points",
-    path: "/key-points",
-    gradient: "from-red-50 to-red-100 dark:from-red-950/40 dark:to-red-900/40",
-    textColor: "text-red-800 dark:text-red-200",
+    icon: "🎮",
+    labelHi: "गेम ज़ोन",
+    labelEn: "Game Zone",
+    subtitleHi: "मज़ेदार HTML5 गेम खेलें",
+    subtitleEn: "Play fun HTML5 games",
+    path: "/game-zone",
+    gradient: "from-emerald-50 to-emerald-100 dark:from-emerald-950/40 dark:to-emerald-900/40",
+    textColor: "text-emerald-800 dark:text-emerald-200",
   },
+  {
   {
     icon: "💻",
     labelHi: "IT किताबें PDF",
