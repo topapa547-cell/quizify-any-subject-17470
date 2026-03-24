@@ -40,6 +40,8 @@ import PlayChess from "./pages/games/PlayChess";
 import ChessPuzzles from "./pages/games/ChessPuzzles";
 import WhoIsTheSpy from "./pages/games/WhoIsTheSpy";
 import QuizknowMercy from "./pages/games/QuizknowMercy";
+import FighterArena from "./pages/games/FighterArena";
+import SpaceBlaster from "./pages/games/SpaceBlaster";
 import MultiplayerBattle from "./pages/MultiplayerBattle";
 import BattleRoom from "./pages/BattleRoom";
 import ProtectedRoute from "./components/ProtectedRoute";
