@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search, Gamepad2, TrendingUp, Sparkles } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -32,7 +33,13 @@ interface Game {
   play_count: number;
 }
 
+const builtInGames = [
+  { id: "fighter-arena", title: "Fighter Arena", description: "2D Tournament Fighter with 4 unique characters", descriptionHi: "4 अनोखे किरदारों के साथ 2D टूर्नामेंट फाइटर", category: "action", rating: 4.8, playCount: 0, tags: ["fighting", "tournament"], thumbnail: "⚔️", route: "/games/fighter-arena" },
+  { id: "space-blaster", title: "Space Blaster", description: "Classic arcade space shooter with waves & power-ups", descriptionHi: "क्लासिक आर्केड स्पेस शूटर वेव्स और पावर-अप्स के साथ", category: "action", rating: 4.6, playCount: 0, tags: ["shooter", "arcade"], thumbnail: "🚀", route: "/games/space-blaster" },
+];
+
 const GameZone = () => {
+  const navigate = useNavigate();
   const { t } = useLanguage();
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
@@ -156,22 +163,49 @@ const GameZone = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
-            {filteredGames.map((game) => (
-              <GameZoneCard
-                key={game.id}
-                id={game.id}
-                title={game.title}
-                description={game.description}
-                descriptionHi={game.description_hi}
-                thumbnailUrl={game.thumbnail_url}
-                category={game.category}
-                rating={game.rating}
-                playCount={game.play_count}
-                tags={game.tags}
-                onPlay={() => setPlayingGame(game)}
-              />
-            ))}
+          <div className="space-y-4">
+            {/* Built-in Games */}
+            {(activeCategory === "all" || activeCategory === "action") && !search && (
+              <div>
+                <h3 className="font-bold text-sm mb-2 flex items-center gap-1">
+                  <Sparkles className="h-4 w-4 text-amber-500" /> {t("बिल्ट-इन गेम्स", "Built-in Games")}
+                </h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {builtInGames.map((game) => (
+                    <GameZoneCard
+                      key={game.id}
+                      id={game.id}
+                      title={game.title}
+                      description={game.description}
+                      descriptionHi={game.descriptionHi}
+                      category={game.category}
+                      rating={game.rating}
+                      playCount={game.playCount}
+                      tags={game.tags}
+                      onPlay={() => navigate(game.route)}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+            {/* Uploaded Games */}
+            <div className="grid grid-cols-2 gap-3">
+              {filteredGames.map((game) => (
+                <GameZoneCard
+                  key={game.id}
+                  id={game.id}
+                  title={game.title}
+                  description={game.description}
+                  descriptionHi={game.description_hi}
+                  thumbnailUrl={game.thumbnail_url}
+                  category={game.category}
+                  rating={game.rating}
+                  playCount={game.play_count}
+                  tags={game.tags}
+                  onPlay={() => setPlayingGame(game)}
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>
