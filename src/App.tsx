@@ -88,6 +88,8 @@ const App = () => (
           <Route path="/games/chess-puzzles" element={<ProtectedRoute><ChessPuzzles /></ProtectedRoute>} />
           <Route path="/games/spy" element={<PremiumRoute featureName="Who is the Spy"><WhoIsTheSpy /></PremiumRoute>} />
           <Route path="/games/quizknow-mercy" element={<PremiumRoute featureName="QuizKnow Mercy"><QuizknowMercy /></PremiumRoute>} />
+          <Route path="/games/fighter-arena" element={<ProtectedRoute><FighterArena /></ProtectedRoute>} />
+          <Route path="/games/space-blaster" element={<ProtectedRoute><SpaceBlaster /></ProtectedRoute>} />
           <Route path="/multiplayer" element={<PremiumRoute featureName="Multiplayer Battle"><MultiplayerBattle /></PremiumRoute>} />
           <Route path="/battle/:roomCode" element={<PremiumRoute featureName="Multiplayer Battle"><BattleRoom /></PremiumRoute>} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
