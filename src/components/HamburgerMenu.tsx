@@ -27,6 +27,16 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   {
+    icon: "♾️",
+    labelHi: "अनंत अभ्यास",
+    labelEn: "Infinite Practice",
+    subtitleHi: "AI द्वारा नए-नए प्रश्न, हर बार अलग",
+    subtitleEn: "Fresh AI questions, never the same",
+    path: "/infinite-practice",
+    gradient: "from-indigo-50 to-purple-100 dark:from-indigo-950/40 dark:to-purple-900/40",
+    textColor: "text-indigo-800 dark:text-indigo-200",
+  },
+  {
     icon: "🎮",
     labelHi: "गेम ज़ोन",
     labelEn: "Game Zone",

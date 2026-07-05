@@ -44,6 +44,8 @@ import FighterArena from "./pages/games/FighterArena";
 import SpaceBlaster from "./pages/games/SpaceBlaster";
 import MultiplayerBattle from "./pages/MultiplayerBattle";
 import BattleRoom from "./pages/BattleRoom";
+import InfinitePractice from "./pages/InfinitePractice";
+import InfinitePracticeQuiz from "./pages/InfinitePracticeQuiz";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PremiumRoute from "./components/PremiumRoute";
 
@@ -63,6 +65,8 @@ const App = () => (
           <Route path="/quiz" element={<ProtectedRoute><Quiz /></ProtectedRoute>} />
           <Route path="/results" element={<ProtectedRoute><Results /></ProtectedRoute>} />
           <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
+          <Route path="/infinite-practice" element={<ProtectedRoute><InfinitePractice /></ProtectedRoute>} />
+          <Route path="/infinite-practice/quiz" element={<ProtectedRoute><InfinitePracticeQuiz /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/long-questions" element={<PremiumRoute featureName="Long Answer Questions"><LongQuestions /></PremiumRoute>} />
           <Route path="/ncert-solutions" element={<PremiumRoute featureName="NCERT Solutions"><NCERTSolutions /></PremiumRoute>} />
