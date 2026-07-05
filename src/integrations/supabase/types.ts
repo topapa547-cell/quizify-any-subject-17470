@@ -775,6 +775,131 @@ export type Database = {
         }
         Relationships: []
       }
+      practice_attempts: {
+        Row: {
+          class_level: number
+          created_at: string
+          id: string
+          language: string
+          points_earned: number
+          question_count: number
+          score: number
+          subject: string
+          time_taken: number
+          user_id: string
+        }
+        Insert: {
+          class_level: number
+          created_at?: string
+          id?: string
+          language: string
+          points_earned?: number
+          question_count: number
+          score: number
+          subject: string
+          time_taken?: number
+          user_id: string
+        }
+        Update: {
+          class_level?: number
+          created_at?: string
+          id?: string
+          language?: string
+          points_earned?: number
+          question_count?: number
+          score?: number
+          subject?: string
+          time_taken?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      practice_question_seen: {
+        Row: {
+          id: string
+          question_id: string
+          seen_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          question_id: string
+          seen_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          question_id?: string
+          seen_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "practice_question_seen_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "practice_questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      practice_questions: {
+        Row: {
+          class_level: number
+          correct_option: number
+          created_at: string
+          difficulty: string
+          explanation: string | null
+          id: string
+          language: string
+          option_a: string
+          option_b: string
+          option_c: string
+          option_d: string
+          question_text: string
+          subject: string
+          topic_tag: string | null
+          updated_at: string
+          verified: boolean
+        }
+        Insert: {
+          class_level: number
+          correct_option: number
+          created_at?: string
+          difficulty?: string
+          explanation?: string | null
+          id?: string
+          language: string
+          option_a: string
+          option_b: string
+          option_c: string
+          option_d: string
+          question_text: string
+          subject: string
+          topic_tag?: string | null
+          updated_at?: string
+          verified?: boolean
+        }
+        Update: {
+          class_level?: number
+          correct_option?: number
+          created_at?: string
+          difficulty?: string
+          explanation?: string | null
+          id?: string
+          language?: string
+          option_a?: string
+          option_b?: string
+          option_c?: string
+          option_d?: string
+          question_text?: string
+          subject?: string
+          topic_tag?: string | null
+          updated_at?: string
+          verified?: boolean
+        }
+        Relationships: []
+      }
       previous_year_papers: {
         Row: {
           board: string | null
