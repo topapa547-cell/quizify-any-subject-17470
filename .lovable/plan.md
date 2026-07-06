@@ -1,97 +1,75 @@
-- Infinite Practice — Quiz Zone Feature
+## Plan: Ads Remove + Premium Coupon + Clean Academic Redesign
 
-### Goal
+### 1. Sabhi Ads Remove
+**File:** `index.html`
+- Google AdSense script tag hataana
+- Adsterra script tag hataana
+- `<meta name="description">` aur title improve karna (SEO)
 
-Add a new **"Infinite Practice"** option in the hamburger menu where a student can:
+### 2. Naya Premium Coupon Code
+Database mein ek naya personal coupon insert karunga:
+- **Code:** `RADH2026X` (8 chars, aapke liye)
+- **Discount:** 100% premium unlock
+- **Validity:** 6 months (till 6 January 2027)
+- **Status:** active
+- Existing coupon system (jo already banaya hua hai) ko use karega — koi naya code likhne ki zarurat nahi
 
-- Pick a **subject** (Math, Science, Social Science, English, Hindi, IT/ITes)
-- Pick a **language** (Hindi / English)
-- Pick a **question quantity** (10 / 20 / 30)
-- Take a quiz that is **locked to their signed-up class** (Class 9 → only Class 9 questions, Class 10 → only Class 10 questions — never upper, never lower)
-- Get a fresh mix every time, so two students very rarely see identical papers
+### 3. Clean Academic Redesign
+**Design system:** "Clean Academic" — study/exam-focused professional look
 
-### How the "never the same paper" works
+**Color tokens (`src/index.css`):**
+- Primary: Deep Navy `hsl(224 76% 33%)` (#1E3A8A)
+- Accent: Warm Orange `hsl(20 91% 48%)` (#EA580C)  
+- Background: Soft White `hsl(210 40% 98%)` (#F8FAFC)
+- Foreground: Ink Dark `hsl(222 47% 11%)` (#0F172A)
+- Muted, cards, borders — sab semantic tokens
+- Naye gradients: `--academic-gradient`, `--focus-gradient`
+- Refined shadows: subtle, paper-like (not glowy)
+- Dark mode tokens bhi update
 
-We build a **growing bank of AI-generated MCQs stored in the database**, then randomize which ones each student gets.
+**Typography:**
+- Install `@fontsource/fraunces` (display serif — academic feel) + `@fontsource/inter` (body)
+- Headings: Fraunces (weight 600)
+- Body/UI: Inter (weight 400/500)
+- Configure `fontFamily` in `tailwind.config.ts` as `font-display` and `font-sans`
 
-```text
-[Student opens Infinite Practice]
-        │
-        ▼
-[Pick class (auto from profile) + subject + language + count]
-        │
-        ▼
-[Check DB pool for matching questions]
-        │
-   ┌────┴─────┐
-   │          │
- Enough?    Not enough?
-   │          │
-   │          ▼
-   │   [Edge function generates a fresh batch via Lovable AI,
-   │    validates them, inserts into pool]
-   │          │
-   └────┬─────┘
-        ▼
-[Pick N random questions from pool, weighted toward
- questions this student has NOT seen recently]
-        ▼
-[Run quiz → save attempt → mark questions as "seen" for this user]
-```
+**Redesigned pages:**
 
-Two mechanisms keep papers unique:
+**a) `src/pages/Home.tsx`**
+- Clean hero: student name greeting, streak + XP compact stats row (no giant colorful cards)
+- Subject grid → refined 2-col cards with subject icon, chapter progress bar, thin border, hover lift
+- "Continue learning" section on top
+- Bottom nav preserved, but restyled with new tokens
 
-1. **Random sampling** from a large and growing pool.
-2. **Per-user "seen questions" tracking** so the same student almost never repeats, and different students get different random draws.
+**b) `src/components/HamburgerMenu.tsx`**
+- Sheet width 85vw on mobile, 380px on desktop
+- Remove rainbow gradient cards → clean list with icon + label + subtle divider
+- Grouped sections: **Study** (NCERT, Long Q, Grammar, Key Points), **Practice** (Infinite Practice, Games, Multiplayer), **Account** (Profile, Downloads, Help, Logout)
+- Profile header with avatar + class badge
+- Admin section (Game Upload) only visible for admin email
 
-### Class lock (from signup)
+**c) `src/pages/Auth.tsx`**
+- Split layout on desktop (left: brand panel with tagline + academic illustration hint, right: form). Mobile: single column with slim brand strip on top.
+- Cleaner form: labeled inputs, primary navy button, subtle "Continue with Google" secondary button
+- Class selector prominently shown on signup (already prioritized per earlier work)
+- Trust footer: "No ads. Focused learning."
 
-- The class chosen at signup is already stored in `profiles.class_level`.
-- Infinite Practice reads it and passes it as a **hard filter** to the pool query and the AI generator prompt. The class selector is hidden — students cannot pick Class 10 questions if they signed up as Class 9.
+### 4. Files Modified / Created
+- `index.html` — remove ads, update meta
+- `src/index.css` — new Clean Academic token palette (light + dark)
+- `tailwind.config.ts` — register `font-display`, `font-sans`
+- `src/main.tsx` — import fraunces + inter fontsource
+- `src/pages/Home.tsx` — redesigned layout
+- `src/components/HamburgerMenu.tsx` — grouped clean menu
+- `src/pages/Auth.tsx` — split-layout redesign
+- `package.json` — add `@fontsource/fraunces`, `@fontsource/inter`
+- DB insert: new coupon row `RADH2026X`
 
-### What gets built
+### 5. Kya NAHI badlega
+- Business logic (quiz, practice, games, subscriptions) untouched
+- Routes, DB schema, edge functions same
+- Baaki pages (Quiz, Results, GameZone, Profile etc.) — same functionality, sirf naye color tokens ki wajah se automatically fresh dikhenge
 
-**Database**
-
-- New table `practice_questions` — pool of AI-generated MCQs
-  - fields: subject, class_level, language, difficulty, question text, 4 options, correct option, explanation, topic tag, verified flag
-- New table `practice_question_seen` — tracks which questions each user has already seen
-  - fields: user_id, question_id, seen_at
-- New table `practice_attempts` — stores each Infinite Practice run (score, subject, language, count, time)
-- RLS: pool is readable by any authenticated user; "seen" and "attempts" are per-user; only the edge function (service role) inserts into the pool.
-
-**Edge function** `generate-practice-questions`
-
-- Input: subject, class_level, language, count needed
-- Uses Lovable AI Gateway (google/gemini-2.5-flash) to generate NCERT-aligned MCQs in the requested language
-- Validates shape (4 options, one correct, non-empty), deduplicates against existing pool, inserts verified rows
-- Called on-demand when the pool for a (subject, class, language) slot is thin
-
-**Frontend**
-
-- `src/pages/InfinitePractice.tsx` — setup screen (subject chips, language toggle, 10/20/30 selector, Start button; shows the locked class as a read-only badge)
-- `src/pages/InfinitePracticeQuiz.tsx` — quiz runner reusing `QuestionCard`, with timer and submit → results
-- Reuse existing `Results.tsx` flow by passing questions/answers via router state (same shape as current Quiz)
-- Add **"♾️ Infinite Practice"** entry to `src/components/HamburgerMenu.tsx` with a gradient card, routed to `/infinite-practice`
-- Add routes in `src/App.tsx` behind `ProtectedRoute`
-
-**Selection logic (client)**
-
-1. Query pool: `subject = X AND class_level = user's class AND language = Y`, exclude question IDs in this user's `practice_question_seen` from the last 30 days, order random, limit N.
-2. If fewer than N returned, call the edge function to top up, then re-query.
-3. After the quiz, insert the used question IDs into `practice_question_seen`.
-
-### Files touched / created
-
-- **New**: `src/pages/InfinitePractice.tsx`, `src/pages/InfinitePracticeQuiz.tsx`
-- **New**: `supabase/functions/generate-practice-questions/index.ts`
-- **Modified**: `src/components/HamburgerMenu.tsx` (add menu item), `src/App.tsx` (add routes)
-- **Migration**: create `practice_questions`, `practice_question_seen`, `practice_attempts` with GRANTs, RLS, policies, and an `updated_at` trigger on the pool table.
-
-### Notes / trade-offs
-
-- First-ever run for a rare (subject, language) combo takes ~5–10s while the AI seeds the pool. After that it's instant because the pool keeps growing.
-- Uses Lovable AI (no extra API key needed).
-- Bilingual is handled by generating the question set in the chosen language directly, so mixing doesn't happen.
-- "Seen" filter uses a 30-day window so a very heavy user still eventually gets recycled questions rather than running out.
-- Only premium students can get infinite practice but not memebershiped students can attemp only one time than its lock it can get XP for leaderboard 
+### 6. Trade-offs
+- Baaki individual pages (Profile, GameZone, StudyMaterials etc.) ka layout is round mein nahi chhoodenge — sirf tokens se auto-refresh honge. Agar unme se koi specific page bhi redesign karana hai to next round mein karenge.
+- Coupon code public codebase mein visible nahi hoga — sirf DB mein add hoga aur chat mein aapko share karunga.
