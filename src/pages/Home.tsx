@@ -141,18 +141,20 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 pb-20">
+    <div className="min-h-screen bg-background pb-20">
       <div className="max-w-4xl mx-auto p-4 space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <GraduationCap className="w-8 h-8 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">
-              Quiz App
-            </h1>
-          </div>
+        <div className="flex items-center justify-between pt-2">
           <div className="flex items-center gap-2">
-            {/* Language Toggle Button */}
+            <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <GraduationCap className="w-5 h-5" />
+            </div>
+            <div>
+              <h1 className="font-display text-xl font-semibold text-foreground leading-none">QuizKnow</h1>
+              <p className="text-[11px] text-muted-foreground mt-0.5">{t("केंद्रित अध्ययन", "Focused study")}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-1">
             <Button
               variant="ghost"
               size="sm"
@@ -166,66 +168,58 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Hero Card - User Stats */}
+        {/* Hero — clean academic */}
         {profile && (
-          <Card className="overflow-hidden border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
-            <CardContent className="p-6 bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10">
-              <div className="flex items-start justify-between mb-4">
+          <Card className="overflow-hidden border-border/70 shadow-sm">
+            <CardContent className="p-0">
+              <div className="bg-[var(--academic-gradient)] text-primary-foreground p-6">
                 <div className="flex items-center gap-4">
-                  <div className="relative">
-                    <UserAvatar 
-                      userId={user?.id} 
-                      avatarStyle={profile.avatar_style}
-                      size="lg"
-                    />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold text-foreground">
-                      {t("👋 नमस्ते", "👋 Hello")}, {profile.username}!
+                  <UserAvatar
+                    userId={user?.id}
+                    avatarStyle={profile.avatar_style}
+                    size="lg"
+                    className="ring-2 ring-primary-foreground/30"
+                  />
+                  <div className="min-w-0">
+                    <p className="text-xs uppercase tracking-wider text-primary-foreground/70">
+                      {t("नमस्ते", "Hello")}
+                    </p>
+                    <h2 className="font-display text-2xl font-semibold truncate">
+                      {profile.username}
                     </h2>
-                    <p className="text-sm text-muted-foreground">
-                      {t("कक्षा", "Class")} {profile.class_level}
+                    <p className="text-xs text-primary-foreground/80 mt-0.5">
+                      {t("कक्षा", "Class")} {profile.class_level} · {profile.league || 'Bronze'} {t("लीग", "League")}
                     </p>
                   </div>
                 </div>
               </div>
-              
-              <div className="grid grid-cols-3 gap-4 mt-6">
-                <div className="text-center">
-                  <div className="flex items-center justify-center gap-1 mb-1">
-                    <Flame className="w-5 h-5 text-orange-500 fill-orange-500" />
-                    <span className="text-2xl font-bold text-orange-600">
-                      {profile.current_streak || 0}
-                    </span>
+              <div className="grid grid-cols-3 divide-x divide-border">
+                <div className="p-4 text-center">
+                  <div className="flex items-center justify-center gap-1 text-accent">
+                    <Flame className="w-4 h-4" />
+                    <span className="font-display text-xl font-semibold">{profile.current_streak || 0}</span>
                   </div>
-                  <p className="text-xs text-muted-foreground">Day Streak</p>
+                  <p className="text-[11px] text-muted-foreground mt-1 uppercase tracking-wide">{t("स्ट्रीक", "Streak")}</p>
                 </div>
-                
-                <div className="text-center">
-                  <div className="flex items-center justify-center gap-1 mb-1">
-                    <Trophy className="w-5 h-5 text-gold" />
-                    <span className="text-2xl font-bold text-foreground">
-                      {getLeagueIcon(profile.league || 'bronze')}
-                    </span>
+                <div className="p-4 text-center">
+                  <div className="flex items-center justify-center gap-1 text-primary">
+                    <Sparkles className="w-4 h-4" />
+                    <span className="font-display text-xl font-semibold">{profile.league_points || 0}</span>
                   </div>
-                  <p className="text-xs text-muted-foreground capitalize">
-                    {profile.league || 'Bronze'} League
-                  </p>
+                  <p className="text-[11px] text-muted-foreground mt-1 uppercase tracking-wide">{t("अंक", "Points")}</p>
                 </div>
-                
-                <div className="text-center">
-                  <div className="flex items-center justify-center gap-1 mb-1">
-                    <Sparkles className="w-5 h-5 text-primary" />
-                    <span className="text-2xl font-bold text-primary">
-                      {profile.league_points || 0}
-                    </span>
+                <div className="p-4 text-center">
+                  <div className="flex items-center justify-center gap-1 text-foreground">
+                    <Trophy className="w-4 h-4 text-[hsl(var(--gold-color))]" />
+                    <span className="font-display text-xl font-semibold">{getLeagueIcon(profile.league || 'bronze')}</span>
                   </div>
-                  <p className="text-xs text-muted-foreground">Points</p>
+                  <p className="text-[11px] text-muted-foreground mt-1 uppercase tracking-wide capitalize">{profile.league || 'Bronze'}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
         )}
+
 
         {/* Achievements Card */}
         {profile && (

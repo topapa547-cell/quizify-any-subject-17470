@@ -8,129 +8,130 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* Clean Academic — light */
     --background: 210 40% 98%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 224 76% 33%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 142 76% 36%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 215 25% 27%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 214 32% 94%;
+    --muted-foreground: 215 16% 42%;
 
-    --accent: 25 95% 53%;
+    --accent: 20 91% 48%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 217 91% 60%;
+    --border: 214 25% 88%;
+    --input: 214 25% 88%;
+    --ring: 224 76% 33%;
 
-    --radius: 0.75rem;
-    
-    /* Duolingo-inspired colors */
-    --success-green: 142 76% 36%;
-    --learning-blue: 199 89% 48%;
-    --warning-yellow: 45 100% 51%;
-    --energy-orange: 25 95% 53%;
-    
-    /* Subject colors */
-    --math-blue: 217 91% 60%;
-    --science-green: 142 76% 36%;
-    --social-orange: 25 95% 53%;
-    --hindi-purple: 271 81% 56%;
-    --english-pink: 330 81% 60%;
-    
-    /* League colors */
-    --bronze-color: 25 50% 50%;
-    --silver-color: 0 0% 75%;
-    --gold-color: 43 100% 50%;
-    --diamond-color: 190 100% 85%;
-    
-    /* Gradients */
-    --quiz-gradient: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 91% 70%) 100%);
-    --hero-gradient: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(271 81% 56%) 100%);
-    --success-gradient: linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(142 76% 46%) 100%);
-    --math-gradient: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 91% 50%) 100%);
-    --science-gradient: linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(142 76% 28%) 100%);
-    --social-gradient: linear-gradient(135deg, hsl(25 95% 53%) 0%, hsl(25 95% 43%) 100%);
-    --hindi-gradient: linear-gradient(135deg, hsl(271 81% 56%) 0%, hsl(271 81% 46%) 100%);
-    --english-gradient: linear-gradient(135deg, hsl(330 81% 60%) 0%, hsl(330 81% 50%) 100%);
-    
-    /* Effects */
-    --success-glow: 0 4px 20px hsla(142 76% 36% / 0.3);
-    --card-shadow: 0 2px 8px hsla(222.2 84% 4.9% / 0.08);
-    --card-hover-shadow: 0 8px 24px hsla(222.2 84% 4.9% / 0.12);
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --radius: 0.6rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --success-green: 158 64% 38%;
+    --learning-blue: 224 76% 45%;
+    --warning-yellow: 38 92% 50%;
+    --energy-orange: 20 91% 48%;
+
+    --math-blue: 224 76% 40%;
+    --science-green: 158 64% 38%;
+    --social-orange: 20 91% 48%;
+    --hindi-purple: 262 52% 47%;
+    --english-pink: 340 65% 47%;
+
+    --bronze-color: 25 55% 42%;
+    --silver-color: 215 15% 65%;
+    --gold-color: 43 90% 48%;
+    --diamond-color: 190 85% 55%;
+
+    --academic-gradient: linear-gradient(135deg, hsl(224 76% 33%) 0%, hsl(224 76% 22%) 100%);
+    --focus-gradient: linear-gradient(135deg, hsl(224 76% 33%) 0%, hsl(262 52% 42%) 100%);
+    --quiz-gradient: linear-gradient(135deg, hsl(224 76% 33%) 0%, hsl(224 76% 45%) 100%);
+    --hero-gradient: linear-gradient(135deg, hsl(224 76% 28%) 0%, hsl(224 76% 40%) 100%);
+    --success-gradient: linear-gradient(135deg, hsl(158 64% 38%) 0%, hsl(158 64% 30%) 100%);
+    --math-gradient: linear-gradient(135deg, hsl(224 76% 40%) 0%, hsl(224 76% 30%) 100%);
+    --science-gradient: linear-gradient(135deg, hsl(158 64% 38%) 0%, hsl(158 64% 28%) 100%);
+    --social-gradient: linear-gradient(135deg, hsl(20 91% 48%) 0%, hsl(20 91% 38%) 100%);
+    --hindi-gradient: linear-gradient(135deg, hsl(262 52% 47%) 0%, hsl(262 52% 36%) 100%);
+    --english-gradient: linear-gradient(135deg, hsl(340 65% 47%) 0%, hsl(340 65% 36%) 100%);
+
+    --success-glow: 0 4px 16px hsla(158 64% 38% / 0.18);
+    --card-shadow: 0 1px 2px hsla(222 47% 11% / 0.04), 0 1px 3px hsla(222 47% 11% / 0.06);
+    --card-hover-shadow: 0 4px 12px hsla(222 47% 11% / 0.08), 0 2px 4px hsla(222 47% 11% / 0.06);
+    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 210 40% 98%;
+    --sidebar-foreground: 222 47% 20%;
+    --sidebar-primary: 224 76% 33%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 214 32% 94%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214 25% 88%;
+    --sidebar-ring: 224 76% 33%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 222 47% 7%;
+    --foreground: 210 40% 96%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 222 45% 10%;
+    --card-foreground: 210 40% 96%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 222 45% 10%;
+    --popover-foreground: 210 40% 96%;
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 217 91% 65%;
+    --primary-foreground: 222 47% 8%;
 
-    --secondary: 142 76% 36%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 215 25% 22%;
+    --secondary-foreground: 210 40% 96%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 217 33% 15%;
+    --muted-foreground: 215 20% 68%;
 
-    --accent: 25 95% 53%;
+    --accent: 20 91% 55%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 210 40% 96%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 217 91% 60%;
-    
-    --quiz-gradient: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 91% 70%) 100%);
-    --hero-gradient: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(271 81% 56%) 100%);
-    --success-gradient: linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(142 76% 46%) 100%);
-    --math-gradient: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 91% 50%) 100%);
-    --science-gradient: linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(142 76% 28%) 100%);
-    --social-gradient: linear-gradient(135deg, hsl(25 95% 53%) 0%, hsl(25 95% 43%) 100%);
-    --hindi-gradient: linear-gradient(135deg, hsl(271 81% 56%) 0%, hsl(271 81% 46%) 100%);
-    --english-gradient: linear-gradient(135deg, hsl(330 81% 60%) 0%, hsl(330 81% 50%) 100%);
-    --success-glow: 0 4px 20px hsla(142 76% 36% / 0.4);
-    --card-shadow: 0 2px 8px hsla(0 0% 0% / 0.2);
-    --card-hover-shadow: 0 8px 24px hsla(0 0% 0% / 0.3);
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 217 25% 18%;
+    --input: 217 25% 18%;
+    --ring: 217 91% 65%;
+
+    --academic-gradient: linear-gradient(135deg, hsl(217 91% 50%) 0%, hsl(224 76% 30%) 100%);
+    --focus-gradient: linear-gradient(135deg, hsl(217 91% 55%) 0%, hsl(262 52% 45%) 100%);
+    --quiz-gradient: linear-gradient(135deg, hsl(217 91% 55%) 0%, hsl(217 91% 45%) 100%);
+    --hero-gradient: linear-gradient(135deg, hsl(224 76% 35%) 0%, hsl(224 76% 22%) 100%);
+    --success-gradient: linear-gradient(135deg, hsl(158 64% 40%) 0%, hsl(158 64% 30%) 100%);
+    --math-gradient: linear-gradient(135deg, hsl(217 91% 55%) 0%, hsl(217 91% 40%) 100%);
+    --science-gradient: linear-gradient(135deg, hsl(158 64% 40%) 0%, hsl(158 64% 28%) 100%);
+    --social-gradient: linear-gradient(135deg, hsl(20 91% 55%) 0%, hsl(20 91% 42%) 100%);
+    --hindi-gradient: linear-gradient(135deg, hsl(262 52% 55%) 0%, hsl(262 52% 40%) 100%);
+    --english-gradient: linear-gradient(135deg, hsl(340 65% 55%) 0%, hsl(340 65% 40%) 100%);
+    --success-glow: 0 4px 16px hsla(158 64% 40% / 0.28);
+    --card-shadow: 0 1px 2px hsla(0 0% 0% / 0.4), 0 1px 3px hsla(0 0% 0% / 0.3);
+    --card-hover-shadow: 0 4px 14px hsla(0 0% 0% / 0.45), 0 2px 6px hsla(0 0% 0% / 0.35);
+
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 210 40% 92%;
+    --sidebar-primary: 217 91% 65%;
+    --sidebar-primary-foreground: 222 47% 8%;
+    --sidebar-accent: 217 33% 15%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 217 25% 18%;
+    --sidebar-ring: 217 91% 65%;
   }
 }
 
@@ -139,10 +140,21 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Fraunces', ui-serif, Georgia, serif;
+    letter-spacing: -0.01em;
   }
 }
+
 
 /* Animation for Daily Challenge Popup */
 @keyframes slide-in-right {

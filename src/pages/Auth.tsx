@@ -302,195 +302,156 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/20 via-background to-accent/20 flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-4">
-        <LanguageSelector />
-        <Card>
-          <CardHeader className="text-center">
-            <div className="flex justify-center mb-4">
-              <GraduationCap className="w-12 h-12 text-primary" />
-            </div>
-            <CardTitle className="text-2xl">{t('क्विज़ ऐप में आपका स्वागत है', 'Welcome to Quiz App')}</CardTitle>
-            <CardDescription>{t('अपनी प्रतिभा को परखें और leaderboard में top करें!', 'Test your knowledge and top the leaderboard!')}</CardDescription>
-          </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="signin" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="signin">लॉगिन</TabsTrigger>
-              <TabsTrigger value="signup">साइनअप</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="signin">
-              <form onSubmit={handleSignIn} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="signin-email">ईमेल</Label>
-                  <Input
-                    id="signin-email"
-                    type="email"
-                    placeholder="your@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signin-password">पासवर्ड</Label>
-                  <Input
-                    id="signin-password"
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </div>
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? "लॉगिन हो रहा है..." : "लॉगिन करें"}
-                </Button>
+    <div className="min-h-screen bg-background flex flex-col lg:flex-row">
+      {/* Brand panel */}
+      <aside className="relative lg:w-1/2 bg-[var(--academic-gradient)] text-primary-foreground px-6 py-10 lg:px-16 lg:py-16 flex flex-col justify-between overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.08] pointer-events-none"
+             style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, white 1px, transparent 1px), radial-gradient(circle at 80% 60%, white 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
+        <div className="relative">
+          <div className="flex items-center gap-2">
+            <GraduationCap className="w-6 h-6" />
+            <span className="font-display text-xl font-semibold tracking-tight">QuizKnow</span>
+          </div>
+        </div>
+        <div className="relative py-8 lg:py-0">
+          <h1 className="font-display text-3xl lg:text-5xl font-semibold leading-tight tracking-tight">
+            {t("केंद्रित अध्ययन।", "Focused study.")}<br />
+            {t("बेहतर परिणाम।", "Better results.")}
+          </h1>
+          <p className="mt-4 text-primary-foreground/80 text-sm lg:text-base max-w-md">
+            {t(
+              "CBSE कक्षा 9 व 10 के लिए विज्ञापन-मुक्त तैयारी — NCERT समाधान, AI अभ्यास और पिछले वर्षों के पेपर।",
+              "Ad-free CBSE Class 9 & 10 prep — NCERT solutions, AI practice, and past papers."
+            )}
+          </p>
+        </div>
+        <div className="relative hidden lg:flex items-center gap-4 text-xs text-primary-foreground/70">
+          <span>· {t("विज्ञापन-मुक्त", "No ads")}</span>
+          <span>· {t("असीमित अभ्यास", "Infinite practice")}</span>
+          <span>· {t("NCERT आधारित", "NCERT aligned")}</span>
+        </div>
+      </aside>
 
-                <button
-                  type="button"
-                  onClick={() => setShowForgotPassword(true)}
-                  className="w-full text-sm text-primary hover:underline mt-2"
-                >
-                  {t("पासवर्ड भूल गए?", "Forgot Password?")}
-                </button>
-                
-                <div className="relative my-4">
-                  <Separator />
-                  <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 text-xs text-muted-foreground">
-                    या
-                  </span>
-                </div>
+      {/* Form panel */}
+      <main className="flex-1 flex items-center justify-center p-4 lg:p-10">
+        <div className="w-full max-w-md space-y-4">
+          <div className="flex justify-end">
+            <LanguageSelector />
+          </div>
+          <Card className="border-border/70 shadow-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="font-display text-2xl">
+                {t('स्वागत है', 'Welcome back')}
+              </CardTitle>
+              <CardDescription>
+                {t('अपने अध्ययन खाते में साइन इन करें या नया खाता बनाएं।', 'Sign in to your study account or create a new one.')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Tabs defaultValue="signin" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="signin">{t('लॉगिन', 'Sign in')}</TabsTrigger>
+                  <TabsTrigger value="signup">{t('साइनअप', 'Sign up')}</TabsTrigger>
+                </TabsList>
 
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  className="w-full" 
-                  onClick={handleGoogleSignIn}
-                  disabled={loading}
-                >
-                  <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
-                    <path
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                      fill="#4285F4"
-                    />
-                    <path
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                      fill="#34A853"
-                    />
-                    <path
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                      fill="#FBBC05"
-                    />
-                    <path
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                      fill="#EA4335"
-                    />
-                  </svg>
-                  Google से साइनइन करें
-                </Button>
-              </form>
-            </TabsContent>
-            
-            <TabsContent value="signup">
-              <form onSubmit={handleSignUp} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="signup-username">Username</Label>
-                  <Input
-                    id="signup-username"
-                    type="text"
-                    placeholder="आपका username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-email">ईमेल</Label>
-                  <Input
-                    id="signup-email"
-                    type="email"
-                    placeholder="your@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-password">पासवर्ड</Label>
-                  <Input
-                    id="signup-password"
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>अपनी कक्षा चुनें</Label>
-                  <RadioGroup value={classLevel.toString()} onValueChange={(value) => setClassLevel(Number(value))}>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="9" id="class-9" />
-                      <Label htmlFor="class-9" className="cursor-pointer">कक्षा 9</Label>
+                <TabsContent value="signin">
+                  <form onSubmit={handleSignIn} className="space-y-4 pt-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="signin-email">{t('ईमेल', 'Email')}</Label>
+                      <Input id="signin-email" type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="10" id="class-10" />
-                      <Label htmlFor="class-10" className="cursor-pointer">कक्षा 10</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="signin-password">{t('पासवर्ड', 'Password')}</Label>
+                      <Input id="signin-password" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     </div>
-                  </RadioGroup>
-                </div>
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? "साइनअप हो रहा है..." : "साइनअप करें"}
-                </Button>
-                
-                <div className="relative my-4">
-                  <Separator />
-                  <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 text-xs text-muted-foreground">
-                    या
-                  </span>
-                </div>
+                    <Button type="submit" className="w-full" disabled={loading}>
+                      {loading ? t("लॉगिन हो रहा है...", "Signing in...") : t("लॉगिन करें", "Sign in")}
+                    </Button>
+                    <button type="button" onClick={() => setShowForgotPassword(true)}
+                      className="w-full text-sm text-primary hover:underline">
+                      {t("पासवर्ड भूल गए?", "Forgot password?")}
+                    </button>
+                    <div className="relative my-4">
+                      <Separator />
+                      <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground uppercase tracking-wide">
+                        {t('या', 'or')}
+                      </span>
+                    </div>
+                    <Button type="button" variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={loading}>
+                      <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+                      </svg>
+                      {t('Google से साइनइन करें', 'Continue with Google')}
+                    </Button>
+                  </form>
+                </TabsContent>
 
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  className="w-full" 
-                  onClick={handleGoogleSignIn}
-                  disabled={loading}
-                >
-                  <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
-                    <path
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                      fill="#4285F4"
-                    />
-                    <path
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                      fill="#34A853"
-                    />
-                    <path
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                      fill="#FBBC05"
-                    />
-                    <path
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                      fill="#EA4335"
-                    />
-                  </svg>
-                  Google से साइनअप करें
-                </Button>
-              </form>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-        </Card>
-      </div>
+                <TabsContent value="signup">
+                  <form onSubmit={handleSignUp} className="space-y-4 pt-2">
+                    <div className="space-y-2">
+                      <Label>{t('अपनी कक्षा चुनें', 'Choose your class')} <span className="text-accent">*</span></Label>
+                      <RadioGroup value={classLevel.toString()} onValueChange={(value) => setClassLevel(Number(value))} className="grid grid-cols-2 gap-2">
+                        {[9, 10].map((cls) => (
+                          <label key={cls} htmlFor={`class-${cls}`}
+                            className={`flex items-center justify-center gap-2 border rounded-md py-2.5 cursor-pointer transition-colors ${classLevel === cls ? 'border-primary bg-primary/5 text-primary' : 'border-border hover:bg-muted/50'}`}>
+                            <RadioGroupItem value={cls.toString()} id={`class-${cls}`} className="sr-only" />
+                            <span className="font-medium">{t(`कक्षा ${cls}`, `Class ${cls}`)}</span>
+                          </label>
+                        ))}
+                      </RadioGroup>
+                      <p className="text-[11px] text-muted-foreground">
+                        {t('सारे प्रश्न व सामग्री आपकी कक्षा के अनुसार दिखाई जाएगी।', 'All questions and content will be tailored to your class.')}
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-username">{t('Username', 'Username')}</Label>
+                      <Input id="signup-username" type="text" placeholder={t('आपका username', 'your username')} value={username} onChange={(e) => setUsername(e.target.value)} required />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-email">{t('ईमेल', 'Email')}</Label>
+                      <Input id="signup-email" type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-password">{t('पासवर्ड', 'Password')}</Label>
+                      <Input id="signup-password" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    </div>
+                    <Button type="submit" className="w-full" disabled={loading}>
+                      {loading ? t("साइनअप हो रहा है...", "Signing up...") : t("खाता बनाएं", "Create account")}
+                    </Button>
+                    <div className="relative my-4">
+                      <Separator />
+                      <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground uppercase tracking-wide">
+                        {t('या', 'or')}
+                      </span>
+                    </div>
+                    <Button type="button" variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={loading}>
+                      <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+                      </svg>
+                      {t('Google से साइनअप करें', 'Continue with Google')}
+                    </Button>
+                  </form>
+                </TabsContent>
+              </Tabs>
+            </CardContent>
+          </Card>
+          <p className="text-center text-xs text-muted-foreground">
+            {t('विज्ञापन-मुक्त · केंद्रित अध्ययन', 'No ads · Focused learning')}
+          </p>
+        </div>
+      </main>
       <SubscriptionDialog
-        open={showSubscriptionDialog} 
+        open={showSubscriptionDialog}
         onClose={() => {
           setShowSubscriptionDialog(false);
           navigate('/');
-        }} 
+        }}
       />
     </div>
   );
