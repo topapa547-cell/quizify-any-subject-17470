@@ -1,210 +1,65 @@
 import { useState, useEffect } from "react";
-import { Menu, LogOut } from "lucide-react";
+import {
+  Menu, LogOut, Infinity, Gamepad2, BookMarked, Laptop, PenLine, NotebookPen,
+  GraduationCap, CheckCircle2, FileText, Sparkles, Download, HelpCircle,
+  Newspaper, Crown, Info, Phone, Shield, ScrollText, Upload, Swords,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
+  Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import UserAvatar from "./UserAvatar";
 
-interface MenuItem {
-  icon: string;
-  labelHi: string;
-  labelEn: string;
-  subtitleHi: string;
-  subtitleEn: string;
-  path: string;
-  gradient: string;
-  textColor: string;
-}
+type Item = { icon: any; hi: string; en: string; path: string };
+type Group = { titleHi: string; titleEn: string; items: Item[] };
 
-const menuItems: MenuItem[] = [
+const groups: Group[] = [
   {
-    icon: "♾️",
-    labelHi: "अनंत अभ्यास",
-    labelEn: "Infinite Practice",
-    subtitleHi: "AI द्वारा नए-नए प्रश्न, हर बार अलग",
-    subtitleEn: "Fresh AI questions, never the same",
-    path: "/infinite-practice",
-    gradient: "from-indigo-50 to-purple-100 dark:from-indigo-950/40 dark:to-purple-900/40",
-    textColor: "text-indigo-800 dark:text-indigo-200",
+    titleHi: "अभ्यास",
+    titleEn: "Practice",
+    items: [
+      { icon: Infinity, hi: "अनंत अभ्यास", en: "Infinite Practice", path: "/infinite-practice" },
+      { icon: Swords, hi: "मल्टीप्लेयर बैटल", en: "Multiplayer Battle", path: "/multiplayer" },
+      { icon: Gamepad2, hi: "गेम ज़ोन", en: "Game Zone", path: "/game-zone" },
+      { icon: Crown, hi: "शतरंज खेलें", en: "Play Chess", path: "/games/chess" },
+    ],
   },
   {
-    icon: "🎮",
-    labelHi: "गेम ज़ोन",
-    labelEn: "Game Zone",
-    subtitleHi: "मज़ेदार HTML5 गेम खेलें",
-    subtitleEn: "Play fun HTML5 games",
-    path: "/game-zone",
-    gradient: "from-emerald-50 to-emerald-100 dark:from-emerald-950/40 dark:to-emerald-900/40",
-    textColor: "text-emerald-800 dark:text-emerald-200",
+    titleHi: "अध्ययन सामग्री",
+    titleEn: "Study Material",
+    items: [
+      { icon: CheckCircle2, hi: "NCERT समाधान", en: "NCERT Solutions", path: "/ncert-solutions" },
+      { icon: PenLine, hi: "लंबे उत्तर वाले प्रश्न", en: "Long Answer Questions", path: "/long-questions" },
+      { icon: NotebookPen, hi: "Study Notes", en: "Study Notes", path: "/study-notes" },
+      { icon: GraduationCap, hi: "व्याकरण प्रयोगशाला", en: "Grammar Lab", path: "/grammar-lab" },
+      { icon: BookMarked, hi: "मुख्य बिंदु", en: "Key Points", path: "/key-points" },
+      { icon: Laptop, hi: "IT किताबें PDF", en: "IT Textbooks PDF", path: "/it-textbooks" },
+      { icon: FileText, hi: "पिछले वर्ष के प्रश्न पत्र", en: "Previous Year Papers", path: "/previous-year-papers" },
+    ],
   },
   {
-    icon: "📍",
-    labelHi: "मुख्य बिंदु",
-    labelEn: "Key Points",
-    subtitleHi: "NCERT के महत्वपूर्ण बिंदु",
-    subtitleEn: "Important NCERT points",
-    path: "/key-points",
-    gradient: "from-red-50 to-red-100 dark:from-red-950/40 dark:to-red-900/40",
-    textColor: "text-red-800 dark:text-red-200",
+    titleHi: "अपडेट व प्रेरणा",
+    titleEn: "Updates & Inspiration",
+    items: [
+      { icon: Newspaper, hi: "CBSE अपडेट्स", en: "CBSE Updates", path: "/cbse-updates" },
+      { icon: Sparkles, hi: "प्रेरणा", en: "Motivations", path: "/motivations" },
+      { icon: Download, hi: "डाउनलोड किए गए प्रश्न", en: "Downloaded Questions", path: "/downloads" },
+    ],
   },
   {
-    icon: "💻",
-    labelHi: "IT किताबें PDF",
-    labelEn: "IT Textbooks PDF",
-    subtitleHi: "IT/ITes संपूर्ण पाठ्यपुस्तकें",
-    subtitleEn: "Complete IT/ITes textbooks",
-    path: "/it-textbooks",
-    gradient: "from-cyan-50 to-cyan-100 dark:from-cyan-950/40 dark:to-cyan-900/40",
-    textColor: "text-cyan-800 dark:text-cyan-200",
-  },
-  {
-    icon: "📝",
-    labelHi: "लंबे उत्तर वाले प्रश्न",
-    labelEn: "Long Answer Questions",
-    subtitleHi: "विस्तृत उत्तर अभ्यास",
-    subtitleEn: "Detailed answer practice",
-    path: "/long-questions",
-    gradient: "from-blue-50 to-blue-100 dark:from-blue-950/40 dark:to-blue-900/40",
-    textColor: "text-blue-800 dark:text-blue-200",
-  },
-  {
-    icon: "📒",
-    labelHi: "Study Notes",
-    labelEn: "Study Notes",
-    subtitleHi: "Formulas & definitions",
-    subtitleEn: "Formulas & definitions",
-    path: "/study-notes",
-    gradient: "from-indigo-50 to-indigo-100 dark:from-indigo-950/40 dark:to-indigo-900/40",
-    textColor: "text-indigo-800 dark:text-indigo-200",
-  },
-  {
-    icon: "📚",
-    labelHi: "व्याकरण प्रयोगशाला",
-    labelEn: "Grammar Lab",
-    subtitleHi: "Grammar rules & practice",
-    subtitleEn: "Grammar rules & practice",
-    path: "/grammar-lab",
-    gradient: "from-purple-50 to-purple-100 dark:from-purple-950/40 dark:to-purple-900/40",
-    textColor: "text-purple-800 dark:text-purple-200",
-  },
-  {
-    icon: "✅",
-    labelHi: "NCERT समाधान",
-    labelEn: "NCERT Solutions",
-    subtitleHi: "Official textbook solutions",
-    subtitleEn: "Official textbook solutions",
-    path: "/ncert-solutions",
-    gradient: "from-green-50 to-green-100 dark:from-green-950/40 dark:to-green-900/40",
-    textColor: "text-green-800 dark:text-green-200",
-  },
-  {
-    icon: "📄",
-    labelHi: "पिछले वर्ष के प्रश्न पत्र",
-    labelEn: "Previous Year Papers",
-    subtitleHi: "CBSE board papers",
-    subtitleEn: "CBSE board papers",
-    path: "/previous-year-papers",
-    gradient: "from-orange-50 to-orange-100 dark:from-orange-950/40 dark:to-orange-900/40",
-    textColor: "text-orange-800 dark:text-orange-200",
-  },
-  {
-    icon: "💡",
-    labelHi: "महान व्यक्तियों से प्रेरणा",
-    labelEn: "Motivational Quotes",
-    subtitleHi: "Daily inspiration",
-    subtitleEn: "Daily inspiration",
-    path: "/motivations",
-    gradient: "from-amber-50 to-amber-100 dark:from-amber-950/40 dark:to-amber-900/40",
-    textColor: "text-amber-800 dark:text-amber-200",
-  },
-  {
-    icon: "⬇️",
-    labelHi: "डाउनलोड किए गए प्रश्न",
-    labelEn: "Downloaded Questions",
-    subtitleHi: "Offline saved content",
-    subtitleEn: "Offline saved content",
-    path: "/downloads",
-    gradient: "from-cyan-50 to-cyan-100 dark:from-cyan-950/40 dark:to-cyan-900/40",
-    textColor: "text-cyan-800 dark:text-cyan-200",
-  },
-  {
-    icon: "❓",
-    labelHi: "सहायता",
-    labelEn: "Help",
-    subtitleHi: "FAQ & AI assistant",
-    subtitleEn: "FAQ & AI assistant",
-    path: "/help",
-    gradient: "from-pink-50 to-pink-100 dark:from-pink-950/40 dark:to-pink-900/40",
-    textColor: "text-pink-800 dark:text-pink-200",
-  },
-  {
-    icon: "📰",
-    labelHi: "CBSE अपडेट्स",
-    labelEn: "CBSE Updates",
-    subtitleHi: "परीक्षा तिथियां और समाचार",
-    subtitleEn: "Exam dates & news",
-    path: "/cbse-updates",
-    gradient: "from-blue-50 to-blue-100 dark:from-blue-950/40 dark:to-blue-900/40",
-    textColor: "text-blue-800 dark:text-blue-200",
-  },
-  {
-    icon: "♟️",
-    labelHi: "शतरंज खेलें",
-    labelEn: "Play Chess",
-    subtitleHi: "AI के विरुद्ध शतरंज",
-    subtitleEn: "Chess against AI",
-    path: "/games/chess",
-    gradient: "from-slate-50 to-slate-100 dark:from-slate-950/40 dark:to-slate-900/40",
-    textColor: "text-slate-800 dark:text-slate-200",
-  },
-  {
-    icon: "ℹ️",
-    labelHi: "हमारे बारे में",
-    labelEn: "About Us",
-    subtitleHi: "QuizKnow के बारे में जानें",
-    subtitleEn: "Learn about QuizKnow",
-    path: "/about",
-    gradient: "from-violet-50 to-violet-100 dark:from-violet-950/40 dark:to-violet-900/40",
-    textColor: "text-violet-800 dark:text-violet-200",
-  },
-  {
-    icon: "📞",
-    labelHi: "संपर्क करें",
-    labelEn: "Contact Us",
-    subtitleHi: "सवाल या सुझाव भेजें",
-    subtitleEn: "Send questions or feedback",
-    path: "/contact",
-    gradient: "from-teal-50 to-teal-100 dark:from-teal-950/40 dark:to-teal-900/40",
-    textColor: "text-teal-800 dark:text-teal-200",
-  },
-  {
-    icon: "🔒",
-    labelHi: "गोपनीयता नीति",
-    labelEn: "Privacy Policy",
-    subtitleHi: "आपका डेटा कैसे सुरक्षित है",
-    subtitleEn: "How your data is protected",
-    path: "/privacy-policy",
-    gradient: "from-gray-50 to-gray-100 dark:from-gray-950/40 dark:to-gray-900/40",
-    textColor: "text-gray-800 dark:text-gray-200",
-  },
-  {
-    icon: "📋",
-    labelHi: "सेवा की शर्तें",
-    labelEn: "Terms of Service",
-    subtitleHi: "उपयोग की शर्तें",
-    subtitleEn: "Terms of use",
-    path: "/terms-of-service",
-    gradient: "from-stone-50 to-stone-100 dark:from-stone-950/40 dark:to-stone-900/40",
-    textColor: "text-stone-800 dark:text-stone-200",
+    titleHi: "खाता व सहायता",
+    titleEn: "Account & Support",
+    items: [
+      { icon: HelpCircle, hi: "सहायता", en: "Help", path: "/help" },
+      { icon: Info, hi: "हमारे बारे में", en: "About Us", path: "/about" },
+      { icon: Phone, hi: "संपर्क करें", en: "Contact Us", path: "/contact" },
+      { icon: Shield, hi: "गोपनीयता नीति", en: "Privacy Policy", path: "/privacy-policy" },
+      { icon: ScrollText, hi: "सेवा की शर्तें", en: "Terms of Service", path: "/terms-of-service" },
+    ],
   },
 ];
 
@@ -244,10 +99,7 @@ const HamburgerMenu = () => {
     setOpen(false);
   };
 
-  const handleNavigate = (path: string) => {
-    navigate(path);
-    setOpen(false);
-  };
+  const go = (path: string) => { navigate(path); setOpen(false); };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -256,89 +108,94 @@ const HamburgerMenu = () => {
           <Menu className="h-6 w-6" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-[50vw] sm:w-[45vw] min-w-[280px] max-w-[400px] p-0 overflow-y-auto">
-        {/* User Profile Header */}
-        <SheetHeader className="p-5 bg-gradient-to-r from-primary/10 to-primary/5 border-b">
+      <SheetContent
+        side="right"
+        className="w-[85vw] sm:w-[380px] p-0 overflow-y-auto bg-background border-l"
+      >
+        {/* Profile Header */}
+        <SheetHeader className="p-5 border-b bg-[var(--academic-gradient)] text-primary-foreground">
           <div className="flex items-center gap-4">
             {userId && (
-              <UserAvatar 
-                userId={userId} 
+              <UserAvatar
+                userId={userId}
                 avatarStyle={profile?.avatar_style || undefined}
                 size="lg"
-                className="ring-2 ring-primary/20"
+                className="ring-2 ring-primary-foreground/30"
               />
             )}
-            <div className="flex-1 min-w-0">
-              <SheetTitle className="text-left truncate">
-                {t("नमस्ते", "Hello")}, {profile?.username || "User"}! 👋
+            <div className="flex-1 min-w-0 text-left">
+              <SheetTitle className="text-primary-foreground font-display text-lg truncate">
+                {profile?.username || "Student"}
               </SheetTitle>
-              <p className="text-sm text-muted-foreground">
-                {t("कक्षा", "Class")} {profile?.class_level || "—"}
+              <p className="text-xs text-primary-foreground/80 mt-0.5">
+                {t("कक्षा", "Class")} {profile?.class_level || "—"} · {t("अध्ययन खाता", "Study Account")}
               </p>
             </div>
           </div>
         </SheetHeader>
 
-        {/* Menu Items */}
-        <div className="p-4 space-y-3">
-          {menuItems.map((item) => (
-            <div
-              key={item.path}
-              onClick={() => handleNavigate(item.path)}
-              className={`flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r ${item.gradient} 
-                         hover:shadow-lg hover:scale-[1.02] transition-all cursor-pointer active:scale-[0.98]`}
-            >
-              <span className="text-3xl flex-shrink-0">{item.icon}</span>
-              <div className="min-w-0 flex-1">
-                <p className={`font-semibold truncate ${item.textColor}`}>
-                  {t(item.labelHi, item.labelEn)}
-                </p>
-                <p className={`text-xs truncate opacity-70 ${item.textColor}`}>
-                  {t(item.subtitleHi, item.subtitleEn)}
-                </p>
+        {/* Groups */}
+        <nav className="p-3 space-y-5">
+          {groups.map((group) => (
+            <div key={group.titleEn}>
+              <h4 className="px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                {t(group.titleHi, group.titleEn)}
+              </h4>
+              <div className="rounded-lg border border-border/70 divide-y divide-border/60 overflow-hidden bg-card">
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.path}
+                      onClick={() => go(item.path)}
+                      className="w-full flex items-center gap-3 px-3.5 py-3 text-left hover:bg-muted/60 active:bg-muted transition-colors"
+                    >
+                      <span className="w-8 h-8 rounded-md bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+                        <Icon className="h-4 w-4" />
+                      </span>
+                      <span className="text-sm font-medium text-foreground flex-1 truncate">
+                        {t(item.hi, item.en)}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           ))}
 
-          {/* Admin Game Upload - only for admin */}
           {userEmail === "radhgupta2013@gmail.com" && (
-            <div
-              onClick={() => handleNavigate("/admin/games")}
-              className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-yellow-50 to-yellow-100 
-                         dark:from-yellow-950/40 dark:to-yellow-900/40 hover:shadow-lg hover:scale-[1.02] 
-                         transition-all cursor-pointer active:scale-[0.98]"
-            >
-              <span className="text-3xl flex-shrink-0">📤</span>
-              <div className="min-w-0 flex-1">
-                <p className="font-semibold truncate text-yellow-800 dark:text-yellow-200">
-                  {t("गेम अपलोड", "Game Upload")}
-                </p>
-                <p className="text-xs truncate opacity-70 text-yellow-800 dark:text-yellow-200">
-                  {t("Admin: नए गेम अपलोड करें", "Admin: Upload new games")}
-                </p>
+            <div>
+              <h4 className="px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-accent">
+                {t("व्यवस्थापक", "Admin")}
+              </h4>
+              <div className="rounded-lg border border-accent/30 bg-accent/5 overflow-hidden">
+                <button
+                  onClick={() => go("/admin/games")}
+                  className="w-full flex items-center gap-3 px-3.5 py-3 text-left hover:bg-accent/10 transition-colors"
+                >
+                  <span className="w-8 h-8 rounded-md bg-accent/15 text-accent flex items-center justify-center">
+                    <Upload className="h-4 w-4" />
+                  </span>
+                  <span className="text-sm font-medium text-foreground flex-1">
+                    {t("गेम अपलोड", "Game Upload")}
+                  </span>
+                </button>
               </div>
             </div>
           )}
 
-          {/* Logout Button */}
-          <div
+          <button
             onClick={handleLogout}
-            className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-red-50 to-red-100 
-                       dark:from-red-950/40 dark:to-red-900/40 hover:shadow-lg hover:scale-[1.02] 
-                       transition-all cursor-pointer active:scale-[0.98] mt-6"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-destructive/30 text-destructive hover:bg-destructive/10 transition-colors text-sm font-medium"
           >
-            <span className="text-3xl flex-shrink-0">🚪</span>
-            <div className="min-w-0 flex-1">
-              <p className="font-semibold truncate text-red-800 dark:text-red-200">
-                {t("लॉगआउट", "Logout")}
-              </p>
-              <p className="text-xs truncate opacity-70 text-red-800 dark:text-red-200">
-                {t("खाते से बाहर निकलें", "Sign out of account")}
-              </p>
-            </div>
-            <LogOut className="h-5 w-5 text-red-600 dark:text-red-400 flex-shrink-0" />
-          </div>
-        </div>
+            <LogOut className="h-4 w-4" />
+            {t("लॉगआउट", "Logout")}
+          </button>
+
+          <p className="text-center text-[11px] text-muted-foreground pt-2 pb-4">
+            {t("विज्ञापन-मुक्त · केंद्रित अध्ययन", "Ad-free · Focused learning")}
+          </p>
+        </nav>
       </SheetContent>
     </Sheet>
   );
